@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void inicializarComponentes(){
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
-        quilomentrosRodadosTextView = findViewById(R.id.quilomentrosRodadosTextView);
+        quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
         ultimasViagensRecyclerView = findViewById(R.id.ultimasViagensRecyclerView);
         ultimasViagensRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         ultimasViagensRecyclerView.setHasFixedSize(true);
