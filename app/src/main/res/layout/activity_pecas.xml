@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activity.PecasActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPeca"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +23,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -30,7 +32,6 @@
             android:id="@+id/buttonAdicionarPeca"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:background="@drawable/yellow_bg"
             android:text="Nova Peça"
             android:textColor="@color/black"

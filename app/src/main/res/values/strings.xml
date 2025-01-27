@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Bicicreta</string>
-    <string name="message_welcome">Bem vindo ao \nBicicreta</string>
+    <string name="message_welcome">Bem vindo ao</string>
+    <string name="nome_app">Bicicreta</string>
 </resources>
