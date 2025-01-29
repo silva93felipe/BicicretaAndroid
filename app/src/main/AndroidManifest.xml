@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">
         <activity
-            android:name=".activity.BemVindoActivity"
+            android:name=".app.activity.BemVindoActivity"
             android:exported="true" >
             <intent-filter>-->
                 <action android:name="android.intent.action.MAIN" />
@@ -22,19 +22,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PecasActivity"
+            android:name=".app.activity.PecasActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".activity.ApresentacaoActivity"
+            android:name=".app.activity.ApresentacaoActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".app.activity.MainActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".activity.ViagensActivity"
+            android:name=".app.activity.ViagensActivity"
             android:exported="false">
         </activity>
     </application>

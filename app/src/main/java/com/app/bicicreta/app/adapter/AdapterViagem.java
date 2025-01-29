@@ -1,4 +1,4 @@
-package com.app.bicicreta.activity.adapter;
+package com.app.bicicreta.app.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
-import com.app.bicicreta.activity.model.Viagem;
+import com.app.bicicreta.app.model.Viagem;
 
 import java.util.List;
 

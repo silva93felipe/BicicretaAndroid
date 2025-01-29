@@ -1,10 +1,9 @@
-package com.app.bicicreta.activity;
+package com.app.bicicreta.app.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.app.bicicreta.R;

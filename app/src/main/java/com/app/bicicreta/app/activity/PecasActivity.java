@@ -1,23 +1,19 @@
-package com.app.bicicreta.activity;
+package com.app.bicicreta.app.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.icu.util.LocaleData;
 import android.os.Bundle;
 
 import com.app.bicicreta.R;
-import com.app.bicicreta.activity.adapter.AdapterPeca;
-import com.app.bicicreta.activity.adapter.AdapterViagem;
-import com.app.bicicreta.activity.model.Peca;
+import com.app.bicicreta.app.adapter.AdapterPeca;
+import com.app.bicicreta.app.model.Peca;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class PecasActivity extends AppCompatActivity {

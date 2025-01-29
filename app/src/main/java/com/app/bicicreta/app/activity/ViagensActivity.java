@@ -1,4 +1,4 @@
-package com.app.bicicreta.activity;
+package com.app.bicicreta.app.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,15 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.app.bicicreta.R;
-import com.app.bicicreta.activity.adapter.AdapterViagem;
-import com.app.bicicreta.activity.model.Peca;
-import com.app.bicicreta.activity.model.Viagem;
+import com.app.bicicreta.app.adapter.AdapterViagem;
+import com.app.bicicreta.app.model.Viagem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class ViagensActivity extends AppCompatActivity {
     private RecyclerView recyclerView;

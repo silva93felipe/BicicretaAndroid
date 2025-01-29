@@ -1,4 +1,4 @@
-package com.app.bicicreta.activity.model;
+package com.app.bicicreta.app.model;
 
 public class Viagem {
     private String data;
