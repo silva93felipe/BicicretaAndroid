@@ -1,6 +1,5 @@
 package com.app.bicicreta.app.db;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,11 +27,5 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
 
     private String sqlCreateTableUser(){
         return "CREATE TABLE user ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT );";
-    }
-
-    public void insert(String tableName){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        db.insert(tableName, null, values);
     }
 }
