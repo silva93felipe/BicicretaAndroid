@@ -31,12 +31,11 @@ public class PecasActivity extends AppCompatActivity {
         for (int i = 0; i < 15; i++){
             Peca peca = new Peca();
             peca.setNomePeca("Peca " + i);
-            String pattern = "dd-MM-yyyy";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             peca.setDataCompra(String.valueOf(simpleDateFormat.format(new Date())));
             peca.setNomeBicicleta("Bicicleta 1");
-            peca.setQuilometros("0");
-            peca.setValor(String.valueOf(new Random().nextInt(400)));
+            peca.setQuilometros("0 km");
+            peca.setValor("R$ " + String.valueOf(new Random().nextInt(400)));
             pecas.add(peca);
         }
     }

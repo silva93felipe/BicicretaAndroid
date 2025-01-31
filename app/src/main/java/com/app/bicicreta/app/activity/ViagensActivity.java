@@ -30,11 +30,10 @@ public class ViagensActivity extends AppCompatActivity {
         for (int i = 0; i < 15; i++){
             Viagem viagem = new Viagem();
             viagem.setDestino("Destino " + i);
-            String pattern = "dd-MM-yyyy";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             viagem.setData(String.valueOf(simpleDateFormat.format(new Date())));
             viagem.setNomeBicicleta("Bicicleta 1");
-            viagem.setQuilometros("0");
+            viagem.setQuilometros("0 km");
             viagens.add(viagem);
         }
     }

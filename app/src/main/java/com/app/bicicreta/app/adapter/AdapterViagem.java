@@ -50,10 +50,10 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
 
         public ViagemViewHolder(@NonNull View itemView) {
             super(itemView);
-            dataViagem = itemView.findViewById(R.id.dataViagemTextView);
-            quilometrosRodados = itemView.findViewById(R.id.quilometrosTextView);
-            destino = itemView.findViewById(R.id.destinoTextView);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaTextView);
+            dataViagem = itemView.findViewById(R.id.dataCompraTextView);
+            quilometrosRodados = itemView.findViewById(R.id.quilometroPecaTextView);
+            destino = itemView.findViewById(R.id.nomePecaTextView);
+            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaTextView);
         }
     }
 }
