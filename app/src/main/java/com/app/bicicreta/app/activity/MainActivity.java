@@ -1,6 +1,7 @@
 package com.app.bicicreta.app.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.repository.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inicializarComponentes();
+        getNomeUsuario();
     }
     private void inicializarComponentes(){
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
@@ -38,4 +41,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, activity);
         startActivity(intent);
     }
+
+    private void getNomeUsuario(){
+        UserRepository repository = new UserRepository(this);
+        Cursor cursor = repository.getOne();
+        while(cursor.moveToNext()){
+            nomeUsarioTextView.setText("Olá, " + cursor.getString(0));
+        }
+    }
+
 }

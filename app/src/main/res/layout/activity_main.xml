@@ -108,7 +108,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="120dp"
             android:background="@drawable/background_dados_user"
             android:orientation="vertical">
 
@@ -147,10 +147,8 @@
                     android:text="1.200 km"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
-                    app:layout_constraintHorizontal_bias="0.139"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/nomeUsuarioTextView"
                     app:layout_constraintTop_toBottomOf="@+id/nomeUsuarioTextView"
                     app:layout_constraintVertical_bias="0.0" />
 

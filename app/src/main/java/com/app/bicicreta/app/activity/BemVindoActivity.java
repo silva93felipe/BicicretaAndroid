@@ -3,10 +3,12 @@ package com.app.bicicreta.app.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.repository.UserRepository;
 
 public class BemVindoActivity extends AppCompatActivity {
     TextView buttonNext;
@@ -23,7 +25,25 @@ public class BemVindoActivity extends AppCompatActivity {
     }
 
     private void handleNext(){
-        startActivity(new Intent(BemVindoActivity.this, ApresentacaoActivity.class));
+//        startActivity(new Intent(BemVindoActivity.this, ApresentacaoActivity.class));
+        if(jaTemUsuarioCadastrado()){
+            startActivity(new Intent(BemVindoActivity.this, MainActivity.class));
+        }else{
+            startActivity(new Intent(BemVindoActivity.this, ApresentacaoActivity.class));
+        }
         finish();
     }
+
+    private boolean jaTemUsuarioCadastrado(){
+        UserRepository repository = new UserRepository(this);
+        Cursor cursor = repository.getOne();
+        while(cursor.moveToNext()){
+              return true;
+//            Bundle bundle = new Bundle();
+//            bundle.putString("name", cursor.getString(0));
+        }
+
+        return false;
+    }
+
 }
