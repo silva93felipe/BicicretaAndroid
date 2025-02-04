@@ -30,7 +30,7 @@ public class ApresentacaoActivity extends AppCompatActivity {
     private void createUser(){
         UserRepository repository = new UserRepository(this);
         String name = String.valueOf(nomeEditText.getText());
-        if(name == null || name.trim().equals("")){
+        if(name.trim().isEmpty()){
             Toast.makeText(this, "Por favor, Preencha um nome.", Toast.LENGTH_LONG).show();
             return;
         }

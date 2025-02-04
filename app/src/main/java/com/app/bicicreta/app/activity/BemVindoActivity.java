@@ -37,13 +37,6 @@ public class BemVindoActivity extends AppCompatActivity {
     private boolean jaTemUsuarioCadastrado(){
         UserRepository repository = new UserRepository(this);
         Cursor cursor = repository.getOne();
-        while(cursor.moveToNext()){
-              return true;
-//            Bundle bundle = new Bundle();
-//            bundle.putString("name", cursor.getString(0));
-        }
-
-        return false;
+        return cursor.moveToNext();
     }
-
 }
