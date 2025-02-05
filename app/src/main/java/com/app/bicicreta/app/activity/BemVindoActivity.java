@@ -20,7 +20,7 @@ public class BemVindoActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes(){
-        buttonNext = findViewById(R.id.buttonNext);
+        buttonNext = findViewById(R.id.buttonBicicletaNext);
         buttonNext.setOnClickListener(v -> handleNext());
     }
 

@@ -23,7 +23,7 @@ public class ApresentacaoActivity extends AppCompatActivity {
 
     private void inicializarComponentes(){
         nomeEditText = findViewById(R.id.nomeEditText);
-        buttonNext = findViewById(R.id.buttonNext);
+        buttonNext = findViewById(R.id.buttonBicicletaNext);
         buttonNext.setOnClickListener(v -> createUser());
     }
 
