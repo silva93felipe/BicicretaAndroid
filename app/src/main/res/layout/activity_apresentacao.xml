@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:backgroundTintMode="src_in"
     tools:context=".app.activity.ApresentacaoActivity">
 
     <TextView
@@ -26,37 +27,41 @@
 
     <EditText
         android:id="@+id/nomeEditText"
-        android:layout_width="304dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/edittext_bg_yellow_mid"
+        android:background="@drawable/edittext_background"
         android:ems="10"
         android:hint="Digte seu nome aqui"
         android:inputType="text"
-        android:padding="12dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/material_dynamic_neutral30"
+        android:paddingStart="5dp"
+        android:shadowColor="@color/white"
+        android:textColor="@color/yellow"
+        android:textColorHighlight="@color/yellow"
+        android:textColorHint="@color/white"
+        android:textColorLink="@color/yellow"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.098" />
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonNext"
-        android:layout_width="62dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/yellow_bg"
-        android:text=">"
+        android:text="Próximo"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/nomeEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nomeEditText" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/nomeEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/nomeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/nomeEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
