@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Bicicreta</string>
-    <string name="message_welcome">Bem vindo ao</string>
-    <string name="nome_app">Bicicreta</string>
+    <string name="message_welcome">Bem vindo</string>
+    <string-array name="aro_spinner">
+        <item>Selecione aro</item>
+        <item>20</item>
+        <item>24</item>
+        <item>26</item>
+        <item>29</item>
+    </string-array>
+    <string-array name="tamanho_quadro_spinner">
+        <item>Selecione quadro</item>
+        <item>15</item>
+        <item>17</item>
+        <item>19</item>
+        <item>21</item>
+    </string-array>
+    <string name="button_save">Salvar</string>
+    <string name="button_next">Próximo</string>
 </resources>

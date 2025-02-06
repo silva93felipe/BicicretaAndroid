@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
@@ -17,6 +19,7 @@ import java.util.List;
 
 public class ViagensActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private Button novaViagemButton;
     private List<Viagem> viagens = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +31,24 @@ public class ViagensActivity extends AppCompatActivity {
 
     private void mockViagem(){
         for (int i = 0; i < 15; i++){
-            Viagem viagem = new Viagem();
-            viagem.setDestino("Destino " + i);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            viagem.setData(String.valueOf(simpleDateFormat.format(new Date())));
-            viagem.setNomeBicicleta("Bicicleta 1");
-            viagem.setQuilometros("0 km");
+            Viagem viagem = new Viagem(String.valueOf(simpleDateFormat.format(new Date())), "0 km", "Destino " + i);
             viagens.add(viagem);
         }
     }
 
-    public void iniciarComponentes(){
+    private void iniciarComponentes(){
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewViagens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         AdapterViagem adapter = new AdapterViagem(viagens);
         recyclerView.setAdapter(adapter);
+        novaViagemButton = findViewById(R.id.novaViagemButton);
+        novaViagemButton.setOnClickListener(v -> handleCadastroPeca());
+    }
+
+    private void handleCadastroPeca(){
+        Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
+        startActivity(cadastroViagemIntent);
     }
 }

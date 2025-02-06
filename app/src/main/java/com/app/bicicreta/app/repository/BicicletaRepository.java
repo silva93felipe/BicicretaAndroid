@@ -18,12 +18,17 @@ public class BicicletaRepository {
     public void add(Bicicleta bicicleta){
         SQLiteDatabase con = db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("nome", bicicleta.getModelo());
-        values.put("aro", bicicleta.getAro());
+        values.put("modelo", bicicleta.getModelo());
+        values.put("tamanho_aro", bicicleta.getAro());
         values.put("tamanho_quadro", bicicleta.getTamanhoQuadro());
         values.put("quilometros_rodados", bicicleta.getQuilometrosRodados());
         values.put("quantidade_marchas", bicicleta.getQuantidadeMarchas());
         con.insert(TABEL_BICICLETA, null, values);
+    }
+
+    public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("UPDATE bicicleta SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
     }
 
     public Cursor getById(int id){

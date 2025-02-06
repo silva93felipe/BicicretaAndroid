@@ -40,7 +40,6 @@ public class ApresentacaoActivity extends AppCompatActivity {
 
     private void handleClickNextPage(){
         Intent mainIntent = new Intent(ApresentacaoActivity.this, CadastroBicicletaActivity.class);
-        //Intent mainIntent = new Intent(ApresentacaoActivity.this, MainActivity.class);
         startActivity(mainIntent);
         finish();
     }

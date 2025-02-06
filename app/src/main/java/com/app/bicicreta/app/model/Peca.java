@@ -1,20 +1,17 @@
 package com.app.bicicreta.app.model;
 
 public class Peca {
+    private int id;
     private String dataCompra;
-    private String valor;
-    private String quilometros;
-    private String nomeBicicleta;
+    private double valor;
+    private int quilometros;
+    private Bicicleta bicicleta;
     private String nomePeca;
-
-    public Peca() {
-    }
-
-    public Peca(String dataCompra, String valor, String quilometros, String nomeBicicleta) {
+    public Peca(String descricao, String dataCompra, double valor, int bicicletaId) {
+        this.nomePeca = descricao;
         this.dataCompra = dataCompra;
         this.valor = valor;
-        this.quilometros = quilometros;
-        this.nomeBicicleta = nomeBicicleta;
+        this.quilometros = 0;
     }
 
     public String getDataCompra() {
@@ -25,28 +22,28 @@ public class Peca {
         this.dataCompra = dataCompra;
     }
 
-    public String getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
-    public String getQuilometros() {
+    public int getQuilometros() {
         return quilometros;
     }
 
-    public void setQuilometros(String quilometros) {
+    public void setQuilometros(int quilometros) {
         this.quilometros = quilometros;
     }
 
-    public String getNomeBicicleta() {
-        return nomeBicicleta;
+    public Bicicleta getBicicleta() {
+        return bicicleta;
     }
 
-    public void setNomeBicicleta(String nomeBicicleta) {
-        this.nomeBicicleta = nomeBicicleta;
+    public void setBicicleta(Bicicleta bicicleta) {
+        this.bicicleta = bicicleta;
     }
 
     public String getNomePeca() {
@@ -55,5 +52,13 @@ public class Peca {
 
     public void setNomePeca(String nomePeca) {
         this.nomePeca = nomePeca;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

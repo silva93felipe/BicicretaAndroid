@@ -13,17 +13,15 @@ public class UserRepository {
     public UserRepository(Context context){
         db = new BicicretaDbHelper(context);
     }
-
     public void add(String name){
         SQLiteDatabase con = db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", name);
+        values.put("nome", name);
         con.insert(TABLE_USER, null, values);
     }
 
     public Cursor getOne(){
         SQLiteDatabase con = db.getWritableDatabase();
-        Cursor cursor = con.rawQuery("SELECT name FROM " + TABLE_USER + " LIMIT 1;", null);
-        return cursor;
+        return con.rawQuery("SELECT name FROM " + TABLE_USER + " LIMIT 1;", null);
     }
 }

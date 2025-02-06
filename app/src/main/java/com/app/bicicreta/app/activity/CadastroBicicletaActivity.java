@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.repository.BicicletaRepository;
-import com.app.bicicreta.app.repository.UserRepository;
 
 import java.util.ArrayList;
 
@@ -31,25 +28,11 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
 
     private void iniciarComponentes(){
         aroSpinner = findViewById(R.id.aroSpinner);
-        ArrayAdapter<String> adapterAro = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, opcoesAro());
-        aroSpinner.setAdapter(adapterAro);
-
         quadroSpinner = findViewById(R.id.quadroSpinner);
-        ArrayAdapter<String> quadroAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, opcoesQuadro());
-        quadroSpinner.setAdapter(quadroAdapter);
-
         modeloTextView = findViewById(R.id.modeloTextView);
         quantidadeMarchaTextView = findViewById(R.id.quantidadeMarchasTextView);
-        buttonNext = findViewById(R.id.buttonAdicionarBicicleta);
+        buttonNext = findViewById(R.id.buttonAdicionarViagem);
         buttonNext.setOnClickListener(h -> createBicicleta());
-    }
-
-    private String[] opcoesAro(){
-        return new String[]{"20", "24", "26", "29"};
-    }
-
-    private String[] opcoesQuadro(){
-        return new String[]{"15", "17", "19", "21"};
     }
 
     private void createBicicleta(){
@@ -62,16 +45,16 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
             erros.add("marchas");
         }
 
-        if(aroSpinner.getSelectedItem().toString().trim().isEmpty()){
+        if(aroSpinner.getSelectedItem().toString().trim().isEmpty() || aroSpinner.getSelectedItemPosition() == 0){
             erros.add("aro");
         }
 
-        if(quadroSpinner.getSelectedItem().toString().trim().isEmpty()){
+        if(quadroSpinner.getSelectedItem().toString().trim().isEmpty() || quadroSpinner.getSelectedItemPosition() == 0){
             erros.add("quadro");
         }
 
         if(!erros.isEmpty()){
-            Toast.makeText(this, "Por favor, Preencha os sequintes campos: " + erros, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Preencha os sequintes campos: " + erros, Toast.LENGTH_LONG).show();
             return;
         }
 

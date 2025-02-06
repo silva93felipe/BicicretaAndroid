@@ -1,14 +1,12 @@
 package com.app.bicicreta.app.model;
 
 public class Viagem {
+    private int id;
     private String data;
     private String quilometros;
     private String destino;
     private String nomeBicicleta;
-
-    public Viagem() {
-    }
-
+    private int bicicletaId;
     public Viagem(String data, String quilometros, String destino) {
         this.data = data;
         this.quilometros = quilometros;
@@ -45,5 +43,17 @@ public class Viagem {
 
     public void setNomeBicicleta(String nomeBicicleta) {
         this.nomeBicicleta = nomeBicicleta;
+    }
+
+    public int getBicicletaId() {
+        return bicicletaId;
+    }
+
+    public void setBicicletaId(int bicicletaId) {
+        this.bicicletaId = bicicletaId;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -29,13 +29,8 @@ public class PecasActivity extends AppCompatActivity {
 
     private void mockPeca(){
         for (int i = 0; i < 15; i++){
-            Peca peca = new Peca();
-            peca.setNomePeca("Peca " + i);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            peca.setDataCompra(String.valueOf(simpleDateFormat.format(new Date())));
-            peca.setNomeBicicleta("Bicicleta 1");
-            peca.setQuilometros("0 km");
-            peca.setValor("R$ " + String.valueOf(new Random().nextInt(400)));
+            Peca peca = new Peca("Peca " + i, String.valueOf(simpleDateFormat.format(new Date())), new Random().nextDouble(), 1);
             pecas.add(peca);
         }
     }
