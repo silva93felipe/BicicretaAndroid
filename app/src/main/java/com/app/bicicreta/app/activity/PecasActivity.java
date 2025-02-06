@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterPeca;
@@ -19,6 +21,7 @@ import java.util.Random;
 public class PecasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Peca> pecas = new ArrayList<>();
+    private Button buttonSalvar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +38,17 @@ public class PecasActivity extends AppCompatActivity {
         }
     }
 
-    public void iniciarComponentes(){
+    private void iniciarComponentes(){
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewPeca);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         AdapterPeca adapter = new AdapterPeca(pecas);
         recyclerView.setAdapter(adapter);
+        buttonSalvar = findViewById(R.id.novaViagemButton);
+        buttonSalvar.setOnClickListener(v -> handleCadastroPeca());
+    }
+    private void handleCadastroPeca(){
+        Intent cadastroPecaIntent = new Intent(PecasActivity.this, CadastroPecaActivity.class);
+        startActivity(cadastroPecaIntent);
     }
 }

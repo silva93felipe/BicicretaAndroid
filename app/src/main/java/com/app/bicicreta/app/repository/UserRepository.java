@@ -22,6 +22,6 @@ public class UserRepository {
 
     public Cursor getOne(){
         SQLiteDatabase con = db.getWritableDatabase();
-        return con.rawQuery("SELECT name FROM " + TABLE_USER + " LIMIT 1;", null);
+        return con.rawQuery("SELECT nome FROM " + TABLE_USER + " LIMIT 1;", null);
     }
 }

@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    tools:context=".app.activity.CadastroBicicletaActivity">
+    tools:context=".app.activity.CadastroPecaActivity">
 
     <FrameLayout
-        android:id="@+id/frameLayout3"
+        android:id="@+id/frameLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,103 +16,94 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="Bicicleta"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="24dp"
+            android:text="Peça"
             android:textColor="@color/yellow"
-            android:textSize="30sp"
+            android:textSize="34sp"
             android:textStyle="bold|italic" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:text="Cadastre sua"
-            android:textSize="30sp"
+            android:text="Nova"
+            android:textSize="34sp"
             android:textStyle="bold|italic" />
+
     </FrameLayout>
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarViagem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/modeloTextView"
+                android:id="@+id/editTextText"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="44dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/edittext_background"
                 android:ems="10"
-                android:hint="Modelo"
-                android:inputType="textPersonName"
-                android:paddingStart="5dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/material_dynamic_neutral30"
+                android:hint="Descrição"
+                android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/aroSpinner"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edittext_background"
-                android:entries="@array/aro_spinner"
-                app:layout_constraintEnd_toEndOf="@+id/modeloTextView"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/modeloTextView"
-                app:layout_constraintTop_toBottomOf="@+id/modeloTextView" />
-
-            <Spinner
-                android:id="@+id/quadroSpinner"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edittext_background"
-                android:entries="@array/tamanho_quadro_spinner"
-                app:layout_constraintEnd_toEndOf="@+id/aroSpinner"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/aroSpinner"
-                app:layout_constraintTop_toBottomOf="@+id/aroSpinner" />
-
             <EditText
-                android:id="@+id/quantidadeMarchasTextView"
+                android:id="@+id/editTextNumberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/edittext_background"
                 android:ems="10"
-                android:hint="Quantidade marchas"
-                android:inputType="number"
-                android:paddingStart="5dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/material_dynamic_neutral30"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/quadroSpinner"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/quadroSpinner"
-                app:layout_constraintTop_toBottomOf="@+id/quadroSpinner" />
+                android:inputType="numberDecimal"
+                app:layout_constraintEnd_toEndOf="@+id/editTextText"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="@+id/editTextText"
+                app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintEnd_toEndOf="@+id/editTextNumberDecimal"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimal"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/edittext_background"
+                app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+                app:layout_constraintStart_toStartOf="@+id/editTextDate"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -124,7 +115,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/yellow_bg"
-        android:text="Próximo"
+        android:text="@string/button_save"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -133,5 +124,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

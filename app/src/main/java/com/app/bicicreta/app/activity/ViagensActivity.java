@@ -44,10 +44,10 @@ public class ViagensActivity extends AppCompatActivity {
         AdapterViagem adapter = new AdapterViagem(viagens);
         recyclerView.setAdapter(adapter);
         novaViagemButton = findViewById(R.id.novaViagemButton);
-        novaViagemButton.setOnClickListener(v -> handleCadastroPeca());
+        novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
     }
 
-    private void handleCadastroPeca(){
+    private void handleCadastroViagem(){
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
         startActivity(cadastroViagemIntent);
     }

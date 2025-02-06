@@ -33,7 +33,7 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         holder.dataCompra.setText(peca.getDataCompra());
         holder.nomePeca.setText(peca.getNomePeca());
         holder.valor.setText(String.valueOf(peca.getValor()));
-        holder.nomeBicicleta.setText(peca.getBicicleta().getModelo());
+        holder.nomeBicicleta.setText("AAAA");
         holder.quilometros.setText(peca.getQuilometros());
     }
 
