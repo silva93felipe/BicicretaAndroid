@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.app.bicicreta.app.db.BicicretaDbHelper;
 import com.app.bicicreta.app.model.Bicicleta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BicicletaRepository {
     private final String TABEL_BICICLETA = "bicicleta";
     BicicretaDbHelper db;
@@ -31,13 +34,23 @@ public class BicicletaRepository {
         con.execSQL("UPDATE bicicleta SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
     }
 
-    public Cursor getById(int id){
+    public Bicicleta getById(int id){
         SQLiteDatabase con = db.getWritableDatabase();
-        return con.rawQuery("SELECT * FROM " + TABEL_BICICLETA + " WHERE id = ?", new String[]{ String.valueOf(id)});
+        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados  FROM " + TABEL_BICICLETA + " WHERE id = ?", new String[]{ String.valueOf(id)});
+        while(cursor.moveToNext()){
+            return new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+        }
+        return null;
     }
 
-    public Cursor getAll(){
+    public List<Bicicleta> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
-        return con.rawQuery("SELECT * FROM " + TABEL_BICICLETA, null);
+        List<Bicicleta> bicicletas = new ArrayList<>();
+        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados FROM " + TABEL_BICICLETA, null);
+        while(cursor.moveToNext()){
+            Bicicleta bicicleta = new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+            bicicletas.add(bicicleta);
+        }
+        return bicicletas;
     }
 }

@@ -34,7 +34,7 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         holder.nomePeca.setText(peca.getNomePeca());
         holder.valor.setText(String.valueOf(peca.getValor()));
         holder.nomeBicicleta.setText("AAAA");
-        holder.quilometros.setText(peca.getQuilometros());
+        holder.quilometros.setText(String.valueOf(peca.getQuilometros()));
     }
 
     @Override
@@ -50,11 +50,11 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         TextView nomePeca;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
-            dataCompra = itemView.findViewById(R.id.dataCompraTextView);
-            valor = itemView.findViewById(R.id.valorPecaTextView);
-            quilometros = itemView.findViewById(R.id.quilometroPecaTextView);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaTextView);
-            nomePeca = itemView.findViewById(R.id.nomePecaTextView);
+            dataCompra = itemView.findViewById(R.id.dataCompraViewHolderTextView);
+            valor = itemView.findViewById(R.id.valorPecaViewHolderTextView);
+            quilometros = itemView.findViewById(R.id.quilometroPecaViewHolderTextView);
+            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolderTextView);
+            nomePeca = itemView.findViewById(R.id.nomePecaViewHolderTextView);
         }
     }
 }

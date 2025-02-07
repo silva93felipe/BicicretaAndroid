@@ -6,31 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".app.activity.CadastroViagemActivity">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="185dp"
+    <FrameLayout
+        android:id="@+id/frameLayout4"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="24dp"
-        android:text="Nova \nViagem"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="30dp"
+            android:text="Nova"
+            android:textSize="34sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:text="Viagem"
+            android:textColor="@color/yellow"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarViagem"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarPeca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -74,10 +91,10 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/edittext_background"
-                android:ems="10"
-                android:hint="Selecionar Data"
-                android:focusable="false"
                 android:clickable="true"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Data viagem"
                 android:inputType="date"
                 android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="@+id/quilometrosCadastroViagemEditText"
@@ -102,7 +119,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAdicionarViagem"
+        android:id="@+id/buttonAdicionarPeca"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"

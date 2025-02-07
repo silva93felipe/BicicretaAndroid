@@ -6,7 +6,7 @@
     android:layout_height="100dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/background_card"
     android:padding="5dp">
 
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/wrench" />
 
     <TextView
-        android:id="@+id/nomePecaTextView"
+        android:id="@+id/nomePecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -34,29 +34,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/dataCompraTextView"
+        android:id="@+id/dataCompraViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="20/10/2025"
         android:textColor="@color/black"
         android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="@+id/valorPecaTextView"
-        app:layout_constraintTop_toBottomOf="@+id/valorPecaTextView" />
+        app:layout_constraintStart_toStartOf="@+id/valorPecaViewHolderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/valorPecaViewHolderTextView" />
 
     <TextView
-        android:id="@+id/quilometroPecaTextView"
+        android:id="@+id/quilometroPecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100 km"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/dataCompraTextView"
-        app:layout_constraintEnd_toEndOf="@+id/nomeBicicletaPecaTextView"
-        app:layout_constraintTop_toBottomOf="@+id/nomeBicicletaPecaTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/dataCompraViewHolderTextView"
+        app:layout_constraintEnd_toEndOf="@+id/nomeBicicletaPecaViewHolderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nomeBicicletaPecaViewHolderTextView" />
 
     <TextView
-        android:id="@+id/nomeBicicletaPecaTextView"
+        android:id="@+id/nomeBicicletaPecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -65,15 +65,15 @@
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nomePecaTextView" />
+        app:layout_constraintTop_toTopOf="@+id/nomePecaViewHolderTextView" />
 
     <TextView
-        android:id="@+id/valorPecaTextView"
+        android:id="@+id/valorPecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$ 40,00"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/nomePecaTextView"
-        app:layout_constraintTop_toBottomOf="@+id/nomePecaTextView" />
+        app:layout_constraintStart_toStartOf="@+id/nomePecaViewHolderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nomePecaViewHolderTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

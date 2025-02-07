@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.app.bicicreta.app.db.BicicretaDbHelper;
+import com.app.bicicreta.app.model.User;
 
 public class UserRepository {
     private final String TABLE_USER = "user";
@@ -20,8 +21,13 @@ public class UserRepository {
         con.insert(TABLE_USER, null, values);
     }
 
-    public Cursor getOne(){
+    public User getOne(){
         SQLiteDatabase con = db.getWritableDatabase();
-        return con.rawQuery("SELECT nome FROM " + TABLE_USER + " LIMIT 1;", null);
+        Cursor cursor = con.rawQuery("SELECT nome FROM " + TABLE_USER + " LIMIT 1;", null);
+        while(cursor.moveToNext()){
+            User user = new User(cursor.getString(0));
+            return user;
+        }
+        return null;
     }
 }

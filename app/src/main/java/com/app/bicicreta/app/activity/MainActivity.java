@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.repository.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void getNomeUsuario(){
         UserRepository repository = new UserRepository(this);
-        Cursor cursor = repository.getOne();
-        while(cursor.moveToNext()){
-            nomeUsarioTextView.setText("Olá, " + cursor.getString(0));
+        User user = repository.getOne();
+        if(user == null){
+            nomeUsarioTextView.setText("Olá, DESCONHECIDO!" );
+        }else{
+            nomeUsarioTextView.setText("Olá, " + user.getNome() );
         }
+
     }
 
 }

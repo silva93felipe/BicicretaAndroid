@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/map" />
 
     <TextView
-        android:id="@+id/nomePecaTextView"
+        android:id="@+id/nomePecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/dataCompraTextView"
+        android:id="@+id/dataCompraViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -42,30 +42,30 @@
         android:textColor="@color/black"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/nomePecaTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/nomePecaViewHolderTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nomePecaTextView"
+        app:layout_constraintTop_toTopOf="@+id/nomePecaViewHolderTextView"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/quilometroPecaTextView"
+        android:id="@+id/quilometroPecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100 km"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/nomeBicicletaPecaTextView"
-        app:layout_constraintEnd_toEndOf="@+id/dataCompraTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/nomeBicicletaPecaViewHolderTextView"
+        app:layout_constraintEnd_toEndOf="@+id/dataCompraViewHolderTextView" />
 
     <TextView
-        android:id="@+id/nomeBicicletaPecaTextView"
+        android:id="@+id/nomeBicicletaPecaViewHolderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="South"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/nomePecaTextView"
-        app:layout_constraintTop_toBottomOf="@+id/nomePecaTextView" />
+        app:layout_constraintStart_toStartOf="@+id/nomePecaViewHolderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nomePecaViewHolderTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

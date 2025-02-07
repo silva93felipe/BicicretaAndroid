@@ -16,20 +16,25 @@ public class Bicicleta {
         setTamanhoQuadro(tamanhoQuadro);
     }
 
+    public Bicicleta(int id, String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro, int quilometrosRodados){
+        this(modelo, aro, quantidadeMarchas, tamanhoQuadro);
+        setQuilometrosRodados(quilometrosRodados);
+    }
+
     public int getId() {
         return id;
     }
 
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getModelo() {
         return modelo;
     }
 
     public void setModelo(String modelo) {
-        if(modelo.isEmpty() || modelo.isBlank()){
+        if(modelo.trim().isEmpty()){
             this.modelo = "SEM NOME";
         }else{
             this.modelo = modelo.toUpperCase();

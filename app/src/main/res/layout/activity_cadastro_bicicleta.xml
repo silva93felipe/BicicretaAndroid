@@ -42,7 +42,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarViagem"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarPeca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
@@ -117,7 +117,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAdicionarViagem"
+        android:id="@+id/buttonAdicionarPeca"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"

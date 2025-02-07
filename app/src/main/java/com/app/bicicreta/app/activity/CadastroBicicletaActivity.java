@@ -31,7 +31,7 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         quadroSpinner = findViewById(R.id.quadroSpinner);
         modeloTextView = findViewById(R.id.modeloTextView);
         quantidadeMarchaTextView = findViewById(R.id.quantidadeMarchasTextView);
-        buttonNext = findViewById(R.id.buttonAdicionarViagem);
+        buttonNext = findViewById(R.id.buttonAdicionarPeca);
         buttonNext.setOnClickListener(h -> createBicicleta());
     }
 

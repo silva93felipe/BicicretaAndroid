@@ -20,8 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="45dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="30dp"
             android:text="Peça"
             android:textColor="@color/yellow"
             android:textSize="34sp"
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="30dp"
             android:text="Nova"
             android:textSize="34sp"
             android:textStyle="bold|italic" />
@@ -42,7 +44,7 @@
         android:id="@+id/scrollView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarViagem"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarPeca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
@@ -52,7 +54,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/descricaoPecaEditText"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="8dp"
@@ -62,53 +64,59 @@
                 android:ems="10"
                 android:hint="Descrição"
                 android:inputType="text"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editTextNumberDecimal"
+                android:id="@+id/valorPecaEditText"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/edittext_background"
                 android:ems="10"
+                android:hint="Valor"
                 android:inputType="numberDecimal"
-                app:layout_constraintEnd_toEndOf="@+id/editTextText"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/descricaoPecaEditText"
                 app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="@+id/editTextText"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+                app:layout_constraintStart_toStartOf="@+id/descricaoPecaEditText"
+                app:layout_constraintTop_toBottomOf="@+id/descricaoPecaEditText" />
 
             <EditText
-                android:id="@+id/editTextDate"
+                android:id="@+id/dataCompraEditText"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/edittext_background"
                 android:ems="10"
+                android:hint="Data compra"
                 android:inputType="date"
-                app:layout_constraintEnd_toEndOf="@+id/editTextNumberDecimal"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/valorPecaEditText"
                 app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimal"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
+                app:layout_constraintStart_toStartOf="@+id/valorPecaEditText"
+                app:layout_constraintTop_toBottomOf="@+id/valorPecaEditText" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/bicicletaIdPecaSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/edittext_background"
-                app:layout_constraintEnd_toEndOf="@+id/editTextDate"
-                app:layout_constraintStart_toStartOf="@+id/editTextDate"
-                app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+                android:contentDescription="Bicicleta"
+                app:layout_constraintEnd_toEndOf="@+id/dataCompraEditText"
+                app:layout_constraintStart_toStartOf="@+id/dataCompraEditText"
+                app:layout_constraintTop_toBottomOf="@+id/dataCompraEditText" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAdicionarViagem"
+        android:id="@+id/buttonAdicionarPeca"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
