@@ -14,11 +14,9 @@ import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.repository.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
-    TextView nomeUsarioTextView;
-    TextView quilomentrosRodadosTextView;
+    TextView nomeUsarioTextView, quilomentrosRodadosTextView;
     RecyclerView ultimasViagensRecyclerView;
-    ImageView mapTabImagemView;
-    ImageView toolTabImagemView;
+    ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         toolTabImagemView = findViewById(R.id.toolTabImagemView);
         toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasActivity.class));
         quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
+        bicicletaTabImagemView = findViewById(R.id.bicicletaTabImagemView);
+        bicicletaTabImagemView.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
        // ultimasViagensRecyclerView = findViewById(R.id.ultimasViagensRecyclerView);
        // ultimasViagensRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //ultimasViagensRecyclerView.setHasFixedSize(true);
@@ -51,7 +51,5 @@ public class MainActivity extends AppCompatActivity {
         }else{
             nomeUsarioTextView.setText("Olá, " + user.getNome() );
         }
-
     }
-
 }

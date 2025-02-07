@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">
         <activity
+            android:name=".app.activity.BicicletasActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.activity.CadastroPecaActivity"
             android:exported="false" />
         <activity

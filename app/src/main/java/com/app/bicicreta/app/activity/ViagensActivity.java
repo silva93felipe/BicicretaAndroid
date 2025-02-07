@@ -32,7 +32,7 @@ public class ViagensActivity extends AppCompatActivity {
     private void mockViagem(){
         for (int i = 0; i < 15; i++){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Viagem viagem = new Viagem(String.valueOf(simpleDateFormat.format(new Date())), "0 km", "Destino " + i);
+            Viagem viagem = new Viagem(String.valueOf(simpleDateFormat.format(new Date())), 0, "Destino " + i);
             viagens.add(viagem);
         }
     }
@@ -43,7 +43,7 @@ public class ViagensActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         AdapterViagem adapter = new AdapterViagem(viagens);
         recyclerView.setAdapter(adapter);
-        novaViagemButton = findViewById(R.id.novaViagemButton);
+        novaViagemButton = findViewById(R.id.novaBicicletaButton);
         novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
     }
 

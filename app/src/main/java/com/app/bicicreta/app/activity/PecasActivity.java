@@ -44,7 +44,7 @@ public class PecasActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         AdapterPeca adapter = new AdapterPeca(pecas);
         recyclerView.setAdapter(adapter);
-        buttonSalvar = findViewById(R.id.novaViagemButton);
+        buttonSalvar = findViewById(R.id.novaBicicletaButton);
         buttonSalvar.setOnClickListener(v -> handleCadastroPeca());
     }
     private void handleCadastroPeca(){

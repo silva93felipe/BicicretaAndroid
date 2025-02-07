@@ -20,11 +20,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="20dp"
             android:text="Bicicleta"
             android:textColor="@color/yellow"
-            android:textSize="30sp"
+            android:textSize="34sp"
             android:textStyle="bold|italic" />
 
         <TextView
@@ -32,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:text="Cadastre sua"
-            android:textSize="30sp"
+            android:layout_marginBottom="10dp"
+            android:text="Nova"
+            android:textSize="34sp"
             android:textStyle="bold|italic" />
     </FrameLayout>
 

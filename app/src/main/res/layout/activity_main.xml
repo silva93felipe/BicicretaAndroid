@@ -68,12 +68,12 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/configTabImagemView"
+                    android:id="@+id/bicicletaTabImagemView"
                     android:layout_width="30dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/cog" />
+                    app:srcCompat="@drawable/bike" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,12 +84,12 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/backupTabImagemView"
+                    android:id="@+id/configTabImagemView"
                     android:layout_width="30dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/database_backup" />
+                    app:srcCompat="@drawable/cog" />
             </LinearLayout>
         </LinearLayout>
 
