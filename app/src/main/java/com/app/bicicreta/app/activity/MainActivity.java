@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.repository.UserRepository;
+import com.app.bicicreta.app.repository.ViagemRepository;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         inicializarComponentes();
         getNomeUsuario();
+        getTotalQuilometrosRodados();
     }
     private void inicializarComponentes(){
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
@@ -52,4 +54,11 @@ public class MainActivity extends AppCompatActivity {
             nomeUsarioTextView.setText("Olá, " + user.getNome() );
         }
     }
+
+    private void getTotalQuilometrosRodados(){
+        ViagemRepository repository = new ViagemRepository(this);
+        quilomentrosRodadosTextView.setText(repository.totalQuilometrosRodados() + " Km");
+
+    }
+
 }

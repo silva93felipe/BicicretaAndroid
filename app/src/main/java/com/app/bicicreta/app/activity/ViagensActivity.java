@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
 import com.app.bicicreta.app.model.Viagem;
+import com.app.bicicreta.app.repository.ViagemRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,27 +26,36 @@ public class ViagensActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viagens);
+        getAllViagens();
         iniciarComponentes();
-        mockViagem();
     }
 
-    private void mockViagem(){
-        for (int i = 0; i < 15; i++){
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Viagem viagem = new Viagem(String.valueOf(simpleDateFormat.format(new Date())), 0, "Destino " + i);
-            viagens.add(viagem);
-        }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getAllViagens();
+        inicializarRecycleView();
+    }
+
+    private void getAllViagens(){
+        ViagemRepository repository = new ViagemRepository(this);
+        viagens = repository.getAll();
     }
 
     private void iniciarComponentes(){
+        inicializarRecycleView();
+        novaViagemButton = findViewById(R.id.novaBicicletaButton);
+        novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
+    }
+
+    private void inicializarRecycleView(){
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewViagens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         AdapterViagem adapter = new AdapterViagem(viagens);
         recyclerView.setAdapter(adapter);
-        novaViagemButton = findViewById(R.id.novaBicicletaButton);
-        novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
     }
+
 
     private void handleCadastroViagem(){
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);

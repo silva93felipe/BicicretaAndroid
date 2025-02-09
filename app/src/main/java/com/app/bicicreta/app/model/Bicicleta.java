@@ -18,6 +18,7 @@ public class Bicicleta {
 
     public Bicicleta(int id, String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro, int quilometrosRodados){
         this(modelo, aro, quantidadeMarchas, tamanhoQuadro);
+        this.id = id;
         setQuilometrosRodados(quilometrosRodados);
     }
 

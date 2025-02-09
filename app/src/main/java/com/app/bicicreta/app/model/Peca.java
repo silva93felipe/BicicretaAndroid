@@ -5,13 +5,21 @@ public class Peca {
     private String dataCompra;
     private double valor;
     private int quilometros;
-    private Bicicleta bicicleta;
+    private int bicicletaId;
     private String nomePeca;
-    public Peca(String descricao, String dataCompra, double valor, int bicicletaId) {
+    private String modeloBicicleta;
+    public Peca(String descricao, String dataCompra, double valor,int bicicletaId) {
         this.nomePeca = descricao;
         this.dataCompra = dataCompra;
         this.valor = valor;
-        this.quilometros = 0;
+        this.bicicletaId = bicicletaId;
+    }
+
+    public Peca(int id, String descricao, String dataCompra, double valor, int quilometros, int bicicletaId, String modeloBicicleta) {
+        this(descricao, dataCompra, valor, bicicletaId);
+        this.id = id;
+        this.quilometros = quilometros;
+        this.modeloBicicleta = modeloBicicleta;
     }
 
     public String getDataCompra() {
@@ -38,12 +46,12 @@ public class Peca {
         this.quilometros = quilometros;
     }
 
-    public Bicicleta getBicicleta() {
-        return bicicleta;
+    public int getBicicletaId() {
+        return bicicletaId;
     }
 
-    public void setBicicleta(Bicicleta bicicleta) {
-        this.bicicleta = bicicleta;
+    public void setBicicletaId(int bicicletaId) {
+        this.bicicletaId = bicicletaId;
     }
 
     public String getNomePeca() {
@@ -60,5 +68,13 @@ public class Peca {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getModeloBicicleta() {
+        return modeloBicicleta;
+    }
+
+    public void setModeloBicicleta(String modeloBicicleta) {
+        this.modeloBicicleta = modeloBicicleta;
     }
 }

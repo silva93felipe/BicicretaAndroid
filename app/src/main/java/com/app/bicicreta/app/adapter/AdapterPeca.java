@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Peca;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder> {
     private List<Peca> pecas = new ArrayList<>();
+    Locale localBrasil = new Locale("pt", "BR");
     public AdapterPeca(List<Peca> pecas) {
         this.pecas = pecas;
     }
@@ -32,9 +35,9 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         Peca peca = pecas.get(position);
         holder.dataCompra.setText(peca.getDataCompra());
         holder.nomePeca.setText(peca.getNomePeca());
-        holder.valor.setText(String.valueOf(peca.getValor()));
-        holder.nomeBicicleta.setText("AAAA");
-        holder.quilometros.setText(String.valueOf(peca.getQuilometros()));
+        holder.valor.setText(NumberFormat.getCurrencyInstance(localBrasil).format(peca.getValor()));
+        holder.nomeBicicleta.setText(peca.getModeloBicicleta());
+        holder.quilometros.setText(peca.getQuilometros() + " Km");
     }
 
     @Override
@@ -50,11 +53,11 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         TextView nomePeca;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
-            dataCompra = itemView.findViewById(R.id.dataCompraViewHolderTextView);
-            valor = itemView.findViewById(R.id.valorPecaViewHolderTextView);
-            quilometros = itemView.findViewById(R.id.quilometroPecaViewHolderTextView);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolderTextView);
-            nomePeca = itemView.findViewById(R.id.nomePecaViewHolderTextView);
+            dataCompra = itemView.findViewById(R.id.dataCompraPecaViewHolder);
+            valor = itemView.findViewById(R.id.valorPecaViewHolder);
+            quilometros = itemView.findViewById(R.id.quilometroPecaViewHolder);
+            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolder);
+            nomePeca = itemView.findViewById(R.id.nomePecaViewHolder);
         }
     }
 }

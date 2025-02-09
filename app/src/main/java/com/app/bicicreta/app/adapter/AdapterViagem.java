@@ -32,8 +32,8 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
         Viagem viagem = viagens.get(position);
         holder.dataViagem.setText(viagem.getData());
         holder.destino.setText(viagem.getDestino());
-        holder.nomeBicicleta.setText(viagem.getNomeBicicleta());
-        holder.quilometrosRodados.setText(viagem.getQuilometros());
+        holder.nomeBicicleta.setText(viagem.getModeloBicicleta());
+        holder.quilometrosRodados.setText(viagem.getQuilometros() + " Km");
     }
 
     @Override
@@ -50,10 +50,10 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
 
         public ViagemViewHolder(@NonNull View itemView) {
             super(itemView);
-            dataViagem = itemView.findViewById(R.id.dataCompraViewHolderTextView);
-            quilometrosRodados = itemView.findViewById(R.id.quilometroPecaViewHolderTextView);
-            destino = itemView.findViewById(R.id.nomePecaViewHolderTextView);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolderTextView);
+            dataViagem = itemView.findViewById(R.id.dataCompraPecaViewHolder);
+            quilometrosRodados = itemView.findViewById(R.id.quilometroPecaViewHolder);
+            destino = itemView.findViewById(R.id.nomePecaViewHolder);
+            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolder);
         }
     }
 }

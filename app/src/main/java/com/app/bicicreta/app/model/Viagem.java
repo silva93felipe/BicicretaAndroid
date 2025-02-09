@@ -7,13 +7,27 @@ public class Viagem {
     private String destino;
     private String nomeBicicleta;
     private int bicicletaId;
-    public Viagem(String data, int quilometros, String destino) {
+    private String modeloBicicleta;
+    public Viagem(String data, int quilometros, String destino, int bicicletaId) {
         this.data = data;
         this.quilometros = quilometros;
-        this.destino = destino;
+        this.destino = destino.toUpperCase();
+        this.bicicletaId = bicicletaId;
     }
-    public Viagem(int id, String data, int quilometros, String destino) {
-        this(data, quilometros, destino);
+    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId) {
+        this(data, quilometros, destino, bicicletaId);
+        this.id = id;
+    }
+    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId, String modeloBicicleta) {
+        this(data, quilometros, destino, bicicletaId);
+        this.id = id;
+        this.modeloBicicleta = modeloBicicleta;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,24 +54,17 @@ public class Viagem {
     public void setDestino(String destino) {
         this.destino = destino;
     }
-
-    public String getNomeBicicleta() {
-        return nomeBicicleta;
-    }
-
-    public void setNomeBicicleta(String nomeBicicleta) {
-        this.nomeBicicleta = nomeBicicleta;
-    }
-
     public int getBicicletaId() {
         return bicicletaId;
     }
-
     public void setBicicletaId(int bicicletaId) {
         this.bicicletaId = bicicletaId;
     }
-
-    public int getId() {
-        return id;
+    public String getModeloBicicleta() {
+        return modeloBicicleta;
     }
+    public void setModeloBicicleta(String modeloBicicleta) {
+        this.modeloBicicleta = modeloBicicleta;
+    }
+
 }

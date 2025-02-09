@@ -32,9 +32,9 @@ public class ViagemRepository {
     public List<Viagem> getLastByParam(int quantidade){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT * FROM " + TABLE_VIAGEM + " ORDER BY data_viagem LIMIT ?;", new String[]{ String.valueOf(quantidade) });
+        Cursor cursor = con.rawQuery("SELECT id, data_viagem, quilometros_rodados, destino, bicicleta_id  FROM " + TABLE_VIAGEM + " ORDER BY data_viagem DESC LIMIT ?;", new String[]{ String.valueOf(quantidade) });
         while(cursor.moveToNext()){
-            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(3), cursor.getInt(2),  cursor.getString(1));
+            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4));
             viagens.add(viagem);
         }
         return viagens;
@@ -43,11 +43,24 @@ public class ViagemRepository {
     public List<Viagem> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT id, destino, quilometros_rodados, data_viagem, bicicleta_id  FROM " + TABLE_VIAGEM + " INNER JOIN " + TABEL_BICICLETA + " ORDER BY data_viagem;", null);
+        Cursor cursor = con.rawQuery("SELECT v.id, v.data_viagem, v.quilometros_rodados, v.destino, v.bicicleta_id, b.modelo  FROM "
+                                          + TABLE_VIAGEM + " v "
+                                          + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = v.bicicleta_id "
+                                          + " ORDER BY data_viagem DESC;", null);
         while(cursor.moveToNext()){
-            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(3), cursor.getInt(2),  cursor.getString(1));
+            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5));
             viagens.add(viagem);
         }
         return viagens;
+    }
+
+    public int totalQuilometrosRodados(){
+        SQLiteDatabase con = db.getWritableDatabase();
+        int total = 0;
+        Cursor cursor = con.rawQuery("SELECT SUM(quilometros_rodados) FROM " + TABLE_VIAGEM + ";", null);
+        while(cursor.moveToNext()){
+            total = cursor.getInt(0);
+        }
+        return total;
     }
 }

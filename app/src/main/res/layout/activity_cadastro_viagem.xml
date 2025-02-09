@@ -43,7 +43,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarPeca"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarViagem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/modeloCadastroViagemEditText"
+                android:id="@+id/destinoCadastroViagemEditText"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
@@ -80,10 +80,10 @@
                 android:hint="Km"
                 android:inputType="number"
                 android:paddingStart="5dp"
-                app:layout_constraintEnd_toEndOf="@+id/modeloCadastroViagemEditText"
+                app:layout_constraintEnd_toEndOf="@+id/destinoCadastroViagemEditText"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/modeloCadastroViagemEditText"
-                app:layout_constraintTop_toBottomOf="@+id/modeloCadastroViagemEditText" />
+                app:layout_constraintStart_toStartOf="@+id/destinoCadastroViagemEditText"
+                app:layout_constraintTop_toBottomOf="@+id/destinoCadastroViagemEditText" />
 
             <EditText
                 android:id="@+id/dataCadastroViagemEditText"
@@ -119,7 +119,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAdicionarPeca"
+        android:id="@+id/buttonAdicionarViagem"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"

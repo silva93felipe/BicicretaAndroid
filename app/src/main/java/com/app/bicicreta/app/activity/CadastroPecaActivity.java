@@ -8,16 +8,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.ItemSpinner;
+import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.repository.BicicletaRepository;
+import com.app.bicicreta.app.repository.PecaRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,7 +51,7 @@ public class CadastroPecaActivity extends AppCompatActivity {
         });
         descricaoPeca = findViewById(R.id.descricaoPecaEditText);
         valorPeca = findViewById(R.id.valorPecaEditText);
-        botaoSalvarPeca = findViewById(R.id.buttonAdicionarPeca);
+        botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
         botaoSalvarPeca.setOnClickListener(v -> createPeca());
         bicicletaSpinner = findViewById(R.id.bicicletaIdPecaSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
@@ -92,6 +90,11 @@ public class CadastroPecaActivity extends AppCompatActivity {
             Toast.makeText(this, "Preencha os sequintes campos: " + erros, Toast.LENGTH_LONG).show();
             return;
         }
-    }
 
+        ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
+        Peca newPeca = new Peca(descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), bicicletaSelecionada.getId());
+        PecaRepository repository = new PecaRepository(this);
+        repository.add(newPeca);
+        finish();
+    }
 }
