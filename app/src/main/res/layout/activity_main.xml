@@ -206,7 +206,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/destinoUltimaViagemtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
@@ -217,18 +217,18 @@
                 app:layout_constraintTop_toTopOf="@+id/constraintLayout3" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/dataUltimaViagemtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="20/02/2025"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
-                app:layout_constraintStart_toStartOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                app:layout_constraintStart_toStartOf="@+id/destinoUltimaViagemtextView"
+                app:layout_constraintTop_toBottomOf="@+id/destinoUltimaViagemtextView" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/quilometroUltimaViagemtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -288,7 +288,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/descricaoPecaUltimaCompraTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
@@ -299,18 +299,16 @@
                 app:layout_constraintTop_toTopOf="@+id/constraintLayout4" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/dataUltimaCompraTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="20/01/2025"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/descricaoPecaUltimaCompraTextView" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/quilometroUltimaPecaTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
