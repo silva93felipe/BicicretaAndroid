@@ -9,7 +9,7 @@ public class Peca {
     private String nomePeca;
     private String modeloBicicleta;
     public Peca(String descricao, String dataCompra, double valor,int bicicletaId) {
-        this.nomePeca = descricao;
+        this.nomePeca = descricao.toUpperCase();
         this.dataCompra = dataCompra;
         this.valor = valor;
         this.bicicletaId = bicicletaId;

@@ -26,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
         getNomeUsuario();
         getTotalQuilometrosRodados();
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getTotalQuilometrosRodados();
+    }
+
     private void inicializarComponentes(){
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
         mapTabImagemView = findViewById(R.id.mapTabImagemView);
