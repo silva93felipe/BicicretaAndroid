@@ -72,9 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="19&quot;"
-        android:textColor="@color/yellow"
+        android:textColor="@color/black"
         android:textSize="14sp"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -83,9 +83,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="29&quot;"
-        android:textColor="@color/yellow"
+        android:textColor="@color/black"
         android:textSize="14sp"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -94,9 +94,9 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="10"
-        android:textColor="@color/yellow"
-        android:textSize="16dp"
-        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
