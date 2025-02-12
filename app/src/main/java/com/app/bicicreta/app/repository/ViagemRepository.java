@@ -63,4 +63,10 @@ public class ViagemRepository {
         }
         return total;
     }
+
+    public void totalViagemPorMes(){
+        SQLiteDatabase con = db.getWritableDatabase();
+        Cursor cursor = con.rawQuery("SELECT COUNT(*) FROM " + TABLE_VIAGEM + " GROUP BY data_viagem;", null);
+
+    }
 }

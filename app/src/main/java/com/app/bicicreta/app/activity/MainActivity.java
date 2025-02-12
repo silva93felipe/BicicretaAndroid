@@ -68,12 +68,17 @@ public class MainActivity extends AppCompatActivity {
         dataUltimaCompra = findViewById(R.id.dataUltimaCompraTextView);
         quilometrosUltimaCompra = findViewById(R.id.quilometroUltimaPecaTextView);
         viagemBarChart = findViewById(R.id.chartViagensPorMes);
+        criarGrafico();
+    }
+
+    private void criarGrafico(){
         viagemBarChart.getAxisRight().setDrawLabels(false);
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0 , 45f));
         entries.add(new BarEntry(1 , 80f));
         entries.add(new BarEntry(2 , 65f));
         entries.add(new BarEntry(3 , 38f));
+        entries.add(new BarEntry(4 , 55f));
 
         YAxis yAxis = viagemBarChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
@@ -95,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
         viagemBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         viagemBarChart.getXAxis().setGranularity(1f);
         viagemBarChart.getXAxis().setGranularityEnabled(true);
-
-
     }
 
     private void handleNavigation(Class activity){
