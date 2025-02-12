@@ -66,6 +66,11 @@ public class ViagemRepository {
 
     public void totalViagemPorMes(){
         SQLiteDatabase con = db.getWritableDatabase();
+
+//        SELECT STRFTIME('%m', data_viagem), COUNT(*) from viagem v
+//        GROUP BY 1
+//        LIMIT 5;
+
         Cursor cursor = con.rawQuery("SELECT COUNT(*) FROM " + TABLE_VIAGEM + " GROUP BY data_viagem;", null);
 
     }
