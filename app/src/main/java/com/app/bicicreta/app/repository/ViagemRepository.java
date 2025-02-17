@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.app.bicicreta.app.db.BicicretaDbHelper;
+import com.app.bicicreta.app.model.GraficoViagem;
 import com.app.bicicreta.app.model.Viagem;
 
 import java.util.ArrayList;
@@ -64,14 +65,13 @@ public class ViagemRepository {
         return total;
     }
 
-    public void totalViagemPorMes(){
+    public List<GraficoViagem> totalViagemPorMes(){
         SQLiteDatabase con = db.getWritableDatabase();
-
-//        SELECT STRFTIME('%m', data_viagem), COUNT(*) from viagem v
-//        GROUP BY 1
-//        LIMIT 5;
-
-        Cursor cursor = con.rawQuery("SELECT COUNT(*) FROM " + TABLE_VIAGEM + " GROUP BY data_viagem;", null);
-
+        List<GraficoViagem> graficoViagens = new ArrayList<>();
+        Cursor cursor = con.rawQuery("SELECT COUNT(*) " + TABLE_VIAGEM + " GROUP BY data_viagem LIMIT 5;", null);
+        while(cursor.moveToNext()){
+            graficoViagens.add(new GraficoViagem(cursor.getInt(1), cursor.getString(0)));
+        }
+        return graficoViagens;
     }
 }

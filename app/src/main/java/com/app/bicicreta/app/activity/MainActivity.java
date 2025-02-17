@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.model.GraficoViagem;
 import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.model.Viagem;
@@ -28,13 +31,14 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra, dataUltimaCompra, quilometrosUltimaCompra;
-    RecyclerView ultimasViagensRecyclerView;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView;
     BarChart viagemBarChart;
+    ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         getTotalQuilometrosRodados();
+        getUltimaViagem();
+        getUltimaPecaComprada();
     }
 
     private void inicializarComponentes(){
@@ -68,38 +74,48 @@ public class MainActivity extends AppCompatActivity {
         dataUltimaCompra = findViewById(R.id.dataUltimaCompraTextView);
         quilometrosUltimaCompra = findViewById(R.id.quilometroUltimaPecaTextView);
         viagemBarChart = findViewById(R.id.chartViagensPorMes);
+        ultimaViagemConstraintLayout = findViewById(R.id.ultimaViagemConstraintLayout);
+        ultimaPecaCompraConstraintLayout = findViewById(R.id.ultimaPecaCompradaConstraintLayout);
+
         criarGrafico();
+    }
+
+    private List<GraficoViagem> getDadosGraficoViagens(){
+        ViagemRepository repository = new ViagemRepository(this);
+        return repository.totalViagemPorMes();
     }
 
     private void criarGrafico(){
         viagemBarChart.getAxisRight().setDrawLabels(false);
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0 , 45f));
-        entries.add(new BarEntry(1 , 80f));
-        entries.add(new BarEntry(2 , 65f));
-        entries.add(new BarEntry(3 , 38f));
-        entries.add(new BarEntry(4 , 55f));
+        List<GraficoViagem> dados = getDadosGraficoViagens();
+        if(!dados.isEmpty()){
+            YAxis yAxis = viagemBarChart.getAxisLeft();
+            yAxis.setAxisMinimum(0f);
+            yAxis.setAxisMaximum(100f);
+            yAxis.setAxisLineWidth(2f);
+            yAxis.setAxisLineColor(Color.BLACK);
+            yAxis.setLabelCount(10);
 
-        YAxis yAxis = viagemBarChart.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(100f);
-        yAxis.setAxisLineWidth(2f);
-        yAxis.setAxisLineColor(Color.BLACK);
-        yAxis.setLabelCount(10);
+            ArrayList<BarEntry> entries = new ArrayList<>();
+            ArrayList<String> labels = new ArrayList<>();
+            for (int i = 0; i < dados.size(); i ++){
+                entries.add(new BarEntry(i , dados.get(i).getQuantidadeViagens()));
+                labels.add(dados.get(i).getMes());
+            }
 
-        BarDataSet dataSet = new BarDataSet(entries, "Sub");
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+            BarDataSet dataSet = new BarDataSet(entries, "Meses");
+            dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
-        BarData barData = new BarData(dataSet);
-        viagemBarChart.setData(barData);
+            BarData barData = new BarData(dataSet);
+            viagemBarChart.setData(barData);
 
-        viagemBarChart.getDescription().setEnabled(false);
-        viagemBarChart.invalidate();
-
-        viagemBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(Arrays.asList("Maths", "Science", "English", "IT")));
-        viagemBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        viagemBarChart.getXAxis().setGranularity(1f);
-        viagemBarChart.getXAxis().setGranularityEnabled(true);
+            viagemBarChart.getDescription().setEnabled(false);
+            viagemBarChart.invalidate();
+            viagemBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+            viagemBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            viagemBarChart.getXAxis().setGranularity(1f);
+            viagemBarChart.getXAxis().setGranularityEnabled(true);
+        }
     }
 
     private void handleNavigation(Class activity){
@@ -124,21 +140,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUltimaViagem(){
         ViagemRepository repository = new ViagemRepository(this);
-        Viagem viagem = repository.getLastByParam(1).get(0);
-        if(viagem != null){
+        List<Viagem> viagens  = repository.getLastByParam(1);
+        if(viagens != null && !viagens.isEmpty()){
+            ultimaViagemConstraintLayout.setVisibility(View.VISIBLE);
+            Viagem viagem = viagens.get(0);
             destinoUltimaViagem.setText(viagem.getDestino());
             dataUltimaViagem.setText(viagem.getData());
             quilometroUltimaViagem.setText(viagem.getQuilometros() + " Km");
+        }else{
+            ultimaViagemConstraintLayout.setVisibility(View.INVISIBLE);
         }
     }
 
     private void getUltimaPecaComprada(){
         PecaRepository repository = new PecaRepository(this);
-        Peca peca = repository.getLastByParam(1).get(0);
-        if(peca != null){
+        List<Peca> pecas = repository.getLastByParam(1);
+        if(pecas != null && !pecas.isEmpty()){
+            Peca peca = pecas.get(0);
+            ultimaPecaCompraConstraintLayout.setVisibility(View.VISIBLE);
             descricaoPecaUltimaCompra.setText(peca.getNomePeca());
             dataUltimaCompra.setText(peca.getDataCompra());
             quilometrosUltimaCompra.setText(peca.getQuilometros() + " Km");
+        }else{
+            ultimaPecaCompraConstraintLayout.setVisibility(View.INVISIBLE);
         }
     }
 }
