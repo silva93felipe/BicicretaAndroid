@@ -1,8 +1,12 @@
 package com.app.bicicreta.app.model;
 
+import com.app.bicicreta.app.utils.DataUtil;
+
+import java.util.Date;
+
 public class Peca {
     private int id;
-    private String dataCompra;
+    private Date dataCompra;
     private double valor;
     private int quilometros;
     private int bicicletaId;
@@ -10,7 +14,7 @@ public class Peca {
     private String modeloBicicleta;
     public Peca(String descricao, String dataCompra, double valor,int bicicletaId) {
         this.nomePeca = descricao.toUpperCase();
-        this.dataCompra = dataCompra;
+        this.dataCompra = DataUtil.USStringToDate(dataCompra);
         this.valor = valor;
         this.bicicletaId = bicicletaId;
     }
@@ -23,11 +27,11 @@ public class Peca {
     }
 
     public String getDataCompra() {
-        return dataCompra;
+        return DataUtil.DateToUSString(dataCompra);
     }
 
     public void setDataCompra(String dataCompra) {
-        this.dataCompra = dataCompra;
+        this.dataCompra = DataUtil.USStringToDate(dataCompra);
     }
 
     public double getValor() {

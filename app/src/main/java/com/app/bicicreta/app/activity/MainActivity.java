@@ -35,7 +35,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
-            dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra, dataUltimaCompra, quilometrosUltimaCompra;
+            dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
+            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView;
     BarChart viagemBarChart;
     ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         getTotalQuilometrosRodados();
         getUltimaViagem();
         getUltimaPecaComprada();
+        getDadosGraficoViagens();
+        criarGrafico();
     }
 
     private void inicializarComponentes(){
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         viagemBarChart = findViewById(R.id.chartViagensPorMes);
         ultimaViagemConstraintLayout = findViewById(R.id.ultimaViagemConstraintLayout);
         ultimaPecaCompraConstraintLayout = findViewById(R.id.ultimaPecaCompradaConstraintLayout);
-
+        nadaExibirGraficoViagensTextView = findViewById(R.id.nadaExibirGraficoViagensTextView);
         criarGrafico();
     }
 
@@ -86,29 +89,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criarGrafico(){
-        viagemBarChart.getAxisRight().setDrawLabels(false);
         List<GraficoViagem> dados = getDadosGraficoViagens();
         if(!dados.isEmpty()){
+            viagemBarChart.setVisibility(View.VISIBLE);
+            nadaExibirGraficoViagensTextView.setVisibility(View.GONE);
+            viagemBarChart.getAxisRight().setDrawLabels(false);
             YAxis yAxis = viagemBarChart.getAxisLeft();
             yAxis.setAxisMinimum(0f);
-            yAxis.setAxisMaximum(100f);
+            yAxis.setAxisMaximum(50f);
             yAxis.setAxisLineWidth(2f);
             yAxis.setAxisLineColor(Color.BLACK);
             yAxis.setLabelCount(10);
-
             ArrayList<BarEntry> entries = new ArrayList<>();
             ArrayList<String> labels = new ArrayList<>();
             for (int i = 0; i < dados.size(); i ++){
                 entries.add(new BarEntry(i , dados.get(i).getQuantidadeViagens()));
                 labels.add(dados.get(i).getMes());
             }
-
             BarDataSet dataSet = new BarDataSet(entries, "Meses");
             dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
             BarData barData = new BarData(dataSet);
             viagemBarChart.setData(barData);
-
             viagemBarChart.getDescription().setEnabled(false);
             viagemBarChart.invalidate();
             viagemBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));

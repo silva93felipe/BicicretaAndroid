@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterPeca;
@@ -23,6 +25,7 @@ public class PecasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Peca> pecas = new ArrayList<>();
     private Button buttonSalvar;
+    private TextView nadaExibirPecaTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class PecasActivity extends AppCompatActivity {
         super.onRestart();
         getAllPecas();
         inicializarRecycleView();
+        exibirMessageListaVazia();
     }
 
     private void getAllPecas(){
@@ -51,10 +55,20 @@ public class PecasActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    private void exibirMessageListaVazia(){
+        if(pecas.isEmpty()){
+            nadaExibirPecaTextView.setVisibility(View.VISIBLE);
+        }else{
+            nadaExibirPecaTextView.setVisibility(View.GONE);
+        }
+    }
+
     private void iniciarComponentes(){
         inicializarRecycleView();
         buttonSalvar = findViewById(R.id.novaBicicletaButton);
         buttonSalvar.setOnClickListener(v -> handleCadastroPeca());
+        nadaExibirPecaTextView = findViewById(R.id.nadaExibirPecaTextView);
+        exibirMessageListaVazia();
     }
     private void handleCadastroPeca(){
         Intent cadastroPecaIntent = new Intent(PecasActivity.this, CadastroPecaActivity.class);

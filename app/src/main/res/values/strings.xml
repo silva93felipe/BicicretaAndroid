@@ -17,4 +17,5 @@
     </string-array>
     <string name="button_save">Salvar</string>
     <string name="button_next">Próximo</string>
+    <string name="nada_exibir">Nada a exibir no momento</string>
 </resources>

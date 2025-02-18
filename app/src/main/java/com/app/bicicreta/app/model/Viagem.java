@@ -1,15 +1,18 @@
 package com.app.bicicreta.app.model;
 
+import com.app.bicicreta.app.utils.DataUtil;
+import java.util.Date;
+
 public class Viagem {
     private int id;
-    private String data;
+    private Date data;
     private int quilometros;
     private String destino;
     private String nomeBicicleta;
     private int bicicletaId;
     private String modeloBicicleta;
     public Viagem(String data, int quilometros, String destino, int bicicletaId) {
-        this.data = data;
+        this.data = DataUtil.USStringToDate(data);
         this.quilometros = quilometros;
         this.destino = destino.toUpperCase();
         this.bicicletaId = bicicletaId;
@@ -32,11 +35,11 @@ public class Viagem {
     }
 
     public String getData() {
-        return data;
+        return DataUtil.DateToUSString(data);
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.data = DataUtil.USStringToDate(data);
     }
 
     public int getQuilometros() {

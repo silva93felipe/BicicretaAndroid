@@ -49,7 +49,7 @@ public class CadastroViagemActivity extends AppCompatActivity {
             DatePickerDialog datePicker = new DatePickerDialog(
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                    String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
                     dataCadastroViagemEditText.setText(selectedDate);
                 },year, month, day
             );

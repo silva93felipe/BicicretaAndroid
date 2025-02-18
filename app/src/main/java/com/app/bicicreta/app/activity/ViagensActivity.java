@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
@@ -22,6 +24,7 @@ public class ViagensActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button novaViagemButton;
     private List<Viagem> viagens = new ArrayList<>();
+    private TextView nadaExibirViagemTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class ViagensActivity extends AppCompatActivity {
         super.onRestart();
         getAllViagens();
         inicializarRecycleView();
+        exibirMessageListaVazia();
     }
 
     private void getAllViagens(){
@@ -46,6 +50,16 @@ public class ViagensActivity extends AppCompatActivity {
         inicializarRecycleView();
         novaViagemButton = findViewById(R.id.novaBicicletaButton);
         novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
+        nadaExibirViagemTextView = findViewById(R.id.nadaExibirViagensTextView);
+        exibirMessageListaVazia();
+    }
+
+    private void exibirMessageListaVazia(){
+        if(viagens.isEmpty()){
+            nadaExibirViagemTextView.setVisibility(View.VISIBLE);
+        }else{
+            nadaExibirViagemTextView.setVisibility(View.GONE);
+        }
     }
 
     private void inicializarRecycleView(){
