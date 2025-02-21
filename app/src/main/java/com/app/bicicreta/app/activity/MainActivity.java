@@ -21,6 +21,7 @@ import com.app.bicicreta.app.repository.PecaRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -96,21 +97,31 @@ public class MainActivity extends AppCompatActivity {
             viagemBarChart.getAxisRight().setDrawLabels(false);
             YAxis yAxis = viagemBarChart.getAxisLeft();
             yAxis.setAxisMinimum(0f);
-            yAxis.setAxisMaximum(50f);
             yAxis.setAxisLineWidth(2f);
             yAxis.setAxisLineColor(Color.BLACK);
             yAxis.setLabelCount(10);
             ArrayList<BarEntry> entries = new ArrayList<>();
             ArrayList<String> labels = new ArrayList<>();
+            float maiorQuantidadeViagens = 0f;
             for (int i = 0; i < dados.size(); i ++){
-                entries.add(new BarEntry(i , dados.get(i).getQuantidadeViagens()));
+                int quantidadeViagem = dados.get(i).getQuantidadeViagens();
+                if(quantidadeViagem > maiorQuantidadeViagens){
+                    maiorQuantidadeViagens = quantidadeViagem;
+                }
+                entries.add(new BarEntry(i , quantidadeViagem));
                 labels.add(dados.get(i).getMes());
             }
+            yAxis.setAxisMaximum(maiorQuantidadeViagens + 1);
             BarDataSet dataSet = new BarDataSet(entries, "Meses");
             dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
             BarData barData = new BarData(dataSet);
             viagemBarChart.setData(barData);
-            viagemBarChart.getDescription().setEnabled(false);
+            Description desc = new Description();
+            desc.setText("Viagens / Mês");
+            viagemBarChart.setDescription(desc);
+            viagemBarChart.getDescription().setPosition(500, 30);
+            viagemBarChart.getDescription().setTextSize(14f);
+            //viagemBarChart.getDescription().setEnabled(false);
             viagemBarChart.invalidate();
             viagemBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
             viagemBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
