@@ -31,7 +31,7 @@ public class BicicletaRepository {
 
     public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
         SQLiteDatabase con = db.getWritableDatabase();
-        con.execSQL("UPDATE bicicleta SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
+        con.execSQL("UPDATE " + TABEL_BICICLETA + " SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
     }
 
     public Bicicleta getById(int id){
@@ -41,6 +41,13 @@ public class BicicletaRepository {
             return new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
         }
         return null;
+    }
+
+    public void update(Bicicleta bicicleta){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("UPDATE " + TABEL_BICICLETA + " SET modelo = ?, tamanho_aro = ?, quantidade_marchas = ?, tamanho_quadro = ?, quilometros_rodados = ? WHERE id = ?",
+                new String[]{ String.valueOf(bicicleta.getModelo()), String.valueOf(bicicleta.getAro()), String.valueOf(bicicleta.getQuantidadeMarchas()),
+                        String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), String.valueOf(bicicleta.getId())});
     }
 
     public List<Bicicleta> getAll(){

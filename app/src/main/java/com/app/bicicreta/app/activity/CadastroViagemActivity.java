@@ -26,11 +26,18 @@ public class CadastroViagemActivity extends AppCompatActivity {
     private EditText dataCadastroViagemEditText, destinoCadastroViagemEditText, quilometrosCadastroViagemEditText;
     private Spinner bicicletaCadastroPecaSpinner;
     private Button buttonAdicionarPeca;
+    private Viagem viagemEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_viagem);
         inicializarComponentes();
+        viagemEdit = (Viagem) getIntent().getSerializableExtra("viagem");
+        if(viagemEdit != null){
+            destinoCadastroViagemEditText.setText(viagemEdit.getDestino());
+            quilometrosCadastroViagemEditText.setText(String.valueOf(viagemEdit.getQuilometros()));
+            dataCadastroViagemEditText.setText(viagemEdit.getData());
+        }
     }
 
     @Override
@@ -64,12 +71,10 @@ public class CadastroViagemActivity extends AppCompatActivity {
         ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bicicletaCadastroPecaSpinner.setAdapter(adapter);
-
-        buttonAdicionarPeca = findViewById(R.id.buttonAdicionarViagem);
-        buttonAdicionarPeca.setOnClickListener(v -> handleCadastrarViagem());
-
         destinoCadastroViagemEditText = findViewById(R.id.destinoCadastroViagemEditText);
         quilometrosCadastroViagemEditText = findViewById(R.id.quilometrosCadastroViagemEditText);
+        buttonAdicionarPeca = findViewById(R.id.buttonAdicionarViagem);
+        buttonAdicionarPeca.setOnClickListener(v -> handleCadastrarViagem());
     }
 
     private List<Bicicleta> getAllBicicletas(){
@@ -102,18 +107,31 @@ public class CadastroViagemActivity extends AppCompatActivity {
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaCadastroPecaSpinner.getSelectedItem();
 
-        Viagem newViagem = new Viagem(dataCadastroViagemEditText.getText().toString(),
-                Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),
-                destinoCadastroViagemEditText.getText().toString(),
-                bicicletaSelecionada.getId());
-        saveViagem(newViagem);
-        atualizarQuilometrosBicicleta(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
-        atualizarQuilometrosPeca(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
+        if(viagemEdit != null){
+            Viagem newViagem = new Viagem(viagemEdit.getId(), dataCadastroViagemEditText.getText().toString(),
+                    Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),
+                    destinoCadastroViagemEditText.getText().toString(),
+                    bicicletaSelecionada.getId());
+            atualizarViagem(newViagem);
+        }else{
+            Viagem newViagem = new Viagem(dataCadastroViagemEditText.getText().toString(),
+                    Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),
+                    destinoCadastroViagemEditText.getText().toString(),
+                    bicicletaSelecionada.getId());
+            saveViagem(newViagem);
+            atualizarQuilometrosBicicleta(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
+            atualizarQuilometrosPeca(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
+        }
         finish();
     }
     private void saveViagem(Viagem newViagem){
         ViagemRepository repository = new ViagemRepository(this);
         repository.add(newViagem);
+    }
+
+    private void atualizarViagem(Viagem viagem){
+        ViagemRepository repository = new ViagemRepository(this);
+        repository.update(viagem);
     }
 
     private void atualizarQuilometrosBicicleta(int bicicletaId, int quilometros){

@@ -10,15 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
+import com.app.bicicreta.app.model.Peca;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.BicicletaViewHolder> {
-    private List<Bicicleta> bicicletas = new ArrayList<>();
+    private List<Bicicleta> bicicletas;
+    private OnItemClickListener listener;
+    public interface OnItemClickListener {
+        void onItemClick(Bicicleta item);
+    }
 
-    public AdapterBicicleta(List<Bicicleta> bicicletas) {
+    public AdapterBicicleta(List<Bicicleta> bicicletas, OnItemClickListener listener) {
         this.bicicletas = bicicletas;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,6 +42,7 @@ public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.Bici
         holder.tamanhoQuadro.setText(bicicleta.getTamanhoQuadro() +"'");
         holder.quantidadeMarchas.setText(String.valueOf(bicicleta.getQuantidadeMarchas()));
         holder.quilometrosRodados.setText(bicicleta.getQuilometrosRodados() + " Km");
+        holder.bind(bicicleta, listener);
     }
 
     @Override
@@ -57,6 +64,10 @@ public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.Bici
             tamanhoQuadro = itemView.findViewById(R.id.tamanhoQuadroTextViewHolder);
             quantidadeMarchas = itemView.findViewById(R.id.marchasTextViewHolder);
             quilometrosRodados = itemView.findViewById(R.id.quilometrosTextViewHolder);
+        }
+
+        public void bind (final Bicicleta item, OnItemClickListener listener){
+            itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }
 }

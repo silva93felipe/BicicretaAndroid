@@ -30,6 +30,14 @@ public class PecaRepository {
         con.insert(TABELA_PECA, null, values);
     }
 
+    public void update(Peca peca){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("UPDATE " + TABELA_PECA + " SET descricao = ?, data_compra = ?, valor_compra = ?, quilometros_rodados = ?, " +
+                " bicicleta_id = ? WHERE id = ?",
+                new String[]{ String.valueOf(peca.getNomePeca()),  String.valueOf(peca.getDataCompra()), String.valueOf(peca.getValor()),
+                        String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), String.valueOf(peca.getId())});
+    }
+
     public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_PECA + " SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});

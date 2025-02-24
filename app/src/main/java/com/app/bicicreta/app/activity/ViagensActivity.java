@@ -6,15 +6,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.ViagemRepository;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,8 +69,16 @@ public class ViagensActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewViagens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        AdapterViagem adapter = new AdapterViagem(viagens);
+        AdapterViagem adapter = new AdapterViagem(viagens, v -> {
+            handleEditarViagem(v);
+        });
         recyclerView.setAdapter(adapter);
+    }
+
+    private void handleEditarViagem(Viagem v){
+        Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
+        cadastroViagemIntent.putExtra("viagem", v);
+        startActivity(cadastroViagemIntent);
     }
 
 

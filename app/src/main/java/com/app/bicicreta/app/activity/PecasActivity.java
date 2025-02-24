@@ -51,7 +51,9 @@ public class PecasActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewPeca);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        AdapterPeca adapter = new AdapterPeca(pecas);
+        AdapterPeca adapter = new AdapterPeca(pecas, p -> {
+            handleAtualizarPeca(p);
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -73,5 +75,10 @@ public class PecasActivity extends AppCompatActivity {
     private void handleCadastroPeca(){
         Intent cadastroPecaIntent = new Intent(PecasActivity.this, CadastroPecaActivity.class);
         startActivity(cadastroPecaIntent);
+    }
+    private void handleAtualizarPeca(Peca peca){
+        Intent intent = new Intent(PecasActivity.this, CadastroPecaActivity.class);
+        intent.putExtra("peca", peca);
+        startActivity(intent);
     }
 }

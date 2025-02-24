@@ -1,9 +1,11 @@
 package com.app.bicicreta.app.model;
 
 import com.app.bicicreta.app.utils.DataUtil;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Viagem {
+public class Viagem implements Serializable {
     private int id;
     private Date data;
     private int quilometros;
@@ -29,9 +31,6 @@ public class Viagem {
 
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getData() {

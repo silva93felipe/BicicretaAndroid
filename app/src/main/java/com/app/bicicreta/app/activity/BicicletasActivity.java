@@ -44,7 +44,9 @@ public class BicicletasActivity extends AppCompatActivity {
         bicicletasRecycleView = findViewById(R.id.bicicletasRecyclerView);
         bicicletasRecycleView.setLayoutManager(new LinearLayoutManager(this));
         bicicletasRecycleView.setHasFixedSize(true);
-        AdapterBicicleta adapter = new AdapterBicicleta(bicicletas);
+        AdapterBicicleta adapter = new AdapterBicicleta(bicicletas, b -> {
+            handleAtualizarBicicleta(b);
+        });
         bicicletasRecycleView.setAdapter(adapter);
     }
 
@@ -57,6 +59,12 @@ public class BicicletasActivity extends AppCompatActivity {
     private void getAllBicicletas(){
         BicicletaRepository repository = new BicicletaRepository(this);
         bicicletas = repository.getAll();
+    }
+
+    private void handleAtualizarBicicleta(Bicicleta bicicleta){
+        Intent intent = new Intent(BicicletasActivity.this, CadastroBicicletaActivity.class);
+        intent.putExtra("bicicleta", bicicleta);
+        startActivity(intent);
     }
 
     private void handleCadastroBicicleta(){

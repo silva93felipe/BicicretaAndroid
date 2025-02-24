@@ -1,6 +1,8 @@
 package com.app.bicicreta.app.model;
 
-public class Bicicleta {
+import java.io.Serializable;
+
+public class Bicicleta implements Serializable {
     private int id;
     private String modelo;
     private int aro;

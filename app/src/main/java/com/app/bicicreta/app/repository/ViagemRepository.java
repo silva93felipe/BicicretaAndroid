@@ -56,6 +56,13 @@ public class ViagemRepository {
         return viagens;
     }
 
+    public void update(Viagem viagem){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("UPDATE " + TABLE_VIAGEM + " SET destino = ?, quilometros_rodados = ?, data_viagem = ?, bicicleta_id = ? WHERE id = ?;",
+                new String[]{ String.valueOf(viagem.getDestino()),  String.valueOf(viagem.getQuilometros()),
+                              String.valueOf(viagem.getData()), String.valueOf(viagem.getBicicletaId()), String.valueOf(viagem.getId())});
+    }
+
     public int totalQuilometrosRodados(){
         SQLiteDatabase con = db.getWritableDatabase();
         int total = 0;

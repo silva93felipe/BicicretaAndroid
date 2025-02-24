@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
+import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 
 import java.util.ArrayList;
@@ -19,11 +20,17 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
     private Spinner aroSpinner, quadroSpinner;
     private EditText modeloTextView, quantidadeMarchaTextView;
     private Button buttonNext;
+    private Bicicleta bicicletaEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_bicicleta);
         iniciarComponentes();
+        bicicletaEdit = (Bicicleta) getIntent().getSerializableExtra("bicicleta");
+        if(bicicletaEdit != null){
+            modeloTextView.setText(bicicletaEdit.getModelo());
+            quantidadeMarchaTextView.setText(String.valueOf(bicicletaEdit.getQuantidadeMarchas()));
+        }
     }
 
     private void iniciarComponentes(){
@@ -62,11 +69,16 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         int marchas = Integer.parseInt(quantidadeMarchaTextView.getText().toString());
         int aro = Integer.parseInt(aroSpinner.getSelectedItem().toString());
         int quadro = Integer.parseInt(quadroSpinner.getSelectedItem().toString());
-
-        Bicicleta newBicicleta = new Bicicleta(modelo, aro, marchas, quadro);
         BicicletaRepository repository = new BicicletaRepository(this);
-        repository.add(newBicicleta);
-        handleClickNextPage();
+        if(bicicletaEdit != null){
+            Bicicleta newBicicleta = new Bicicleta(bicicletaEdit.getId(), modelo, aro, marchas, quadro, bicicletaEdit.getQuilometrosRodados());
+            repository.update(newBicicleta);
+            finish();
+        }else{
+            Bicicleta newBicicleta = new Bicicleta(modelo, aro, marchas, quadro);
+            repository.add(newBicicleta);
+            handleClickNextPage();
+        }
     }
 
     private void handleClickNextPage(){

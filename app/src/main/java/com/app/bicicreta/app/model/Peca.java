@@ -2,9 +2,10 @@ package com.app.bicicreta.app.model;
 
 import com.app.bicicreta.app.utils.DataUtil;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Peca {
+public class Peca implements Serializable {
     private int id;
     private Date dataCompra;
     private double valor;
@@ -19,10 +20,14 @@ public class Peca {
         this.bicicletaId = bicicletaId;
     }
 
-    public Peca(int id, String descricao, String dataCompra, double valor, int quilometros, int bicicletaId, String modeloBicicleta) {
+    public Peca(int id, String descricao, String dataCompra, double valor, int quilometros, int bicicletaId) {
         this(descricao, dataCompra, valor, bicicletaId);
         this.id = id;
         this.quilometros = quilometros;
+    }
+
+    public Peca(int id, String descricao, String dataCompra, double valor, int quilometros, int bicicletaId, String modeloBicicleta) {
+        this(id, descricao, dataCompra, valor, bicicletaId, quilometros);
         this.modeloBicicleta = modeloBicicleta;
     }
 

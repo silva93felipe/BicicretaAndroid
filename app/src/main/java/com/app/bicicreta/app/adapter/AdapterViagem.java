@@ -16,8 +16,13 @@ import java.util.List;
 
 public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemViewHolder> {
     private List<Viagem> viagens;
-    public AdapterViagem(List<Viagem> viagens) {
+    private OnItemClickListener listener;
+    public interface OnItemClickListener {
+        void onItemClick(Viagem item);
+    }
+    public AdapterViagem(List<Viagem> viagens, OnItemClickListener listener) {
         this.viagens = viagens;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +39,7 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
         holder.destino.setText(viagem.getDestino());
         holder.nomeBicicleta.setText(viagem.getModeloBicicleta());
         holder.quilometrosRodados.setText(viagem.getQuilometros() + " Km");
+        holder.bind(viagem, listener);
     }
 
     @Override
@@ -54,6 +60,9 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
             quilometrosRodados = itemView.findViewById(R.id.quilometroPecaViewHolder);
             destino = itemView.findViewById(R.id.nomePecaViewHolder);
             nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolder);
+        }
+        public void bind (final Viagem item, OnItemClickListener listener){
+            itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }
 }
