@@ -10,16 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterBicicleta;
-import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.model.Bicicleta;
-import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class BicicletasActivity extends AppCompatActivity {
     private Button buttonFormularioBicicleta;
@@ -52,7 +47,7 @@ public class BicicletasActivity extends AppCompatActivity {
 
     private void iniciarComponentes(){
         inicializarRecycleView();
-        buttonFormularioBicicleta = findViewById(R.id.novaBicicletaButton);
+        buttonFormularioBicicleta = findViewById(R.id.buttonNovaBicicleta);
         buttonFormularioBicicleta.setOnClickListener(v -> handleCadastroBicicleta());
     }
 

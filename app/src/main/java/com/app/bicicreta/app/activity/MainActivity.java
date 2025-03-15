@@ -37,8 +37,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
-            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView;
-    ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView;
+            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView, totalViagensTextView, totalPecastextView;
+    ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
     ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
     @Override
@@ -50,22 +50,31 @@ public class MainActivity extends AppCompatActivity {
         getTotalQuilometrosRodados();
         getUltimaViagem();
         getUltimaPecaComprada();
+        getTotalPecas();
+        getTotalViagens();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        getNomeUsuario();
         getTotalQuilometrosRodados();
         getUltimaViagem();
         getUltimaPecaComprada();
         getDadosGraficoViagens();
         criarGrafico();
+        getTotalPecas();
+        getTotalViagens();
     }
 
     private void inicializarComponentes(){
+        totalPecastextView = findViewById(R.id.totalPecasTextView);
+        totalViagensTextView = findViewById(R.id.totalViagemTextView);
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
         mapTabImagemView = findViewById(R.id.mapTabImagemView);
         mapTabImagemView.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
+        configTabImagemView = findViewById(R.id.configTabImagemView);
+        configTabImagemView.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
         toolTabImagemView = findViewById(R.id.toolTabImagemView);
         toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasActivity.class));
         quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
@@ -139,15 +148,26 @@ public class MainActivity extends AppCompatActivity {
         UserRepository repository = new UserRepository(this);
         User user = repository.getOne();
         if(user == null){
-            nomeUsarioTextView.setText("Olá, DESCONHECIDO!" );
+            nomeUsarioTextView.setText("DESCONHECIDO!" );
         }else{
-            nomeUsarioTextView.setText("Olá, " + user.getNome() );
+            nomeUsarioTextView.setText(user.getNome() );
         }
     }
 
+    private void getTotalViagens(){
+        ViagemRepository repository = new ViagemRepository(this);
+        totalViagensTextView.setText(String.valueOf(repository.getTotalViagens()));
+    }
+
+    private void getTotalPecas(){
+        PecaRepository repository = new PecaRepository(this);
+        totalPecastextView.setText(String.valueOf(repository.getTotalPecas()));
+    }
+
+
     private void getTotalQuilometrosRodados(){
         ViagemRepository repository = new ViagemRepository(this);
-        quilomentrosRodadosTextView.setText(repository.totalQuilometrosRodados() + " Km");
+        quilomentrosRodadosTextView.setText(String.valueOf(repository.totalQuilometrosRodados()));
     }
 
     private void getUltimaViagem(){

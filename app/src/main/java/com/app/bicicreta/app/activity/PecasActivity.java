@@ -15,11 +15,8 @@ import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.repository.PecaRepository;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class PecasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -67,7 +64,7 @@ public class PecasActivity extends AppCompatActivity {
 
     private void iniciarComponentes(){
         inicializarRecycleView();
-        buttonSalvar = findViewById(R.id.novaBicicletaButton);
+        buttonSalvar = findViewById(R.id.buttonNovaPeca);
         buttonSalvar.setOnClickListener(v -> handleCadastroPeca());
         nadaExibirPecaTextView = findViewById(R.id.nadaExibirPecaTextView);
         exibirMessageListaVazia();

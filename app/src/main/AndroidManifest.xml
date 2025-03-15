@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+app.activity
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">
+        <activity
+            android:name=".app.activity.ConfiguracoesActivity"
+            android:exported="false" />
         <activity
             android:name=".app.activity.BicicletasActivity"
             android:exported="false" />

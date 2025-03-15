@@ -56,6 +56,16 @@ public class ViagemRepository {
         return viagens;
     }
 
+    public int getTotalViagens(){
+        SQLiteDatabase con = db.getWritableDatabase();
+        int quantidade =0;
+        Cursor cursor = con.rawQuery(" SELECT COUNT(*) FROM " + TABLE_VIAGEM  + ";" , null);
+        while(cursor.moveToNext()){
+            quantidade = cursor.getInt(0);
+        }
+        return quantidade;
+    }
+
     public void update(Viagem viagem){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABLE_VIAGEM + " SET destino = ?, quilometros_rodados = ?, data_viagem = ?, bicicleta_id = ? WHERE id = ?;",

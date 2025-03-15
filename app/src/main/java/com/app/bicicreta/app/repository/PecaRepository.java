@@ -38,6 +38,16 @@ public class PecaRepository {
                         String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), String.valueOf(peca.getId())});
     }
 
+    public int getTotalPecas(){
+        SQLiteDatabase con = db.getWritableDatabase();
+        int quantidade =0;
+        Cursor cursor = con.rawQuery(" SELECT COUNT(*) FROM " + TABELA_PECA  + ";" , null);
+        while(cursor.moveToNext()){
+            quantidade = cursor.getInt(0);
+        }
+        return quantidade;
+    }
+
     public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_PECA + " SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});

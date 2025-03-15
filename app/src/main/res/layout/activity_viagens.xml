@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/novaBicicletaButton"
+            android:id="@+id/buttonNovaViagem"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/yellow_bg"
