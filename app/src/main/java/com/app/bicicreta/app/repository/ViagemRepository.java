@@ -86,7 +86,7 @@ public class ViagemRepository {
     public List<GraficoViagem> totalViagemPorMes(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<GraficoViagem> graficoViagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT STRFTIME('%m', data_viagem), COUNT(*) FROM " + TABLE_VIAGEM + " GROUP BY data_viagem LIMIT 5;", null);
+        Cursor cursor = con.rawQuery("SELECT STRFTIME('%m', data_viagem), COUNT(*) FROM " + TABLE_VIAGEM + " LIMIT 5;", null);
         while(cursor.moveToNext()){
             graficoViagens.add(new GraficoViagem(cursor.getInt(1), cursor.getString(0)));
         }

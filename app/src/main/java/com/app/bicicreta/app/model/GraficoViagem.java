@@ -10,6 +10,7 @@ public class GraficoViagem {
     }
 
     private String converterMes(String mesNumero){
+        if(mesNumero == null) return "";
         switch (mesNumero){
             case "01":
                 return "JAN";

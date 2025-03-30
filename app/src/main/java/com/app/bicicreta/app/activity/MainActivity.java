@@ -1,8 +1,16 @@
 package com.app.bicicreta.app.activity;
 
+import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +18,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
@@ -20,6 +32,7 @@ import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.PecaRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
+import com.app.bicicreta.app.service.NotificationLocalService;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -41,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
     ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
+    NotificationManager notificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         criarGrafico();
         getTotalPecas();
         getTotalViagens();
+        createNotificationChannel();
     }
 
-    private void inicializarComponentes(){
+    private void inicializarComponentes() {
         totalPecastextView = findViewById(R.id.totalPecasTextView);
         totalViagensTextView = findViewById(R.id.totalViagemTextView);
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
@@ -91,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
         ultimaPecaCompraConstraintLayout = findViewById(R.id.ultimaPecaCompradaConstraintLayout);
         nadaExibirGraficoViagensTextView = findViewById(R.id.nadaExibirGraficoViagensTextView);
         criarGrafico();
+    }
+
+    private void createNotificationChannel() {
+        /*
+        NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class);
+        notificationLocalService.createNotification("Saudades", "Porque nos deixou? Estamos com saudades. Volte a pedalar!");
+*/
     }
 
     private List<GraficoViagem> getDadosGraficoViagens(){
