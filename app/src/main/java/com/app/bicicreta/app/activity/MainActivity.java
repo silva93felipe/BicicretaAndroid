@@ -22,7 +22,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.GraficoViagem;
@@ -33,6 +37,7 @@ import com.app.bicicreta.app.repository.PecaRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
+import com.app.bicicreta.app.work.LembretesWorker;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -46,8 +51,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
             dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView, totalViagensTextView, totalPecastextView,
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        verificarPermissoes();
+        criarTaferaLembrete();
         inicializarComponentes();
         getNomeUsuario();
         getTotalQuilometrosRodados();
@@ -68,6 +77,19 @@ public class MainActivity extends AppCompatActivity {
         getUltimaPecaComprada();
         getTotalPecas();
         getTotalViagens();
+    }
+
+    private void verificarPermissoes(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
+            }
+        }
+    }
+
+    private void criarTaferaLembrete() {
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(LembretesWorker.class, 15, TimeUnit.MINUTES).build();
+        WorkManager.getInstance(MainActivity.this).enqueueUniquePeriodicWork("lembretes", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest);
     }
 
     @Override
@@ -112,10 +134,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        /*
+
         NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class);
         notificationLocalService.createNotification("Saudades", "Porque nos deixou? Estamos com saudades. Volte a pedalar!");
-*/
+
     }
 
     private List<GraficoViagem> getDadosGraficoViagens(){

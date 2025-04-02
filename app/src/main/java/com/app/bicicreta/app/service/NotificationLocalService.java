@@ -2,13 +2,17 @@ package com.app.bicicreta.app.service;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+
+import androidx.core.content.ContextCompat;
 
 import com.app.bicicreta.R;
 
@@ -26,23 +30,29 @@ public class NotificationLocalService {
         createChannel(context);
     }
 
-    public void createNotification(String title, String texto){
-        Intent intent = new Intent( context, classe);
-        PendingIntent pendingIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
-            pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_MUTABLE);
-        else
-            pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT);
+    private boolean hasPermissionNotification(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+    }
 
-        Notification.Builder builder = null;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            builder = new Notification.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.bike)
-                    .setContentTitle(title)
-                    .setContentText(texto)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true);
-        Notification notification = builder.build();
-        notificationManager.notify(1, notification);
+    public void createNotification(String title, String texto){
+        if(hasPermissionNotification()){
+            Intent intent = new Intent( context, classe);
+            PendingIntent pendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
+                pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_MUTABLE);
+            else
+                pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT);
+
+            Notification.Builder builder = null;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                builder = new Notification.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.bike)
+                        .setContentTitle(title)
+                        .setContentText(texto)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+            Notification notification = builder.build();
+            notificationManager.notify(1, notification);
+        }
     }
 
     private void createChannel(Context context){
