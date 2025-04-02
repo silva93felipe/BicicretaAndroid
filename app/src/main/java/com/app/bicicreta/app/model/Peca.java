@@ -27,7 +27,7 @@ public class Peca implements Serializable {
     }
 
     public Peca(int id, String descricao, String dataCompra, double valor, int quilometros, int bicicletaId, String modeloBicicleta) {
-        this(id, descricao, dataCompra, valor, bicicletaId, quilometros);
+        this(id, descricao, dataCompra, valor, quilometros, bicicletaId);
         this.modeloBicicleta = modeloBicicleta;
     }
 

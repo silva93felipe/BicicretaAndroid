@@ -25,7 +25,6 @@ public class BemVindoActivity extends AppCompatActivity {
     }
 
     private void handleNext(){
-        //startActivity(new Intent(BemVindoActivity.this, ApresentacaoActivity.class));
         if(jaTemUsuarioCadastrado()){
             startActivity(new Intent(BemVindoActivity.this, MainActivity.class));
         }else{

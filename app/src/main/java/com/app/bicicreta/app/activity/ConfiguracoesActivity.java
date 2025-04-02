@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.app.bicicreta.R;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,48 +67,38 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         return "bicicreta_" + data + ".zip";
     }
 
-
-    public void saveZipToDownloads(Context context, String fileName, byte[] zipData) {
-        ContentResolver resolver = context.getContentResolver();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
-        contentValues.put(MediaStore.Downloads.MIME_TYPE, "application/zip");
-        contentValues.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
-        Uri uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
-        if (uri != null) {
-            try (OutputStream outputStream = resolver.openOutputStream(uri)) {
-                if (outputStream != null) {
-                    outputStream.write(zipData);
-                    outputStream.flush();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        mudarEstadoDoButtons(false);
-        Toast.makeText(this, "Processo finalizado...", Toast.LENGTH_SHORT).show();
-    }
-
     private void backup() {
         mudarEstadoDoButtons(true);
-        nomeBackup = gerarNomeBackupZip();
         Toast.makeText(this, "Processo iniciado...", Toast.LENGTH_SHORT).show();
         File dbFile = getApplicationContext().getDatabasePath(NOME_BANCO);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try (ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream); FileInputStream fis = new FileInputStream(dbFile)) {
-            ZipEntry zipEntry = new ZipEntry(dbFile.getName());
-            zipOut.putNextEntry(zipEntry);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = fis.read(buffer)) > 0) {
-                zipOut.write(buffer, 0, length);
+        try (BufferedInputStream fis = new BufferedInputStream(new FileInputStream(dbFile))) {
+            ContentResolver resolver = getApplicationContext().getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Downloads.DISPLAY_NAME, NOME_BANCO);
+            contentValues.put(MediaStore.Downloads.MIME_TYPE, "application/*");
+            contentValues.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+            Uri uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+            if (uri != null) {
+                try (OutputStream outputStream = resolver.openOutputStream(uri)) {
+                    if (outputStream != null) {
+                        int data = fis.read();
+                        while (data != -1) {
+                            outputStream.write(data);
+                            data = fis.read();
+                        }
+                        outputStream.flush();
+                        fis.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            zipOut.closeEntry();
+
+            mudarEstadoDoButtons(false);
+            Toast.makeText(this, "Processo finalizado...", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        saveZipToDownloads(getApplicationContext(), nomeBackup, byteArrayOutputStream.toByteArray());
     }
     public void mudarEstadoDoButtons(boolean isHidden){
         if(isHidden){
@@ -120,27 +111,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         btnBackup.setVisibility(View.VISIBLE);
         btnRestore.setVisibility(View.VISIBLE);
         progressBarRestore.setVisibility(View.GONE);
-    }
-    public Uri getFileUriFromDownloads(Context context, String fileName) {
-        Uri collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-        String[] projection = {MediaStore.Downloads._ID, MediaStore.Downloads.DISPLAY_NAME};
-        Cursor cursor = context.getContentResolver().query(
-                collection,
-                projection,
-                MediaStore.Downloads.DISPLAY_NAME + "=?",
-                new String[]{fileName},
-                null
-        );
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Downloads._ID);
-            long id = cursor.getLong(idColumn);
-            cursor.close();
-            return ContentUris.withAppendedId(MediaStore.Downloads.EXTERNAL_CONTENT_URI, id);
-        }
-
-        if (cursor != null) cursor.close();
-        return null;
     }
     private void restore(){
         mudarEstadoDoButtons(true);
@@ -185,26 +155,21 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == -1 && requestCode == 1){
             String uriBackup = data.getData().getPath();
+            int bufferSize = 64 * 1024;
+            try {
+                OutputStream os = new FileOutputStream(new File(getDatabasePath(NOME_BANCO).getAbsolutePath()));
+                //Uri fileUri = getFileUriFromDownloads(getApplicationContext(), "bicreta.db");
+                InputStream is = new FileInputStream("aaa");
+                byte[] buffer = new byte[bufferSize];
+                int count;
+                while((count = is.read(buffer, 0, bufferSize)) > 0){
+                    os.write(buffer, 0, count);
+                }
+                os.close();
+                is.close();
+            }catch (Exception e ){
 
-            int a = 0;
-        }
-    }
-
-    private void a(){
-        int bufferSize = 64 * 1024;
-        try {
-            OutputStream os = new FileOutputStream(new File(getDatabasePath(NOME_BANCO).getAbsolutePath()));
-            Uri fileUri = getFileUriFromDownloads(getApplicationContext(), "bicreta.db");
-            InputStream is = getApplicationContext().getContentResolver().openInputStream(fileUri);
-            byte[] buffer = new byte[bufferSize];
-            int count;
-            while((count = is.read(buffer, 0, bufferSize)) > 0){
-                os.write(buffer, 0, count);
             }
-            os.close();
-            is.close();
-        }catch (Exception e ){
-
         }
     }
 }

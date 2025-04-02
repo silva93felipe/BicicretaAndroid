@@ -50,7 +50,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
-            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView, totalViagensTextView, totalPecastextView;
+            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView, totalViagensTextView, totalPecastextView,
+            nadaExibirUltimaViagem, nadaExibirUltimaPeca;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
     ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
         viagemBarChart = findViewById(R.id.chartViagensPorMes);
         ultimaViagemConstraintLayout = findViewById(R.id.ultimaViagemConstraintLayout);
         ultimaPecaCompraConstraintLayout = findViewById(R.id.ultimaPecaCompradaConstraintLayout);
-        nadaExibirGraficoViagensTextView = findViewById(R.id.nadaExibirGraficoViagensTextView);
+        nadaExibirUltimaViagem = findViewById(R.id.nadaExibirUltimaViagem);
+        nadaExibirUltimaPeca = findViewById(R.id.nadaExibirUltimaPeca);
         criarGrafico();
     }
 
@@ -123,9 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void criarGrafico(){
         List<GraficoViagem> dados = getDadosGraficoViagens();
-        if(!dados.isEmpty()){
+        if(!dados.isEmpty() && dados.size() > 0){
             viagemBarChart.setVisibility(View.VISIBLE);
-            nadaExibirGraficoViagensTextView.setVisibility(View.GONE);
             viagemBarChart.getAxisRight().setDrawLabels(false);
             YAxis yAxis = viagemBarChart.getAxisLeft();
             yAxis.setAxisMinimum(0f);
@@ -153,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             viagemBarChart.setDescription(desc);
             viagemBarChart.getDescription().setPosition(500, 30);
             viagemBarChart.getDescription().setTextSize(14f);
-            //viagemBarChart.getDescription().setEnabled(false);
             viagemBarChart.invalidate();
             viagemBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
             viagemBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -196,28 +196,30 @@ public class MainActivity extends AppCompatActivity {
     private void getUltimaViagem(){
         ViagemRepository repository = new ViagemRepository(this);
         List<Viagem> viagens  = repository.getLastByParam(1);
+        nadaExibirUltimaViagem.setVisibility(View.VISIBLE);
+        ultimaViagemConstraintLayout.setVisibility(View.GONE);
         if(viagens != null && !viagens.isEmpty()){
+            nadaExibirUltimaViagem.setVisibility(View.GONE);
             ultimaViagemConstraintLayout.setVisibility(View.VISIBLE);
             Viagem viagem = viagens.get(0);
             destinoUltimaViagem.setText(viagem.getDestino());
             dataUltimaViagem.setText(viagem.getData());
             quilometroUltimaViagem.setText(viagem.getQuilometros() + " Km");
-        }else{
-            ultimaViagemConstraintLayout.setVisibility(View.INVISIBLE);
         }
     }
 
     private void getUltimaPecaComprada(){
         PecaRepository repository = new PecaRepository(this);
         List<Peca> pecas = repository.getLastByParam(1);
+        nadaExibirUltimaPeca.setVisibility(View.VISIBLE);
+        ultimaPecaCompraConstraintLayout.setVisibility(View.GONE);
         if(pecas != null && !pecas.isEmpty()){
             Peca peca = pecas.get(0);
+            nadaExibirUltimaPeca.setVisibility(View.GONE);
             ultimaPecaCompraConstraintLayout.setVisibility(View.VISIBLE);
             descricaoPecaUltimaCompra.setText(peca.getNomePeca());
             dataUltimaCompra.setText(peca.getDataCompra());
             quilometrosUltimaCompra.setText(peca.getQuilometros() + " Km");
-        }else{
-            ultimaPecaCompraConstraintLayout.setVisibility(View.INVISIBLE);
         }
     }
 }
