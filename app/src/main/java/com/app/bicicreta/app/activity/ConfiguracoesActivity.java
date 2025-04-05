@@ -105,36 +105,37 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     private void backup() {
         mudarEstadoDoButtons(true);
-        Toast.makeText(this, "Processo iniciado...", Toast.LENGTH_SHORT).show();
-        File dbFile = getApplicationContext().getDatabasePath(NOME_BANCO);
-        try (BufferedInputStream fis = new BufferedInputStream(new FileInputStream(dbFile))) {
-            ContentResolver resolver = getApplicationContext().getContentResolver();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.Downloads.DISPLAY_NAME, NOME_BANCO);
-            contentValues.put(MediaStore.Downloads.MIME_TYPE, "application/*");
-            contentValues.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
-            Uri uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
-            if (uri != null) {
-                try (OutputStream outputStream = resolver.openOutputStream(uri)) {
-                    if (outputStream != null) {
-                        int data = fis.read();
-                        while (data != -1) {
-                            outputStream.write(data);
-                            data = fis.read();
-                        }
-                        outputStream.flush();
-                        fis.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            mudarEstadoDoButtons(false);
-            Toast.makeText(this, "Processo finalizado...", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        backupCSV();
+//        Toast.makeText(this, "Processo iniciado...", Toast.LENGTH_SHORT).show();
+//        File dbFile = getApplicationContext().getDatabasePath(NOME_BANCO);
+//        try (BufferedInputStream fis = new BufferedInputStream(new FileInputStream(dbFile))) {
+//            ContentResolver resolver = getApplicationContext().getContentResolver();
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put(MediaStore.Downloads.DISPLAY_NAME, NOME_BANCO);
+//            contentValues.put(MediaStore.Downloads.MIME_TYPE, "application/*");
+//            contentValues.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+//            Uri uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+//            if (uri != null) {
+//                try (OutputStream outputStream = resolver.openOutputStream(uri)) {
+//                    if (outputStream != null) {
+//                        int data = fis.read();
+//                        while (data != -1) {
+//                            outputStream.write(data);
+//                            data = fis.read();
+//                        }
+//                        outputStream.flush();
+//                        fis.close();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            mudarEstadoDoButtons(false);
+//            Toast.makeText(this, "Processo finalizado...", Toast.LENGTH_SHORT).show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     public void mudarEstadoDoButtons(boolean isHidden){
         if(isHidden){
@@ -154,36 +155,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         intent.setType("*/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Selecione o backup"), 1);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try{
-//                    int bufferSize = 64 * 1024;
-//                    OutputStream os = new FileOutputStream(new File(getDatabasePath(NOME_BANCO).getAbsolutePath()));
-//                    Uri fileUri = getFileUriFromDownloads(getApplicationContext(), "bicreta.db");
-//                    InputStream is = getApplicationContext().getContentResolver().openInputStream(fileUri);
-//                    byte[] buffer = new byte[bufferSize];
-//                    int count;
-//                    while((count = is.read(buffer, 0, bufferSize)) > 0){
-//                        os.write(buffer, 0, count);
-//                    }
-//                    os.close();
-//                    is.close();
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//                            finish();
-//                        }
-//                    });
-//                } catch (FileNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }).start();
     }
 
     //@Override

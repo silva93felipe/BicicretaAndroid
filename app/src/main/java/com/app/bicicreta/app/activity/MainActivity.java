@@ -24,9 +24,9 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
+//import androidx.work.ExistingPeriodicWorkPolicy;
+//import androidx.work.PeriodicWorkRequest;
+//import androidx.work.WorkManager;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.GraficoViagem;
@@ -37,7 +37,7 @@ import com.app.bicicreta.app.repository.PecaRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
-import com.app.bicicreta.app.work.LembretesWorker;
+//import com.app.bicicreta.app.work.LembretesWorker;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criarTaferaLembrete() {
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(LembretesWorker.class, 15, TimeUnit.MINUTES).build();
-        WorkManager.getInstance(MainActivity.this).enqueueUniquePeriodicWork("lembretes", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest);
+        //PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(LembretesWorker.class, 15, TimeUnit.MINUTES).build();
+        //WorkManager.getInstance(MainActivity.this).enqueueUniquePeriodicWork("lembretes", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest);
     }
 
     @Override
