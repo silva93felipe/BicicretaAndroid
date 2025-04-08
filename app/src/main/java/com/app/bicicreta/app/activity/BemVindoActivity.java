@@ -3,7 +3,6 @@ package com.app.bicicreta.app.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -20,7 +19,7 @@ public class BemVindoActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes(){
-        buttonNext = findViewById(R.id.buttonBicicletaNext);
+        buttonNext = findViewById(R.id.buttonPecaFragment);
         buttonNext.setOnClickListener(v -> handleNext());
     }
 

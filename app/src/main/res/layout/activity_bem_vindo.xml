@@ -45,7 +45,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/buttonBicicletaNext"
+        android:id="@+id/buttonPecaFragment"
         android:layout_width="170dp"
         android:layout_height="65dp"
         android:background="@drawable/background_corner_yellow"
