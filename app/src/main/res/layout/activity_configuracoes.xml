@@ -46,33 +46,33 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRestore"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="208dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/yellow_bg"
         android:text="RESTORE"
         android:textColor="@color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonBackup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonBackup"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/yellow_bg"
         android:text="BACKUP"
-        android:textColor="@color/black"
 
+        android:textColor="@color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnRestore"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/btnRestore"
-        app:layout_constraintTop_toBottomOf="@+id/btnRestore" />
+        app:layout_constraintStart_toStartOf="@+id/btnRestore" />
 
     <ProgressBar
         android:id="@+id/progressBarRestore"

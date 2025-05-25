@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import com.app.bicicreta.app.repository.UserRepository;
 
 public class ApresentacaoActivity extends AppCompatActivity {
     private EditText nomeEditText;
-    private Button buttonNext;
+    private ImageView imageViewNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +24,8 @@ public class ApresentacaoActivity extends AppCompatActivity {
 
     private void inicializarComponentes(){
         nomeEditText = findViewById(R.id.nomeEditText);
-        buttonNext = findViewById(R.id.buttonPecaFragment);
-        buttonNext.setOnClickListener(v -> createUser());
+        imageViewNext = findViewById(R.id.imageViewNext);
+        imageViewNext.setOnClickListener(v -> createUser());
     }
 
     private void createUser(){

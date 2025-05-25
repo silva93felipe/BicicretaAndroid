@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,12 +58,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
-            dataUltimaCompra, quilometrosUltimaCompra, nadaExibirGraficoViagensTextView, totalViagensTextView, totalPecastextView,
-            nadaExibirUltimaViagem, nadaExibirUltimaPeca;
+            dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
-    ConstraintLayout ultimaViagemConstraintLayout, ultimaPecaCompraConstraintLayout;
     NotificationManager notificationManager;
+    LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         configTabImagemView = findViewById(R.id.configTabImagemView);
         configTabImagemView.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
         toolTabImagemView = findViewById(R.id.toolTabImagemView);
-        toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasActivity.class));
+        //toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasActivity.class));
+        toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
         quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
         bicicletaTabImagemView = findViewById(R.id.bicicletaTabImagemView);
         bicicletaTabImagemView.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
@@ -126,15 +127,14 @@ public class MainActivity extends AppCompatActivity {
         dataUltimaCompra = findViewById(R.id.dataUltimaCompraTextView);
         quilometrosUltimaCompra = findViewById(R.id.quilometroUltimaPecaTextView);
         viagemBarChart = findViewById(R.id.chartViagensPorMes);
-        ultimaViagemConstraintLayout = findViewById(R.id.ultimaViagemConstraintLayout);
-        ultimaPecaCompraConstraintLayout = findViewById(R.id.ultimaPecaCompradaConstraintLayout);
-        nadaExibirUltimaViagem = findViewById(R.id.nadaExibirUltimaViagem);
-        nadaExibirUltimaPeca = findViewById(R.id.nadaExibirUltimaPeca);
+        ultimaViagemLinearLayout = findViewById(R.id.ultimaViagemLinearLayout);
+        ultimaPecaLinearLayout = findViewById(R.id.ultimaPecaLinearLayout);
+        graficoViagensLinearLayout = findViewById(R.id.graficoViagensLinearLayout);
+
         criarGrafico();
     }
 
     private void createNotificationChannel() {
-
         NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class);
         notificationLocalService.createNotification("Saudades", "Porque nos deixou? Estamos com saudades. Volte a pedalar!");
 
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     private void criarGrafico(){
         List<GraficoViagem> dados = getDadosGraficoViagens();
         if(!dados.isEmpty() && dados.size() > 0){
-            viagemBarChart.setVisibility(View.VISIBLE);
+            graficoViagensLinearLayout.setVisibility(View.VISIBLE);
             viagemBarChart.getAxisRight().setDrawLabels(false);
             YAxis yAxis = viagemBarChart.getAxisLeft();
             yAxis.setAxisMinimum(0f);
@@ -218,11 +218,9 @@ public class MainActivity extends AppCompatActivity {
     private void getUltimaViagem(){
         ViagemRepository repository = new ViagemRepository(this);
         List<Viagem> viagens  = repository.getLastByParam(1);
-        nadaExibirUltimaViagem.setVisibility(View.VISIBLE);
-        ultimaViagemConstraintLayout.setVisibility(View.GONE);
+        ultimaViagemLinearLayout.setVisibility(View.GONE);
         if(viagens != null && !viagens.isEmpty()){
-            nadaExibirUltimaViagem.setVisibility(View.GONE);
-            ultimaViagemConstraintLayout.setVisibility(View.VISIBLE);
+            ultimaViagemLinearLayout.setVisibility(View.VISIBLE);
             Viagem viagem = viagens.get(0);
             destinoUltimaViagem.setText(viagem.getDestino());
             dataUltimaViagem.setText(viagem.getData());
@@ -233,12 +231,10 @@ public class MainActivity extends AppCompatActivity {
     private void getUltimaPecaComprada(){
         PecaRepository repository = new PecaRepository(this);
         List<Peca> pecas = repository.getLastByParam(1);
-        nadaExibirUltimaPeca.setVisibility(View.VISIBLE);
-        ultimaPecaCompraConstraintLayout.setVisibility(View.GONE);
+        ultimaPecaLinearLayout.setVisibility(View.GONE);
         if(pecas != null && !pecas.isEmpty()){
             Peca peca = pecas.get(0);
-            nadaExibirUltimaPeca.setVisibility(View.GONE);
-            ultimaPecaCompraConstraintLayout.setVisibility(View.VISIBLE);
+            ultimaPecaLinearLayout.setVisibility(View.VISIBLE);
             descricaoPecaUltimaCompra.setText(peca.getNomePeca());
             dataUltimaCompra.setText(peca.getDataCompra());
             quilometrosUltimaCompra.setText(peca.getQuilometros() + " Km");
