@@ -16,20 +16,18 @@ import android.widget.ImageView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.activity.CadastroPecaActivity;
+import com.app.bicicreta.app.activity.CadastroServicoActivity;
 import com.app.bicicreta.app.adapter.AdapterPeca;
+import com.app.bicicreta.app.adapter.AdapterServico;
 import com.app.bicicreta.app.model.Peca;
+import com.app.bicicreta.app.model.Servico;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ServicoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ServicoFragment extends Fragment {
     private RecyclerView recyclerView;
-    private List<Peca> pecas = new ArrayList<>();
+    private List<Servico> servicos = new ArrayList<>();
     private Button buttonSalvar;
     private ImageView nadaExibirServicoImageView;
     private Context _context;
@@ -57,7 +55,7 @@ public class ServicoFragment extends Fragment {
     private void iniciarComponentes(View view){
         inicializarRecycleView(view);
         buttonSalvar = view.findViewById(R.id.buttonNovoServico);
-        buttonSalvar.setOnClickListener(v -> handleCadastroPeca());
+        buttonSalvar.setOnClickListener(v -> handleCadastroServico());
         nadaExibirServicoImageView = view.findViewById(R.id.nadaExibirServicoImageView);
         exibirMessageListaVazia();
     }
@@ -66,29 +64,27 @@ public class ServicoFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewServico);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        AdapterPeca adapter = new AdapterPeca(pecas, p -> {
-            handleAtualizarPeca(p);
+        AdapterServico adapter = new AdapterServico(servicos, p -> {
+            handleAtualizarServico(p);
         });
         recyclerView.setAdapter(adapter);
     }
 
     private void exibirMessageListaVazia(){
-        if(pecas.isEmpty()){
+        if(servicos.isEmpty()){
             nadaExibirServicoImageView.setVisibility(View.VISIBLE);
         }else{
             nadaExibirServicoImageView.setVisibility(View.GONE);
         }
     }
 
-    private void handleCadastroPeca(){
-        Intent cadastroPecaIntent = new Intent(getContext(), CadastroPecaActivity.class);
+    private void handleCadastroServico(){
+        Intent cadastroPecaIntent = new Intent(getContext(), CadastroServicoActivity.class);
         startActivity(cadastroPecaIntent);
     }
-    private void handleAtualizarPeca(Peca peca){
-        Intent intent = new Intent(getContext(), CadastroPecaActivity.class);
-        intent.putExtra("peca", peca);
+    private void handleAtualizarServico(Servico servicoParam){
+        Intent intent = new Intent(getContext(), CadastroServicoActivity.class);
+       // intent.putExtra("servico", servicoParam);
         startActivity(intent);
     }
-
-
 }

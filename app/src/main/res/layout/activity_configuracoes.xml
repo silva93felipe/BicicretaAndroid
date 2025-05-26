@@ -64,9 +64,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/yellow_bg"
+        android:background="@drawable/background_card"
         android:text="BACKUP"
-
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

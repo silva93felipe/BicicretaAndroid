@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PecaRepository {
     private final String TABELA_PECA = "peca";
-    private final String TABEL_BICICLETA = "bicicleta";
+    private final String TABELA_BICICLETA = "bicicleta";
     BicicretaDbHelper db;
     public PecaRepository(Context context){
         db = new BicicretaDbHelper(context);
@@ -58,7 +58,7 @@ public class PecaRepository {
         List<Peca> pecas = new ArrayList<>();
         Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
                 + TABELA_PECA + " p"
-                + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = p.bicicleta_id "
+                + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
                 + " ORDER BY p.data_compra DESC LIMIT ? ", new String[]{ String.valueOf(quantidade)});
         while(cursor.moveToNext()){
             Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
@@ -71,7 +71,7 @@ public class PecaRepository {
         SQLiteDatabase con = db.getWritableDatabase();
         Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
                 + TABELA_PECA + " p"
-                + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = p.bicicleta_id "
+                + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
                 + " WHERE id = ?", new String[]{ String.valueOf(id)});
         while(cursor.moveToNext()){
             return new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
@@ -84,7 +84,7 @@ public class PecaRepository {
         List<Peca> pecas = new ArrayList<>();
         Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
                 + TABELA_PECA + " p"
-                + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = p.bicicleta_id ", null);
+                + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id ", null);
         while(cursor.moveToNext()){
             Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
             pecas.add(peca);

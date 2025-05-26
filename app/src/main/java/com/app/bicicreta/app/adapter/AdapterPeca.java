@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Peca;
-import com.app.bicicreta.app.model.Viagem;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,11 +58,11 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         TextView nomePeca;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
-            dataCompra = itemView.findViewById(R.id.dataCompraPecaViewHolder);
-            valor = itemView.findViewById(R.id.valorPecaViewHolder);
-            quilometros = itemView.findViewById(R.id.quilometroPecaViewHolder);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaPecaViewHolder);
-            nomePeca = itemView.findViewById(R.id.nomePecaViewHolder);
+            dataCompra = itemView.findViewById(R.id.dataServicoViewHolder);
+            valor = itemView.findViewById(R.id.valorServicoViewHolder);
+            quilometros = itemView.findViewById(R.id.quilometroServicoViewHolder);
+            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaServicoViewHolder);
+            nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
         }
         public void bind (final Peca item, OnItemClickListener listener){
             itemView.setOnClickListener(v -> listener.onItemClick(item));

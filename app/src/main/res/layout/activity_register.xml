@@ -46,7 +46,7 @@
         android:background="@drawable/background_card"
         android:text="Restaurar backup"
         android:textAlignment="center"
-        android:textColor="@color/yellow"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

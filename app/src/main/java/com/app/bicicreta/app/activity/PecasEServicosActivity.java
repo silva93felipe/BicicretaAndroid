@@ -22,11 +22,11 @@ public class PecasEServicosActivity extends AppCompatActivity {
     }
 
     private void createFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,  fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutPecasEServico,  fragment).commit();
     }
 
     private void iniciarComponentes(){
-        frameLayout =  findViewById(R.id.frameLayout);
+        frameLayout =  findViewById(R.id.frameLayoutPecasEServico);
         tabLayout = findViewById(R.id.tabLayout);
         createFragment(new PecaFragment(getApplicationContext()));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

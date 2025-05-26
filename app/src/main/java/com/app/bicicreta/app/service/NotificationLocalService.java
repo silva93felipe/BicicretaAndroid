@@ -41,7 +41,7 @@ public class NotificationLocalService {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
                 pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_MUTABLE);
             else
-                pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT);
+                pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
             Notification.Builder builder = null;
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)

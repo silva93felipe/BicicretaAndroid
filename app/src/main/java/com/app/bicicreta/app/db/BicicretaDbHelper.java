@@ -19,6 +19,7 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
         db.execSQL(cretePecaTable());
         db.execSQL(creteViagemTable());
         db.execSQL(creteUserTable());
+        db.execSQL(creteServicoTable());
     }
 
     @Override
@@ -32,6 +33,13 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
     private String cretePecaTable(){
         return "CREATE TABLE peca ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao VARCHAR(50), " +
                 "valor_compra REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_compra DEFAULT CURRENT_TIMESTAMP, " +
+                "bicicleta_id INTEGER, FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
+    }
+
+
+    private String creteServicoTable(){
+        return "CREATE TABLE servico ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao VARCHAR(100), " +
+                "valor_servico REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_servico DEFAULT CURRENT_TIMESTAMP, " +
                 "bicicleta_id INTEGER, FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
     }
 

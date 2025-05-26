@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">
         <activity
+            android:name=".app.activity.CadastroServicoActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.activity.PecasEServicosActivity"
             android:exported="false" />
         <activity
@@ -59,4 +62,5 @@
             android:name=".app.activity.ViagensActivity"
             android:exported="false" />
     </application>
+
 </manifest>
