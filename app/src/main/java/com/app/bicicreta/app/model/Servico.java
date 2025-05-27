@@ -12,6 +12,12 @@ public class Servico {
     private int bicicletaId;
     private String descricao;
     private String modeloBicicleta;
+    public Servico(String dataServico, double valor,  int bicicletaId, String descricao) {
+        this.dataServico = DataUtil.USStringToDate(dataServico);
+        this.valor = valor;
+        this.bicicletaId = bicicletaId;
+        this.descricao = descricao;
+    }
 
     public Servico(int id, String dataServico, double valor, int quilometros, int bicicletaId, String descricao, String modeloBicicleta) {
         this.id = id;
@@ -21,6 +27,15 @@ public class Servico {
         this.bicicletaId = bicicletaId;
         this.descricao = descricao;
         this.modeloBicicleta = modeloBicicleta;
+    }
+
+    public Servico(int id, String dataServico, double valor, int quilometros, int bicicletaId, String descricao) {
+        this.id = id;
+        this.dataServico = DataUtil.USStringToDate(dataServico);
+        this.valor = valor;
+        this.quilometros = quilometros;
+        this.bicicletaId = bicicletaId;
+        this.descricao = descricao;
     }
 
     public int getId() {

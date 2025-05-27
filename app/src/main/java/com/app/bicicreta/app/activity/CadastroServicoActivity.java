@@ -21,6 +21,7 @@ import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.Servico;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 import com.app.bicicreta.app.repository.PecaRepository;
+import com.app.bicicreta.app.repository.ServicoRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +44,6 @@ public class CadastroServicoActivity extends AppCompatActivity {
             valorServico.setText(String.valueOf(servicoEdit.getValor()));
             dataServico.setText(servicoEdit.getDataServico());
         }
-
     }
 
     private void inicializarComponentes(){
@@ -85,37 +85,37 @@ public class CadastroServicoActivity extends AppCompatActivity {
 
     private void createServico(){
         List<String> erros = new ArrayList<>();
-//        if(descricaoPeca.getText().toString().trim().isEmpty()){
-//            erros.add("Descrição");
-//        }
-//
-//        if(valorPeca.getText().toString().trim().isEmpty()){
-//            erros.add("Valor");
-//        }
-//
-//        if(dataCompraPeca.getText().toString().trim().isEmpty()){
-//            erros.add("Data compra");
-//        }
-//
-//        if(bicicletaSpinner.getSelectedItem().toString().trim().isEmpty()){
-//            erros.add("Bicicleta");
-//        }
-//
-//        if(!erros.isEmpty()){
-//            Toast.makeText(this, "Preencha os sequintes campos: " + erros, Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
-//        PecaRepository repository = new PecaRepository(this);
-//        if(pecaEdit != null){
-//            Peca newPeca = new Peca(pecaEdit.getId(), descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(),
-//                    Double.parseDouble(valorPeca.getText().toString()), pecaEdit.getQuilometros(), bicicletaSelecionada.getId());
-//            repository.update(newPeca);
-//        }else{
-//            Peca newPeca = new Peca(descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), bicicletaSelecionada.getId());
-//            repository.add(newPeca);
-//        }
+        if(descricaoServico.getText().toString().trim().isEmpty()){
+            erros.add("Descrição");
+        }
+
+        if(valorServico.getText().toString().trim().isEmpty()){
+            erros.add("Valor");
+        }
+
+        if(dataServico.getText().toString().trim().isEmpty()){
+            erros.add("Data compra");
+        }
+
+        if(bicicletaSpinner.getSelectedItem().toString().trim().isEmpty()){
+            erros.add("Bicicleta");
+        }
+
+        if(!erros.isEmpty()){
+            Toast.makeText(this, "Preencha os seguintes campos: " + erros, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
+        ServicoRepository repository = new ServicoRepository(this);
+        if(servicoEdit != null){
+            Servico newServico = new Servico(servicoEdit.getId(), dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()),
+                    servicoEdit.getQuilometros(), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
+            repository.update(newServico);
+        }else{
+            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
+            repository.add(newServico);
+        }
         finish();
     }
 }

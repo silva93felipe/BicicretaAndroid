@@ -96,7 +96,7 @@ public class CadastroPecaActivity extends AppCompatActivity {
         }
 
         if(!erros.isEmpty()){
-            Toast.makeText(this, "Preencha os sequintes campos: " + erros, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Preencha os seguintes campos: " + erros, Toast.LENGTH_LONG).show();
             return;
         }
 

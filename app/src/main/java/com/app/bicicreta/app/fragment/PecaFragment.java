@@ -36,6 +36,7 @@ public class PecaFragment extends Fragment {
     private Button buttonSalvar;
     private ImageView nadaExibirPecaImageView;
     private Context _context;
+    private View _view;
     public PecaFragment(Context context) {
         _context = context;
     }
@@ -47,15 +48,25 @@ public class PecaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAllPecas();
     }
 
-    private void getAllPecas(){
-        PecaRepository repository = new PecaRepository(_context);
-        pecas = repository.getAllWithBicicleta();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_peca, container, false);
+        _view = view;
+        iniciarComponentes(view);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        inicializarRecycleView(_view);
     }
 
     private void inicializarRecycleView(View view){
+        getAllPecas();
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewPeca);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -73,11 +84,15 @@ public class PecaFragment extends Fragment {
         exibirMessageListaVazia();
     }
 
+    private void getAllPecas(){
+        PecaRepository repository = new PecaRepository(_context);
+        pecas = repository.getAllWithBicicleta();
+    }
+
     private void exibirMessageListaVazia(){
+        nadaExibirPecaImageView.setVisibility(View.GONE);
         if(pecas.isEmpty()){
             nadaExibirPecaImageView.setVisibility(View.VISIBLE);
-        }else{
-            nadaExibirPecaImageView.setVisibility(View.GONE);
         }
     }
 
@@ -89,14 +104,5 @@ public class PecaFragment extends Fragment {
         Intent intent = new Intent(getContext(), CadastroPecaActivity.class);
         intent.putExtra("peca", peca);
         startActivity(intent);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_peca, container, false);
-        iniciarComponentes(view);
-        inicializarRecycleView(view);
-        return view;
     }
 }

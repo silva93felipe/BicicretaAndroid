@@ -21,6 +21,8 @@ import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.adapter.AdapterServico;
 import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.Servico;
+import com.app.bicicreta.app.repository.PecaRepository;
+import com.app.bicicreta.app.repository.ServicoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ServicoFragment extends Fragment {
     private Button buttonSalvar;
     private ImageView nadaExibirServicoImageView;
     private Context _context;
+    private View _view;
     public ServicoFragment(Context context) {
         _context = context;
     }
@@ -48,8 +51,15 @@ public class ServicoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_servico, container, false);
+        _view = view;
         iniciarComponentes(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        inicializarRecycleView(_view);
     }
 
     private void iniciarComponentes(View view){
@@ -61,6 +71,7 @@ public class ServicoFragment extends Fragment {
     }
 
     private void inicializarRecycleView(View view){
+        getAllServicos();
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewServico);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -71,11 +82,15 @@ public class ServicoFragment extends Fragment {
     }
 
     private void exibirMessageListaVazia(){
+        nadaExibirServicoImageView.setVisibility(View.GONE);
         if(servicos.isEmpty()){
             nadaExibirServicoImageView.setVisibility(View.VISIBLE);
-        }else{
-            nadaExibirServicoImageView.setVisibility(View.GONE);
         }
+    }
+
+    private void getAllServicos(){
+        ServicoRepository repository = new ServicoRepository(_context);
+        servicos = repository.getAllWithBicicleta();
     }
 
     private void handleCadastroServico(){
