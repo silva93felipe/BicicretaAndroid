@@ -59,7 +59,7 @@ public class ServicoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        inicializarRecycleView(_view);
+        iniciarComponentes(_view);
     }
 
     private void iniciarComponentes(View view){

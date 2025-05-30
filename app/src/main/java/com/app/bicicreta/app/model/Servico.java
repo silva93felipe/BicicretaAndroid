@@ -38,6 +38,14 @@ public class Servico {
         this.descricao = descricao;
     }
 
+    public Servico(String dataServico, double valor, int quilometros, int bicicletaId, String descricao) {
+        this.dataServico = DataUtil.USStringToDate(dataServico);
+        this.valor = valor;
+        this.quilometros = quilometros;
+        this.bicicletaId = bicicletaId;
+        this.descricao = descricao;
+    }
+
     public int getId() {
         return id;
     }

@@ -26,6 +26,7 @@ import com.app.bicicreta.app.repository.ServicoRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CadastroServicoActivity extends AppCompatActivity {
 
@@ -108,12 +109,13 @@ public class CadastroServicoActivity extends AppCompatActivity {
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
         ServicoRepository repository = new ServicoRepository(this);
+        Bicicleta bicicleta = getAllBicicletas().stream().filter(e -> e.getId() == bicicletaSelecionada.getId()).findFirst().get();
         if(servicoEdit != null){
             Servico newServico = new Servico(servicoEdit.getId(), dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()),
                     servicoEdit.getQuilometros(), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
             repository.update(newServico);
         }else{
-            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
+            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicleta.getQuilometrosRodados(), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
             repository.add(newServico);
         }
         finish();

@@ -62,7 +62,7 @@ public class PecaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        inicializarRecycleView(_view);
+        iniciarComponentes(_view);
     }
 
     private void inicializarRecycleView(View view){
