@@ -28,15 +28,16 @@ public class ViagemRepository {
         values.put("quilometros_rodados", viagem.getQuilometros());
         values.put("data_viagem", viagem.getData());
         values.put("bicicleta_id", viagem.getBicicletaId());
+        values.put("observacao", viagem.getObservacao());
         con.insert(TABLE_VIAGEM, null, values);
     }
 
     public List<Viagem> getLastByParam(int quantidade){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT id, data_viagem, quilometros_rodados, destino, bicicleta_id  FROM " + TABLE_VIAGEM + " ORDER BY data_viagem DESC LIMIT ?;", new String[]{ String.valueOf(quantidade) });
+        Cursor cursor = con.rawQuery("SELECT id, data_viagem, quilometros_rodados, destino, bicicleta_id, observacao  FROM " + TABLE_VIAGEM + " ORDER BY data_viagem DESC LIMIT ?;", new String[]{ String.valueOf(quantidade) });
         while(cursor.moveToNext()){
-            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4));
+            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5));
             viagens.add(viagem);
         }
         return viagens;
@@ -45,12 +46,12 @@ public class ViagemRepository {
     public List<Viagem> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT v.id, v.data_viagem, v.quilometros_rodados, v.destino, v.bicicleta_id, b.modelo  FROM "
+        Cursor cursor = con.rawQuery("SELECT v.id, v.data_viagem, v.quilometros_rodados, v.destino, v.bicicleta_id, b.modelo, v.observacao  FROM "
                                           + TABLE_VIAGEM + " v "
                                           + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = v.bicicleta_id "
                                           + " ORDER BY data_viagem DESC;", null);
         while(cursor.moveToNext()){
-            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5));
+            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6));
             viagens.add(viagem);
         }
         return viagens;
@@ -68,9 +69,9 @@ public class ViagemRepository {
 
     public void update(Viagem viagem){
         SQLiteDatabase con = db.getWritableDatabase();
-        con.execSQL("UPDATE " + TABLE_VIAGEM + " SET destino = ?, quilometros_rodados = ?, data_viagem = ?, bicicleta_id = ? WHERE id = ?;",
+        con.execSQL("UPDATE " + TABLE_VIAGEM + " SET destino = ?, quilometros_rodados = ?, data_viagem = ?, bicicleta_id = ?, observacao = ? WHERE id = ?;",
                 new String[]{ String.valueOf(viagem.getDestino()),  String.valueOf(viagem.getQuilometros()),
-                              String.valueOf(viagem.getData()), String.valueOf(viagem.getBicicletaId()), String.valueOf(viagem.getId())});
+                              String.valueOf(viagem.getData()), String.valueOf(viagem.getBicicletaId()), String.valueOf(viagem.getId()), viagem.getObservacao()});
     }
 
     public int totalQuilometrosRodados(){

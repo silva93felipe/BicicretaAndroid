@@ -1,14 +1,9 @@
 package com.app.bicicreta.app.activity;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,13 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 //import androidx.work.ExistingPeriodicWorkPolicy;
 //import androidx.work.PeriodicWorkRequest;
 //import androidx.work.WorkManager;
@@ -35,10 +25,12 @@ import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.PecaRepository;
+import com.app.bicicreta.app.repository.ServicoRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
 //import com.app.bicicreta.app.work.LembretesWorker;
+import com.app.bicicreta.app.utils.MoedaUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -50,15 +42,13 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
-            dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView;
+            dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
     NotificationManager notificationManager;
@@ -76,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         getUltimaViagem();
         getUltimaPecaComprada();
         getTotalPecas();
+        getTotalServicos();
         getTotalViagens();
     }
 
@@ -88,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criarTaferaLembrete() {
-        //PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(LembretesWorker.class, 15, TimeUnit.MINUTES).build();
-        //WorkManager.getInstance(MainActivity.this).enqueueUniquePeriodicWork("lembretes", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest);
     }
 
     @Override
@@ -102,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         getDadosGraficoViagens();
         criarGrafico();
         getTotalPecas();
+        getTotalServicos();
         getTotalViagens();
         createNotificationChannel();
     }
@@ -130,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         ultimaViagemLinearLayout = findViewById(R.id.ultimaViagemLinearLayout);
         ultimaPecaLinearLayout = findViewById(R.id.ultimaPecaLinearLayout);
         graficoViagensLinearLayout = findViewById(R.id.graficoViagensLinearLayout);
+        totalServico = findViewById(R.id.totalServicoTextView);
 
         criarGrafico();
     }
@@ -209,6 +200,10 @@ public class MainActivity extends AppCompatActivity {
         totalPecastextView.setText(String.valueOf(repository.getTotalPecas()));
     }
 
+    private void getTotalServicos(){
+        ServicoRepository repository = new ServicoRepository(this);
+        totalServico.setText(String.valueOf(repository.getTotalServicos()));
+    }
 
     private void getTotalQuilometrosRodados(){
         ViagemRepository repository = new ViagemRepository(this);
@@ -237,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             ultimaPecaLinearLayout.setVisibility(View.VISIBLE);
             descricaoPecaUltimaCompra.setText(peca.getNomePeca());
             dataUltimaCompra.setText(peca.getDataCompra());
-            quilometrosUltimaCompra.setText(peca.getQuilometros() + " Km");
+            quilometrosUltimaCompra.setText(MoedaUtil.convertToBR(peca.getValor()));
         }
     }
 }

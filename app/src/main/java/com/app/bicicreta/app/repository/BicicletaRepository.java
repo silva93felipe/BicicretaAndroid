@@ -26,6 +26,7 @@ public class BicicletaRepository {
         values.put("tamanho_quadro", bicicleta.getTamanhoQuadro());
         values.put("quilometros_rodados", bicicleta.getQuilometrosRodados());
         values.put("quantidade_marchas", bicicleta.getQuantidadeMarchas());
+        values.put("observacao", bicicleta.getObservacao());
         con.insert(TABEL_BICICLETA, null, values);
     }
 
@@ -36,26 +37,26 @@ public class BicicletaRepository {
 
     public Bicicleta getById(int id){
         SQLiteDatabase con = db.getWritableDatabase();
-        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados  FROM " + TABEL_BICICLETA + " WHERE id = ?", new String[]{ String.valueOf(id)});
+        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados, observacao  FROM " + TABEL_BICICLETA + " WHERE id = ?", new String[]{ String.valueOf(id)});
         while(cursor.moveToNext()){
-            return new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+            return new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
         }
         return null;
     }
 
     public void update(Bicicleta bicicleta){
         SQLiteDatabase con = db.getWritableDatabase();
-        con.execSQL("UPDATE " + TABEL_BICICLETA + " SET modelo = ?, tamanho_aro = ?, quantidade_marchas = ?, tamanho_quadro = ?, quilometros_rodados = ? WHERE id = ?",
+        con.execSQL("UPDATE " + TABEL_BICICLETA + " SET modelo = ?, tamanho_aro = ?, quantidade_marchas = ?, tamanho_quadro = ?, quilometros_rodados = ?, observacao = ? WHERE id = ?",
                 new String[]{ String.valueOf(bicicleta.getModelo()), String.valueOf(bicicleta.getAro()), String.valueOf(bicicleta.getQuantidadeMarchas()),
-                        String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), String.valueOf(bicicleta.getId())});
+                        String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), String.valueOf(bicicleta.getId()), bicicleta.getObservacao()});
     }
 
     public List<Bicicleta> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Bicicleta> bicicletas = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados FROM " + TABEL_BICICLETA, null);
+        Cursor cursor = con.rawQuery("SELECT id, modelo, tamanho_aro, quantidade_marchas, tamanho_quadro, quilometros_rodados, observacao FROM " + TABEL_BICICLETA, null);
         while(cursor.moveToNext()){
-            Bicicleta bicicleta = new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+            Bicicleta bicicleta = new Bicicleta(cursor.getInt(0), cursor.getString(1),cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
             bicicletas.add(bicicleta);
         }
         return bicicletas;

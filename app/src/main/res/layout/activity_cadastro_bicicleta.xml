@@ -105,7 +105,6 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/edittext_background"
                 android:ems="10"
                 android:hint="Quantidade marchas"
@@ -113,11 +112,29 @@
                 android:paddingStart="5dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/material_dynamic_neutral30"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/editTextObservacaoBicicleta"
                 app:layout_constraintEnd_toEndOf="@+id/quadroSpinner"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/quadroSpinner"
                 app:layout_constraintTop_toBottomOf="@+id/quadroSpinner" />
+
+            <EditText
+                android:id="@+id/editTextObservacaoBicicleta"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Observação"
+                android:inputType="textMultiLine"
+                android:paddingStart="5dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/quantidadeMarchasTextView"
+                app:layout_constraintHorizontal_bias="0.481"
+                app:layout_constraintStart_toStartOf="@+id/quantidadeMarchasTextView"
+                app:layout_constraintTop_toBottomOf="@+id/quantidadeMarchasTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

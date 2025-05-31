@@ -1,5 +1,6 @@
 package com.app.bicicreta.app.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -24,9 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CadastroPecaActivity extends AppCompatActivity {
-    private EditText dataCompraPeca, descricaoPeca, valorPeca;
+    private EditText dataCompraPeca, descricaoPeca, valorPeca, observacaoPeca;
     private Spinner bicicletaSpinner;
-    private Button botaoSalvarPeca;
     private Peca pecaEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +52,16 @@ public class CadastroPecaActivity extends AppCompatActivity {
             DatePickerDialog datePicker = new DatePickerDialog(
                     this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
-                        String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                        @SuppressLint("DefaultLocale") String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
                         dataCompraPeca.setText(selectedDate);
                     },year, month, day
             );
             datePicker.show();
         });
         descricaoPeca = findViewById(R.id.descricaoPecaEditText);
+        observacaoPeca = findViewById(R.id.editTextObservacaoPeca);
         valorPeca = findViewById(R.id.valorPecaEditText);
-        botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
+        Button botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
         botaoSalvarPeca.setOnClickListener(v -> createPeca());
         bicicletaSpinner = findViewById(R.id.bicicletaIdPecaSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
@@ -101,13 +102,14 @@ public class CadastroPecaActivity extends AppCompatActivity {
         }
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
+
         PecaRepository repository = new PecaRepository(this);
         if(pecaEdit != null){
             Peca newPeca = new Peca(pecaEdit.getId(), descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(),
-                    Double.parseDouble(valorPeca.getText().toString()), pecaEdit.getQuilometros(), bicicletaSelecionada.getId());
+                    Double.parseDouble(valorPeca.getText().toString()), pecaEdit.getQuilometros(), bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
             repository.update(newPeca);
         }else{
-            Peca newPeca = new Peca(descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), bicicletaSelecionada.getId());
+            Peca newPeca = new Peca(descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
             repository.add(newPeca);
         }
         finish();

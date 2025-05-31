@@ -27,15 +27,16 @@ public class PecaRepository {
         values.put("quilometros_rodados", peca.getQuilometros());
         values.put("data_compra", peca.getDataCompra());
         values.put("bicicleta_id", peca.getBicicletaId());
+        values.put("observacao", peca.getObservacao());
         con.insert(TABELA_PECA, null, values);
     }
 
     public void update(Peca peca){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_PECA + " SET descricao = ?, data_compra = ?, valor_compra = ?, quilometros_rodados = ?, " +
-                " bicicleta_id = ? WHERE id = ?",
+                " bicicleta_id = ?, observacao = ? WHERE id = ?",
                 new String[]{ String.valueOf(peca.getNomePeca()),  String.valueOf(peca.getDataCompra()), String.valueOf(peca.getValor()),
-                        String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), String.valueOf(peca.getId())});
+                        String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), String.valueOf(peca.getId()), peca.getObservacao()});
     }
 
     public int getTotalPecas(){
@@ -56,12 +57,12 @@ public class PecaRepository {
     public List<Peca> getLastByParam(int quantidade){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Peca> pecas = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
+        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo, p.observacao  FROM "
                 + TABELA_PECA + " p"
                 + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
                 + " ORDER BY p.data_compra DESC LIMIT ? ", new String[]{ String.valueOf(quantidade)});
         while(cursor.moveToNext()){
-            Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
+            Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7));
             pecas.add(peca);
         }
         return pecas;
@@ -69,12 +70,12 @@ public class PecaRepository {
 
     public Peca getByIdWithBicicleta(int id){
         SQLiteDatabase con = db.getWritableDatabase();
-        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
+        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo, p.observacao  FROM "
                 + TABELA_PECA + " p"
                 + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
                 + " WHERE id = ?", new String[]{ String.valueOf(id)});
         while(cursor.moveToNext()){
-            return new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
+            return new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7));
         }
         return null;
     }
@@ -82,11 +83,11 @@ public class PecaRepository {
     public List<Peca> getAllWithBicicleta(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Peca> pecas = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo  FROM "
+        Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo, p.observacao  FROM "
                 + TABELA_PECA + " p"
                 + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id ", null);
         while(cursor.moveToNext()){
-            Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
+            Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7));
             pecas.add(peca);
         }
         return pecas;

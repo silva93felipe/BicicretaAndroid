@@ -9,17 +9,19 @@ public class Bicicleta implements Serializable {
     private int quantidadeMarchas;
     private int quilometrosRodados;
     private int tamanhoQuadro;
+    private String observacao;
 
-    public Bicicleta(String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro){
+    public Bicicleta(String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro, String observacao){
+        this.quilometrosRodados = 0;
         setModelo(modelo);
         setAro(aro);
         setQuantidadeMarchas(quantidadeMarchas);
-        this.quilometrosRodados = 0;
         setTamanhoQuadro(tamanhoQuadro);
+        setObservacao(observacao);
     }
 
-    public Bicicleta(int id, String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro, int quilometrosRodados){
-        this(modelo, aro, quantidadeMarchas, tamanhoQuadro);
+    public Bicicleta(int id, String modelo, int aro, int quantidadeMarchas, int tamanhoQuadro, int quilometrosRodados, String observacao){
+        this(modelo, aro, quantidadeMarchas, tamanhoQuadro, observacao);
         this.id = id;
         setQuilometrosRodados(quilometrosRodados);
     }
@@ -27,21 +29,15 @@ public class Bicicleta implements Serializable {
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getModelo() {
         return modelo;
     }
-
     public void setModelo(String modelo) {
-        if(modelo.trim().isEmpty()){
+        if(modelo == null || (modelo != null && modelo.isEmpty())){
             this.modelo = "SEM NOME";
-        }else{
-            this.modelo = modelo.toUpperCase();
+            return;
         }
+        this.modelo = modelo.toUpperCase();
     }
 
     public int getAro() {
@@ -60,10 +56,9 @@ public class Bicicleta implements Serializable {
     }
 
     public void setQuantidadeMarchas(int quantidadeMarchas) {
+        this.quantidadeMarchas = quantidadeMarchas;
         if(quantidadeMarchas <= 0){
             this.quantidadeMarchas = 21;
-        }else{
-            this.quantidadeMarchas = quantidadeMarchas;
         }
     }
 
@@ -80,10 +75,17 @@ public class Bicicleta implements Serializable {
     }
 
     public void setTamanhoQuadro(int tamanhoQuadro) {
+        this.tamanhoQuadro = tamanhoQuadro;
         if(tamanhoQuadro <= 0){
             this.tamanhoQuadro = 17;
-        }else{
-            this.tamanhoQuadro = tamanhoQuadro;
         }
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

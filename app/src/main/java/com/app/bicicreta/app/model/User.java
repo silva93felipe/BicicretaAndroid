@@ -4,7 +4,7 @@ public class User {
     private int id;
     private String nome;
     public User(String nome){
-        this.nome = nome;
+        setNome(nome);
     }
     public User(int id, String nome){
         this(nome);
@@ -14,16 +14,15 @@ public class User {
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome == null || (nome != null && nome.isEmpty())) {
+            this.nome = "SEM NOME";
+            return;
+        }
+        this.nome = nome.toUpperCase();
     }
 }

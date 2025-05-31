@@ -27,25 +27,26 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
 
     private String creteBicicletaTable(){
         return "CREATE TABLE bicicleta ( id INTEGER PRIMARY KEY AUTOINCREMENT, modelo VARCHAR(40), tamanho_aro INTEGER DEFAULT 0, " +
-                "tamanho_quadro REAL DEFAULT 0, quantidade_marchas INTEGER DEFAULT 0, quilometros_rodados INTEGER DEFAULT 0 );";
+                "tamanho_quadro REAL DEFAULT 0, quantidade_marchas INTEGER DEFAULT 0, quilometros_rodados INTEGER DEFAULT 0, observacao VARCHAR(200) );";
     }
 
     private String cretePecaTable(){
         return "CREATE TABLE peca ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao VARCHAR(50), " +
-                "valor_compra REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_compra DEFAULT CURRENT_TIMESTAMP, " +
+                "valor_compra REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_compra DEFAULT CURRENT_TIMESTAMP, observacao VARCHAR(200), " +
                 "bicicleta_id INTEGER, FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
     }
 
 
     private String creteServicoTable(){
         return "CREATE TABLE servico ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao VARCHAR(100), " +
-                "valor_servico REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_servico DEFAULT CURRENT_TIMESTAMP, " +
+                "valor_servico REAL DEFAULT 0.0, quilometros_rodados INTEGER DEFAULT 0, data_servico DEFAULT CURRENT_TIMESTAMP, observacao VARCHAR(200)," +
                 "bicicleta_id INTEGER, FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
     }
 
+
     private String creteViagemTable(){
         return "CREATE TABLE viagem ( id INTEGER PRIMARY KEY AUTOINCREMENT, destino VARCHAR(40), quilometros_rodados INTEGER DEFAULT 0, " +
-                "data_viagem DEFAULT CURRENT_TIMESTAMP, bicicleta_id INTEGER, FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
+                "data_viagem DEFAULT CURRENT_TIMESTAMP, bicicleta_id INTEGER, observacao VARCHAR(200), FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
     }
 
     private String creteUserTable(){

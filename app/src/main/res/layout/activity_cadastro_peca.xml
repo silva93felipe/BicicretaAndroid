@@ -113,6 +113,24 @@
                 app:layout_constraintEnd_toEndOf="@+id/dataCompraEditText"
                 app:layout_constraintStart_toStartOf="@+id/dataCompraEditText"
                 app:layout_constraintTop_toBottomOf="@+id/dataCompraEditText" />
+
+            <EditText
+                android:id="@+id/editTextObservacaoPeca"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Observação"
+                android:inputType="textMultiLine"
+                android:paddingStart="5dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/bicicletaIdPecaSpinner"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/bicicletaIdPecaSpinner"
+                app:layout_constraintTop_toBottomOf="@+id/bicicletaIdPecaSpinner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

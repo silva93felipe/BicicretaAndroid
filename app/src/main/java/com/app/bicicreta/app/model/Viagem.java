@@ -13,20 +13,22 @@ public class Viagem implements Serializable {
     private String nomeBicicleta;
     private int bicicletaId;
     private String modeloBicicleta;
-    public Viagem(String data, int quilometros, String destino, int bicicletaId) {
-        this.data = DataUtil.USStringToDate(data);
-        this.quilometros = quilometros;
-        this.destino = destino.toUpperCase();
-        this.bicicletaId = bicicletaId;
+    private String observacao;
+    public Viagem(String data, int quilometros, String destino, int bicicletaId, String observacao) {
+        setData(data);
+        setQuilometros(quilometros);
+        setDestino(destino.toUpperCase());
+        setBicicletaId(bicicletaId);
+        setObservacao(observacao);
     }
-    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId) {
-        this(data, quilometros, destino, bicicletaId);
+    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId, String observacao) {
+        this(data, quilometros, destino, bicicletaId, observacao);
         this.id = id;
     }
-    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId, String modeloBicicleta) {
-        this(data, quilometros, destino, bicicletaId);
+    public Viagem(int id, String data, int quilometros, String destino, int bicicletaId, String modeloBicicleta, String observacao) {
+        this(data, quilometros, destino, bicicletaId, observacao);
         this.id = id;
-        this.modeloBicicleta = modeloBicicleta;
+        setModeloBicicleta(modeloBicicleta);
     }
 
     public int getId() {
@@ -47,6 +49,7 @@ public class Viagem implements Serializable {
 
     public void setQuilometros(int quilometros) {
         this.quilometros = quilometros;
+        if(this.quilometros < 0) this.quilometros = 0;
     }
 
     public String getDestino() {
@@ -54,6 +57,10 @@ public class Viagem implements Serializable {
     }
 
     public void setDestino(String destino) {
+        if(destino == null || (destino != null && destino.isEmpty())) {
+            this.destino = "SEM DESTINO";
+            return;
+        }
         this.destino = destino;
     }
     public int getBicicletaId() {
@@ -66,7 +73,18 @@ public class Viagem implements Serializable {
         return modeloBicicleta;
     }
     public void setModeloBicicleta(String modeloBicicleta) {
-        this.modeloBicicleta = modeloBicicleta;
+        if(modeloBicicleta == null || (modeloBicicleta != null && modeloBicicleta.isEmpty())){
+            this.modeloBicicleta = "SEM NOME";
+            return;
+        }
+        this.modeloBicicleta = modeloBicicleta.toUpperCase();
     }
 
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
 }

@@ -8,29 +8,22 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.ItemSpinner;
-import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.Servico;
 import com.app.bicicreta.app.repository.BicicletaRepository;
-import com.app.bicicreta.app.repository.PecaRepository;
 import com.app.bicicreta.app.repository.ServicoRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CadastroServicoActivity extends AppCompatActivity {
 
-    private EditText dataServico, descricaoServico, valorServico;
+    private EditText dataServico, descricaoServico, valorServico, observacao;
     private Spinner bicicletaSpinner;
     private Button botaoSalvar;
     private Servico servicoEdit;
@@ -51,6 +44,7 @@ public class CadastroServicoActivity extends AppCompatActivity {
         descricaoServico = findViewById(R.id.descricaoServicoEditText);
         valorServico = findViewById(R.id.valorServicoEditText);
         dataServico = findViewById(R.id.dataServicoEditText);
+        observacao = findViewById(R.id.editTextObservacaoServico);
         dataServico.setOnClickListener( v ->  {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -112,10 +106,10 @@ public class CadastroServicoActivity extends AppCompatActivity {
         Bicicleta bicicleta = getAllBicicletas().stream().filter(e -> e.getId() == bicicletaSelecionada.getId()).findFirst().get();
         if(servicoEdit != null){
             Servico newServico = new Servico(servicoEdit.getId(), dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()),
-                    servicoEdit.getQuilometros(), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
+                    servicoEdit.getQuilometros(), bicicletaSelecionada.getId(), descricaoServico.getText().toString(), servicoEdit.getModeloBicicleta(), observacao.getText().toString());
             repository.update(newServico);
         }else{
-            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicleta.getQuilometrosRodados(), bicicletaSelecionada.getId(), descricaoServico.getText().toString());
+            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicleta.getQuilometrosRodados(), bicicletaSelecionada.getId(), descricaoServico.getText().toString(), observacao.getText().toString());
             repository.add(newServico);
         }
         finish();

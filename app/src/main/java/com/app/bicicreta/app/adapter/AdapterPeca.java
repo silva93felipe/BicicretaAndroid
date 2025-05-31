@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Peca;
+import com.app.bicicreta.app.utils.MoedaUtil;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -17,7 +18,6 @@ import java.util.Locale;
 
 public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder>{
     private List<Peca> pecas;
-    Locale localBrasil = new Locale("pt", "BR");
     private OnItemClickListener listener;
     public interface OnItemClickListener {
         void onItemClick(Peca item);
@@ -39,7 +39,7 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         Peca peca = pecas.get(position);
         holder.dataCompra.setText(peca.getDataCompra());
         holder.nomePeca.setText(peca.getNomePeca());
-        holder.valor.setText(NumberFormat.getCurrencyInstance(localBrasil).format(peca.getValor()));
+        holder.valor.setText(MoedaUtil.convertToBR(peca.getValor()));
         holder.nomeBicicleta.setText(peca.getModeloBicicleta());
         holder.quilometros.setText(peca.getQuilometros() + " Km");
         holder.bind(peca, listener);

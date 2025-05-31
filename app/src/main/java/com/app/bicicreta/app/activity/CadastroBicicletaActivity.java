@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class CadastroBicicletaActivity extends AppCompatActivity {
     private Spinner aroSpinner, quadroSpinner;
-    private EditText modeloTextView, quantidadeMarchaTextView;
+    private EditText modeloTextView, quantidadeMarchaTextView, observacaoBicicletaEditText;
     private Button buttonNext;
     private Bicicleta bicicletaEdit;
     @Override
@@ -38,6 +38,7 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         quadroSpinner = findViewById(R.id.quadroSpinner);
         modeloTextView = findViewById(R.id.modeloTextView);
         quantidadeMarchaTextView = findViewById(R.id.quantidadeMarchasTextView);
+        observacaoBicicletaEditText = findViewById(R.id.editTextObservacaoBicicleta);
         buttonNext = findViewById(R.id.buttonAdicionarViagem);
         buttonNext.setOnClickListener(h -> createBicicleta());
     }
@@ -69,13 +70,14 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         int marchas = Integer.parseInt(quantidadeMarchaTextView.getText().toString());
         int aro = Integer.parseInt(aroSpinner.getSelectedItem().toString());
         int quadro = Integer.parseInt(quadroSpinner.getSelectedItem().toString());
+        String observacao = String.valueOf(observacaoBicicletaEditText.getText());
         BicicletaRepository repository = new BicicletaRepository(this);
         if(bicicletaEdit != null){
-            Bicicleta newBicicleta = new Bicicleta(bicicletaEdit.getId(), modelo, aro, marchas, quadro, bicicletaEdit.getQuilometrosRodados());
+            Bicicleta newBicicleta = new Bicicleta(bicicletaEdit.getId(), modelo, aro, marchas, quadro, bicicletaEdit.getQuilometrosRodados(), observacao);
             repository.update(newBicicleta);
             finish();
         }else{
-            Bicicleta newBicicleta = new Bicicleta(modelo, aro, marchas, quadro);
+            Bicicleta newBicicleta = new Bicicleta(modelo, aro, marchas, quadro, observacao);
             repository.add(newBicicleta);
             handleClickNextPage();
         }
