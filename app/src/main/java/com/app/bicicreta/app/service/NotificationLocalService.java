@@ -3,6 +3,7 @@ package com.app.bicicreta.app.service;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.app.bicicreta.R;
@@ -24,10 +26,21 @@ public class NotificationLocalService {
     private NotificationManager notificationManager;
     private Context context;
     private Class<?> classe;
-    public NotificationLocalService(Context context, Class<?> classe){
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
+    private Activity activity;
+    public NotificationLocalService(Context context, Class<?> classe, Activity activity){
         this.context = context;
         this.classe = classe;
+        this.activity = activity;
         createChannel(context);
+    }
+
+    private void solicitarPermissao(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(ContextCompat.checkSelfPermission(this.context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
+            }
+        }
     }
 
     private boolean hasPermissionNotification(){
@@ -52,6 +65,8 @@ public class NotificationLocalService {
                         .setAutoCancel(true);
             Notification notification = builder.build();
             notificationManager.notify(1, notification);
+        }else{
+            solicitarPermissao();
         }
     }
 

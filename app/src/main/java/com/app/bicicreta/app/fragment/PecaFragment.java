@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.activity.CadastroPecaActivity;
-import com.app.bicicreta.app.activity.PecasActivity;
 import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.repository.PecaRepository;

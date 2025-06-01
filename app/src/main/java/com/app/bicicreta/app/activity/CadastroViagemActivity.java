@@ -42,27 +42,27 @@ public class CadastroViagemActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
-    private void inicializarComponentes(){
+    private void iniciarCalendario(){
         dataCadastroViagemEditText = findViewById(R.id.dataCadastroViagemEditText);
-        observacao = findViewById(R.id.editTextObservacaoViagem);
         dataCadastroViagemEditText.setOnClickListener( v ->  {
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePicker = new DatePickerDialog(
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePicker = new DatePickerDialog(
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
                     dataCadastroViagemEditText.setText(selectedDate);
                 },year, month, day
-            );
-            datePicker.show();
+        );
+        datePicker.show();
         });
+    }
 
+    private void iniciarSpinnerBicicleta(){
         bicicletaCadastroPecaSpinner = findViewById(R.id.bicicletaCadastroPecaSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
         for (Bicicleta bicicleta : getAllBicicletas()){
@@ -71,6 +71,13 @@ public class CadastroViagemActivity extends AppCompatActivity {
         ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bicicletaCadastroPecaSpinner.setAdapter(adapter);
+    }
+
+
+    private void inicializarComponentes(){
+        iniciarCalendario();
+        iniciarSpinnerBicicleta();
+        observacao = findViewById(R.id.editTextObservacaoViagem);
         destinoCadastroViagemEditText = findViewById(R.id.destinoCadastroViagemEditText);
         quilometrosCadastroViagemEditText = findViewById(R.id.quilometrosCadastroViagemEditText);
         Button buttonAdicionarPeca = findViewById(R.id.buttonAdicionarViagem);

@@ -3,11 +3,13 @@ package com.app.bicicreta.app.model;
 import com.app.bicicreta.app.utils.DataUtil;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Viagem implements Serializable {
     private int id;
-    private Date data;
+    private LocalDate data;
     private int quilometros;
     private String destino;
     private String nomeBicicleta;

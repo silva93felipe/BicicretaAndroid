@@ -5,11 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".app.activity.CadastroPecaActivity">
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="10dp"
@@ -30,7 +31,7 @@
                 android:layout_gravity="center"
                 android:text="Serviço"
                 android:textColor="@color/black"
-                android:textSize="34sp"
+                android:textSize="22sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

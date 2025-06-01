@@ -30,6 +30,7 @@ import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
 //import com.app.bicicreta.app.work.LembretesWorker;
+import com.app.bicicreta.app.utils.DataUtil;
 import com.app.bicicreta.app.utils.MoedaUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -41,11 +42,15 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
@@ -58,32 +63,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        verificarPermissoes();
-        criarTaferaLembrete();
         inicializarComponentes();
-        getNomeUsuario();
-        getTotalQuilometrosRodados();
-        getUltimaViagem();
-        getUltimaPecaComprada();
-        getTotalPecas();
-        getTotalServicos();
-        getTotalViagens();
-    }
-
-    private void verificarPermissoes(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
-            }
-        }
-    }
-
-    private void criarTaferaLembrete() {
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        inicializarComponentes();
+    }
+
+    private void inicializarComponentes() {
+        mapTabImagemView = findViewById(R.id.mapTabImagemView);
+        mapTabImagemView.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
+        configTabImagemView = findViewById(R.id.configTabImagemView);
+        configTabImagemView.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
+        toolTabImagemView = findViewById(R.id.toolTabImagemView);
+        toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
+        bicicletaTabImagemView = findViewById(R.id.bicicletaTabImagemView);
+        bicicletaTabImagemView.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
         getNomeUsuario();
         getTotalQuilometrosRodados();
         getUltimaViagem();
@@ -93,42 +90,25 @@ public class MainActivity extends AppCompatActivity {
         getTotalPecas();
         getTotalServicos();
         getTotalViagens();
-        createNotificationChannel();
+        getViagemRecente();
     }
 
-    private void inicializarComponentes() {
-        totalPecastextView = findViewById(R.id.totalPecasTextView);
-        totalViagensTextView = findViewById(R.id.totalViagemTextView);
-        nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
-        mapTabImagemView = findViewById(R.id.mapTabImagemView);
-        mapTabImagemView.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
-        configTabImagemView = findViewById(R.id.configTabImagemView);
-        configTabImagemView.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
-        toolTabImagemView = findViewById(R.id.toolTabImagemView);
-        //toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasActivity.class));
-        toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
-        quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
-        bicicletaTabImagemView = findViewById(R.id.bicicletaTabImagemView);
-        bicicletaTabImagemView.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
-        destinoUltimaViagem = findViewById(R.id.destinoUltimaViagemtextView);
-        dataUltimaViagem = findViewById(R.id.dataUltimaViagemtextView);
-        quilometroUltimaViagem = findViewById(R.id.quilometroUltimaViagemtextView);
-        descricaoPecaUltimaCompra = findViewById(R.id.descricaoPecaUltimaCompraTextView);
-        dataUltimaCompra = findViewById(R.id.dataUltimaCompraTextView);
-        quilometrosUltimaCompra = findViewById(R.id.quilometroUltimaPecaTextView);
-        viagemBarChart = findViewById(R.id.chartViagensPorMes);
-        ultimaViagemLinearLayout = findViewById(R.id.ultimaViagemLinearLayout);
-        ultimaPecaLinearLayout = findViewById(R.id.ultimaPecaLinearLayout);
-        graficoViagensLinearLayout = findViewById(R.id.graficoViagensLinearLayout);
-        totalServico = findViewById(R.id.totalServicoTextView);
-
-        criarGrafico();
+    private void criarNotificacao(String titulo, String mensagem) {
+        NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class, this);
+        notificationLocalService.createNotification(titulo, mensagem);
     }
 
-    private void createNotificationChannel() {
-        NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class);
-        notificationLocalService.createNotification("Saudades", "Porque nos deixou? Estamos com saudades. Volte a pedalar!");
-
+    private void getViagemRecente(){
+        ViagemRepository repository = new ViagemRepository(this);
+        Viagem viagem = repository.getLastByParam(1).get(0);
+        if(viagem != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
+            LocalDate dataAtual = LocalDate.now();
+            long dias = dataBanco.until(dataAtual, ChronoUnit.DAYS);
+            if(dias >= 5 ){
+                criarNotificacao("Saudades", "Faz tempo que você não pedala. Porque não volta a pedalar?");
+            }
+        }
     }
 
     private List<GraficoViagem> getDadosGraficoViagens(){
@@ -137,8 +117,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criarGrafico(){
+        graficoViagensLinearLayout = findViewById(R.id.graficoViagensLinearLayout);
+        viagemBarChart = findViewById(R.id.chartViagensPorMes);
         List<GraficoViagem> dados = getDadosGraficoViagens();
-        if(!dados.isEmpty() && dados.size() > 0){
+        if(dados != null && !dados.isEmpty()){
             graficoViagensLinearLayout.setVisibility(View.VISIBLE);
             viagemBarChart.getAxisRight().setDrawLabels(false);
             YAxis yAxis = viagemBarChart.getAxisLeft();
@@ -181,38 +163,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getNomeUsuario(){
+        nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
         UserRepository repository = new UserRepository(this);
         User user = repository.getOne();
         if(user == null){
             nomeUsarioTextView.setText("DESCONHECIDO!" );
-        }else{
-            nomeUsarioTextView.setText(user.getNome() );
+            return;
         }
+        nomeUsarioTextView.setText(user.getNome());
     }
 
     private void getTotalViagens(){
         ViagemRepository repository = new ViagemRepository(this);
+        totalViagensTextView = findViewById(R.id.totalViagemTextView);
         totalViagensTextView.setText(String.valueOf(repository.getTotalViagens()));
     }
 
     private void getTotalPecas(){
         PecaRepository repository = new PecaRepository(this);
+        totalPecastextView = findViewById(R.id.totalPecasTextView);
         totalPecastextView.setText(String.valueOf(repository.getTotalPecas()));
     }
 
     private void getTotalServicos(){
         ServicoRepository repository = new ServicoRepository(this);
+        totalServico = findViewById(R.id.totalServicoTextView);
         totalServico.setText(String.valueOf(repository.getTotalServicos()));
     }
 
     private void getTotalQuilometrosRodados(){
         ViagemRepository repository = new ViagemRepository(this);
+        quilomentrosRodadosTextView = findViewById(R.id.quilometrosRodadosTextView);
         quilomentrosRodadosTextView.setText(String.valueOf(repository.totalQuilometrosRodados()));
     }
 
     private void getUltimaViagem(){
         ViagemRepository repository = new ViagemRepository(this);
         List<Viagem> viagens  = repository.getLastByParam(1);
+        ultimaViagemLinearLayout = findViewById(R.id.ultimaViagemLinearLayout);
+        destinoUltimaViagem = findViewById(R.id.destinoUltimaViagemtextView);
+        dataUltimaViagem = findViewById(R.id.dataUltimaViagemtextView);
+        quilometroUltimaViagem = findViewById(R.id.quilometroUltimaViagemtextView);
         ultimaViagemLinearLayout.setVisibility(View.GONE);
         if(viagens != null && !viagens.isEmpty()){
             ultimaViagemLinearLayout.setVisibility(View.VISIBLE);
@@ -226,6 +217,10 @@ public class MainActivity extends AppCompatActivity {
     private void getUltimaPecaComprada(){
         PecaRepository repository = new PecaRepository(this);
         List<Peca> pecas = repository.getLastByParam(1);
+        ultimaPecaLinearLayout = findViewById(R.id.ultimaPecaLinearLayout);
+        descricaoPecaUltimaCompra = findViewById(R.id.descricaoPecaUltimaCompraTextView);
+        dataUltimaCompra = findViewById(R.id.dataUltimaCompraTextView);
+        quilometrosUltimaCompra = findViewById(R.id.quilometroUltimaPecaTextView);
         ultimaPecaLinearLayout.setVisibility(View.GONE);
         if(pecas != null && !pecas.isEmpty()){
             Peca peca = pecas.get(0);

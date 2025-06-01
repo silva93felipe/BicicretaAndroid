@@ -16,13 +16,13 @@ import com.app.bicicreta.app.model.ItemSpinner;
 import com.app.bicicreta.app.model.Servico;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 import com.app.bicicreta.app.repository.ServicoRepository;
+import com.app.bicicreta.app.utils.MoedaUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class CadastroServicoActivity extends AppCompatActivity {
-
     private EditText dataServico, descricaoServico, valorServico, observacao;
     private Spinner bicicletaSpinner;
     private Button botaoSalvar;
@@ -35,22 +35,30 @@ public class CadastroServicoActivity extends AppCompatActivity {
         servicoEdit = (Servico) getIntent().getSerializableExtra("servico");
         if(servicoEdit != null){
             descricaoServico.setText(servicoEdit.getDescricao());
-            valorServico.setText(String.valueOf(servicoEdit.getValor()));
+            valorServico.setText(MoedaUtil.convertToBR(servicoEdit.getValor()));
             dataServico.setText(servicoEdit.getDataServico());
+            observacao.setText(servicoEdit.getObservacao());
         }
     }
 
-    private void inicializarComponentes(){
-        descricaoServico = findViewById(R.id.descricaoServicoEditText);
-        valorServico = findViewById(R.id.valorServicoEditText);
-        dataServico = findViewById(R.id.dataServicoEditText);
-        observacao = findViewById(R.id.editTextObservacaoServico);
+    private void iniciarSpinnerBicicleta(){
+        bicicletaSpinner = findViewById(R.id.bicicletaIdServicoSpinner);
+        List<ItemSpinner> itemList = new ArrayList<>();
+        itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
+        for (Bicicleta bicicleta : getAllBicicletas()){
+            itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
+        }
+        ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bicicletaSpinner.setAdapter(adapter);
+    }
+
+    private void iniciarCalendario(){
         dataServico.setOnClickListener( v ->  {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
             DatePickerDialog datePicker = new DatePickerDialog(
                     this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
@@ -60,17 +68,17 @@ public class CadastroServicoActivity extends AppCompatActivity {
             );
             datePicker.show();
         });
+    }
 
+    private void inicializarComponentes(){
+        descricaoServico = findViewById(R.id.descricaoServicoEditText);
+        valorServico = findViewById(R.id.valorServicoEditText);
+        dataServico = findViewById(R.id.dataServicoEditText);
+        observacao = findViewById(R.id.editTextObservacaoServico);
         botaoSalvar = findViewById(R.id.buttonAdicionarServico);
         botaoSalvar.setOnClickListener(v -> createServico());
-        bicicletaSpinner = findViewById(R.id.bicicletaIdServicoSpinner);
-        List<ItemSpinner> itemList = new ArrayList<>();
-        for (Bicicleta bicicleta : getAllBicicletas()){
-            itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
-        }
-        ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bicicletaSpinner.setAdapter(adapter);
+        iniciarSpinnerBicicleta();
+        iniciarCalendario();
     }
 
     public List<Bicicleta> getAllBicicletas(){

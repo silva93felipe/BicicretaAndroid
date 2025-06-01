@@ -19,6 +19,7 @@ import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 import com.app.bicicreta.app.repository.PecaRepository;
+import com.app.bicicreta.app.utils.MoedaUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,12 +37,13 @@ public class CadastroPecaActivity extends AppCompatActivity {
         pecaEdit = (Peca) getIntent().getSerializableExtra("peca");
         if(pecaEdit != null){
             descricaoPeca.setText(pecaEdit.getNomePeca());
-            valorPeca.setText(String.valueOf(pecaEdit.getValor()));
+            valorPeca.setText(MoedaUtil.convertToBR(pecaEdit.getValor()));
             dataCompraPeca.setText(pecaEdit.getDataCompra());
+            observacaoPeca.setText(pecaEdit.getObservacao());
         }
     }
 
-    private void inicializarComponentes(){
+    private void iniciarCalendario(){
         dataCompraPeca = findViewById(R.id.dataCompraEditText);
         dataCompraPeca.setOnClickListener( v ->  {
             Calendar calendar = Calendar.getInstance();
@@ -58,19 +60,29 @@ public class CadastroPecaActivity extends AppCompatActivity {
             );
             datePicker.show();
         });
-        descricaoPeca = findViewById(R.id.descricaoPecaEditText);
-        observacaoPeca = findViewById(R.id.editTextObservacaoPeca);
-        valorPeca = findViewById(R.id.valorPecaEditText);
-        Button botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
-        botaoSalvarPeca.setOnClickListener(v -> createPeca());
+    }
+
+    private void iniciarSpinnerBicicleta(){
         bicicletaSpinner = findViewById(R.id.bicicletaIdPecaSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
+        itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
         for (Bicicleta bicicleta : getAllBicicletas()){
             itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
         }
         ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bicicletaSpinner.setAdapter(adapter);
+    }
+
+
+    private void inicializarComponentes(){
+        iniciarCalendario();
+        iniciarSpinnerBicicleta();
+        descricaoPeca = findViewById(R.id.descricaoPecaEditText);
+        observacaoPeca = findViewById(R.id.editTextObservacaoPeca);
+        valorPeca = findViewById(R.id.valorPecaEditText);
+        Button botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
+        botaoSalvarPeca.setOnClickListener(v -> createPeca());
     }
 
     public List<Bicicleta> getAllBicicletas(){

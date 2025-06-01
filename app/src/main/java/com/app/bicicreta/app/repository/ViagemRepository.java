@@ -43,6 +43,21 @@ public class ViagemRepository {
         return viagens;
     }
 
+    public List<Viagem> getAllByBicicletaId(int id){
+        SQLiteDatabase con = db.getWritableDatabase();
+        List<Viagem> viagens = new ArrayList<>();
+        Cursor cursor = con.rawQuery("SELECT v.id, v.data_viagem, v.quilometros_rodados, v.destino, v.bicicleta_id, b.modelo, v.observacao  FROM "
+                + TABLE_VIAGEM + " v "
+                + " INNER JOIN " + TABEL_BICICLETA + " b ON b.id = v.bicicleta_id "
+                + " WHERE v.bicicleta_id = ? "
+                + " ORDER BY data_viagem DESC;",  new String[]{ String.valueOf(id)});
+        while(cursor.moveToNext()){
+            Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6));
+            viagens.add(viagem);
+        }
+        return viagens;
+    }
+
     public List<Viagem> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();

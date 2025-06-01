@@ -3,11 +3,13 @@ package com.app.bicicreta.app.model;
 import com.app.bicicreta.app.utils.DataUtil;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Peca implements Serializable {
     private int id;
-    private Date dataCompra;
+    private LocalDate dataCompra;
     private double valor;
     private int quilometros;
     private int bicicletaId;

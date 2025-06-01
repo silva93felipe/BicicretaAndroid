@@ -2,11 +2,14 @@ package com.app.bicicreta.app.model;
 
 import com.app.bicicreta.app.utils.DataUtil;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Servico {
+public class Servico implements Serializable {
     private int id;
-    private Date dataServico;
+    private LocalDate dataServico;
     private double valor;
     private int quilometros;
     private int bicicletaId;

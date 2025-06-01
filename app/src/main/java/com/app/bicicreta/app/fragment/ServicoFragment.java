@@ -67,7 +67,6 @@ public class ServicoFragment extends Fragment {
         buttonSalvar = view.findViewById(R.id.buttonNovoServico);
         buttonSalvar.setOnClickListener(v -> handleCadastroServico());
         nadaExibirServicoImageView = view.findViewById(R.id.nadaExibirServicoImageView);
-        exibirMessageListaVazia();
     }
 
     private void inicializarRecycleView(View view){
@@ -79,6 +78,7 @@ public class ServicoFragment extends Fragment {
             handleAtualizarServico(p);
         });
         recyclerView.setAdapter(adapter);
+        exibirMessageListaVazia();
     }
 
     private void exibirMessageListaVazia(){
@@ -97,9 +97,9 @@ public class ServicoFragment extends Fragment {
         Intent cadastroPecaIntent = new Intent(getContext(), CadastroServicoActivity.class);
         startActivity(cadastroPecaIntent);
     }
-    private void handleAtualizarServico(Servico servicoParam){
+    private void handleAtualizarServico(Servico servico){
         Intent intent = new Intent(getContext(), CadastroServicoActivity.class);
-       // intent.putExtra("servico", servicoParam);
+        intent.putExtra("servico", servico);
         startActivity(intent);
     }
 }

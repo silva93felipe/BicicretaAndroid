@@ -50,9 +50,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".app.activity.PecasActivity"
-            android:exported="false" />
-        <activity
             android:name=".app.activity.ApresentacaoActivity"
             android:exported="false" />
         <activity
