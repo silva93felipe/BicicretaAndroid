@@ -40,7 +40,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/material_dynamic_neutral30"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewNext"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -48,12 +48,9 @@
     <ImageView
         android:id="@+id/imageViewNext"
         android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/nomeEditText"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/nomeEditText"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nomeEditText"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:srcCompat="@drawable/outline_arrow_forward_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

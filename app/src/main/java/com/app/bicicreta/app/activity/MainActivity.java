@@ -100,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void getViagemRecente(){
         ViagemRepository repository = new ViagemRepository(this);
-        Viagem viagem = repository.getLastByParam(1).get(0);
-        if(viagem != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        List<Viagem> viagens = repository.getLastByParam(1);
+        if(viagens != null && !viagens.isEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            Viagem viagem = viagens.get(0);
             LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
             LocalDate dataAtual = LocalDate.now();
             long dias = dataBanco.until(dataAtual, ChronoUnit.DAYS);

@@ -92,11 +92,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private boolean temPermissao(){
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
-                return false;
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+            return false;
         }
         return true;
     }
@@ -122,49 +120,51 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Selecione o backup"), 1);
     }
     private void backupCSV(){
-        mudarEstadoDoButtons(true);
-        File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Bicicreta");
-        if(!exportDir.exists()){
-            exportDir.mkdirs();
-        }
-        File file = new File(exportDir, "backup.csv");
-        try{
-            String DATA_BACKUP = DataUtil.dataAtualString();
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("#VER," + VERSION + "\n");
-            bufferedWriter.write("#INF," + INF + "\n");
-            bufferedWriter.write("#DAT," + DATA_BACKUP + "\n");
-            SQLiteDatabase db = new BicicretaDbHelper(this).getWritableDatabase();
-            for(int i = 0; i < tabelas.size(); i++){
-                Cursor cur = db.rawQuery("SELECT * FROM " + tabelas.get(i), null);
-                bufferedWriter.write("#TAB," + tabelas.get(i) + ",");
-                if(cur.getColumnCount() > 0){
-                    for(int j = 0; j < cur.getColumnCount(); j++){
-                        bufferedWriter.write(cur.getColumnName(j) + (j < (cur.getColumnCount() - 1) ? "," : "\n"));
-                    }
-                }
-                while(cur.moveToNext()){
-                    bufferedWriter.write("#ROW,");
-                    for(int j = 0; j < cur.getColumnCount(); j++){
-                        String campo = cur.getString(j)
-                                        .replace("\n", "&n;")
-                                        .replace("\r", "&r;")
-                                        .replace("\t", "&t;")
-                                        .replace(",", "&v;");
-                        bufferedWriter.write(campo + (j < (cur.getColumnCount() - 1) ? "," : "\n"));
-                    }
-                }
-                cur.close();
+        if(temPermissao()){
+            mudarEstadoDoButtons(true);
+            File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Bicicreta");
+            if(!exportDir.exists()){
+                exportDir.mkdirs();
             }
-            db.close();
-            bufferedWriter.flush();
-            Toast.makeText(this, "Backup realizado com sucesso", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("BICICRETA", "BACKUP CSV: " + e.getMessage());
-        }finally {
-            mudarEstadoDoButtons(false);
+            File file = new File(exportDir, "backup.csv");
+            try{
+                String DATA_BACKUP = DataUtil.dataAtualString();
+                FileWriter fileWriter = new FileWriter(file);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write("#VER," + VERSION + "\n");
+                bufferedWriter.write("#INF," + INF + "\n");
+                bufferedWriter.write("#DAT," + DATA_BACKUP + "\n");
+                SQLiteDatabase db = new BicicretaDbHelper(this).getWritableDatabase();
+                for(int i = 0; i < tabelas.size(); i++){
+                    Cursor cur = db.rawQuery("SELECT * FROM " + tabelas.get(i), null);
+                    bufferedWriter.write("#TAB," + tabelas.get(i) + ",");
+                    if(cur.getColumnCount() > 0){
+                        for(int j = 0; j < cur.getColumnCount(); j++){
+                            bufferedWriter.write(cur.getColumnName(j) + (j < (cur.getColumnCount() - 1) ? "," : "\n"));
+                        }
+                    }
+                    while(cur.moveToNext()){
+                        bufferedWriter.write("#ROW,");
+                        for(int j = 0; j < cur.getColumnCount(); j++){
+                            String campo = cur.getString(j)
+                                    .replace("\n", "&n;")
+                                    .replace("\r", "&r;")
+                                    .replace("\t", "&t;")
+                                    .replace(",", "&v;");
+                            bufferedWriter.write(campo + (j < (cur.getColumnCount() - 1) ? "," : "\n"));
+                        }
+                    }
+                    cur.close();
+                }
+                db.close();
+                bufferedWriter.flush();
+                Toast.makeText(this, "Backup realizado com sucesso", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("BICICRETA", "BACKUP CSV: " + e.getMessage());
+            }finally {
+                mudarEstadoDoButtons(false);
+            }
         }
     }
 
