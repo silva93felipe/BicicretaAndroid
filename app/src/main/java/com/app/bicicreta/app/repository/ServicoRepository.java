@@ -93,4 +93,18 @@ public class ServicoRepository {
         }
         return servicos;
     }
+
+    public List<Servico> getAllByBicicletaId(int id){
+        SQLiteDatabase con = db.getWritableDatabase();
+        List<Servico> servicos = new ArrayList<>();
+        Cursor cursor = con.rawQuery("SELECT p.id, p.data_servico, p.valor_servico,  p.quilometros_rodados, p.bicicleta_id, p.descricao, b.modelo, p.observacao  FROM "
+                + TABELA_SERVICO + " p"
+                + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
+                + " WHERE p.bicicleta_id = ?", new String[]{ String.valueOf(id)});
+        while(cursor.moveToNext()){
+            Servico servico = new Servico(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            servicos.add(servico);
+        }
+        return servicos;
+    }
 }
