@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
     ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
-    NotificationManager notificationManager;
     LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout;
 
     @Override

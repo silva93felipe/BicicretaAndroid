@@ -37,6 +37,7 @@
         android:hint="Digte seu nome aqui"
         android:inputType="text"
         android:paddingStart="5dp"
+        android:maxLength="8"
         android:textColor="@color/white"
         android:textColorHint="@color/material_dynamic_neutral30"
         android:textSize="18sp"

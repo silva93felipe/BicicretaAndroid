@@ -1,5 +1,6 @@
 package com.app.bicicreta.app.activity;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.ComponentCaller;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -23,6 +25,7 @@ import android.os.Environment;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.Buffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +64,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private List<String> tabelas = new ArrayList<>();
     private String VERSION = "1.0";
     private String INF = "Bicicreta";
-    private static final int REQUEST_STORAGE_PERMISSION = 100;
+    private static final int BACKUP_REQUEST = 100;
+    private static final int RESTORE_REQUEST = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,34 +74,19 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private void iniciarComponentes(){
-        btnBackup = findViewById(R.id.buttonBackup);
-        btnBackup.setOnClickListener(v -> {
-            if(temPermissao()){
-                backupCSV();
-            }
-        });
-        btnRestore = findViewById(R.id.btnRestore);
-        btnRestore.setOnClickListener(v -> {
-            if(temPermissao()){
-                restore();
-            }
-        });
         progressBarRestore = findViewById(R.id.progressBarRestore);
         progressBarRestore.setVisibility(View.GONE);
+        btnBackup = findViewById(R.id.buttonBackup);
+        btnBackup.setOnClickListener(v -> { backup(); });
+        btnRestore = findViewById(R.id.btnRestore);
+        btnRestore.setOnClickListener(v -> { restore(); });
+
         // Tabelas
         tabelas.add("bicicleta");
         tabelas.add("peca");
         tabelas.add("viagem");
         tabelas.add("user");
         tabelas.add("servico");
-    }
-
-    private boolean temPermissao(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
-            return false;
-        }
-        return true;
     }
 
     public void mudarEstadoDoButtons(boolean isHidden){
@@ -117,20 +107,21 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("*/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Selecione o backup"), 1);
+        startActivityForResult(Intent.createChooser(intent, "Selecione o backup"), RESTORE_REQUEST);
     }
-    private void backupCSV(){
-        if(temPermissao()){
-            mudarEstadoDoButtons(true);
-            File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Bicicreta");
-            if(!exportDir.exists()){
-                exportDir.mkdirs();
-            }
-            File file = new File(exportDir, "backup.csv");
-            try{
+    private void backup(){
+        mudarEstadoDoButtons(true);
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.setType("text/csv"); // Tipo do arquivo (CSV neste caso)
+        intent.putExtra(Intent.EXTRA_TITLE, "backup.csv"); // Nome sugerido para o arquivo
+        startActivityForResult(intent, BACKUP_REQUEST);
+    }
+
+    private void backupCsv( Uri uri){
+        try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
+            if (outputStream != null) {
                 String DATA_BACKUP = DataUtil.dataAtualString();
-                FileWriter fileWriter = new FileWriter(file);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
                 bufferedWriter.write("#VER," + VERSION + "\n");
                 bufferedWriter.write("#INF," + INF + "\n");
                 bufferedWriter.write("#DAT," + DATA_BACKUP + "\n");
@@ -146,11 +137,14 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     while(cur.moveToNext()){
                         bufferedWriter.write("#ROW,");
                         for(int j = 0; j < cur.getColumnCount(); j++){
-                            String campo = cur.getString(j)
-                                    .replace("\n", "&n;")
-                                    .replace("\r", "&r;")
-                                    .replace("\t", "&t;")
-                                    .replace(",", "&v;");
+                            String campo = cur.getString(j);
+                            if(campo != null){
+                                campo.replace("\n", "&n;")
+                                        .replace("\r", "&r;")
+                                        .replace("\t", "&t;")
+                                        .replace(",", "&v;");
+                            }
+
                             bufferedWriter.write(campo + (j < (cur.getColumnCount() - 1) ? "," : "\n"));
                         }
                     }
@@ -158,23 +152,28 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                 }
                 db.close();
                 bufferedWriter.flush();
+                bufferedWriter.close();
                 Toast.makeText(this, "Backup realizado com sucesso", Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                Log.d("BICICRETA", "BACKUP CSV: " + e.getMessage());
-            }finally {
-                mudarEstadoDoButtons(false);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            mudarEstadoDoButtons(false);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+        if (requestCode == RESTORE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
                 restoreCSV(uri);
+            }
+        }else if (requestCode == BACKUP_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                backupCsv(uri);
             }
         }else{
             mudarEstadoDoButtons(false);
@@ -259,7 +258,12 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             reader.close();
             db.close();
             mudarEstadoDoButtons(false);
-            Toast.makeText(this, "Backup restaurado com sucesso!", Toast.LENGTH_SHORT).show();
+            gotoMain();
         }catch (Exception e){}
+    }
+
+    private void gotoMain(){
+        startActivity(new Intent(ConfiguracoesActivity.this, MainActivity.class));
+        finish();
     }
 }
