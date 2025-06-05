@@ -46,7 +46,7 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
 
     private String creteViagemTable(){
         return "CREATE TABLE viagem ( id INTEGER PRIMARY KEY AUTOINCREMENT, destino VARCHAR(40), quilometros_rodados INTEGER DEFAULT 0, " +
-                "data_viagem DEFAULT CURRENT_TIMESTAMP, bicicleta_id INTEGER, observacao VARCHAR(200), FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
+                "data_viagem DEFAULT CURRENT_TIMESTAMP, bicicleta_id INTEGER, observacao VARCHAR(200), origem VARCHAR(40), FOREIGN KEY (bicicleta_id) REFERENCES bicicleta (id) ); ";
     }
 
     private String creteUserTable(){

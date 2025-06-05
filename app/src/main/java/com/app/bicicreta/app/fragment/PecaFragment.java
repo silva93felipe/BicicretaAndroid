@@ -72,6 +72,11 @@ public class PecaFragment extends Fragment {
         return repository.getAll();
     }
 
+    private boolean temMaisDeUmaBicicleta(){
+        BicicletaRepository repository = new BicicletaRepository(_context);
+        return repository.getAll().size() > 1;
+    }
+
     private void getAllByBicicletaId(int id){
         PecaRepository repository = new PecaRepository(_context);
         pecas = repository.getAllByBicicletaId(id);
@@ -80,22 +85,22 @@ public class PecaFragment extends Fragment {
     private void iniciarSpinnerBicicleta(){
         bicicletaSpinner = _view.findViewById(R.id.bicicletaSpinnerPeca);
         List<ItemSpinner> itemList = new ArrayList<>();
-        itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
+        if(temMaisDeUmaBicicleta())
+            itemList.add(new ItemSpinner(0, "Filtrar por bicicleta"));
         for (Bicicleta bicicleta : getAllBicicletas()){
             itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
         }
         ArrayAdapter<ItemSpinner> adapter = new ArrayAdapter<ItemSpinner>(_context, android.R.layout.simple_spinner_item, itemList){
             @Override
             public boolean isEnabled(int position) {
-                return position != 0;
+                return position != 0 && temMaisDeUmaBicicleta();
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
-                if(position == 0){
+                if(position == 0 && temMaisDeUmaBicicleta()){
                     tv.setTextColor(Color.GRAY);
-
                 }else {
                     tv.setTextColor(Color.YELLOW);
                 }
@@ -109,8 +114,8 @@ public class PecaFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ItemSpinner item = (ItemSpinner)parent.getItemAtPosition(position);
-                if(position > 0){
-                    int bicicletaId = item.getId();
+                int bicicletaId = item.getId();
+                if(bicicletaId > 0){
                     getAllByBicicletaId(bicicletaId);
                     inicializarRecycleView(_view);
                 }

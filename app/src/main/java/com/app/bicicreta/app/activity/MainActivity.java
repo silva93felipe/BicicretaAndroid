@@ -1,24 +1,14 @@
 package com.app.bicicreta.app.activity;
 
-import android.Manifest;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-//import androidx.work.ExistingPeriodicWorkPolicy;
-//import androidx.work.PeriodicWorkRequest;
-//import androidx.work.WorkManager;
-
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.GraficoViagem;
 import com.app.bicicreta.app.model.Peca;
@@ -29,7 +19,6 @@ import com.app.bicicreta.app.repository.ServicoRepository;
 import com.app.bicicreta.app.repository.UserRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
-//import com.app.bicicreta.app.work.LembretesWorker;
 import com.app.bicicreta.app.utils.DataUtil;
 import com.app.bicicreta.app.utils.MoedaUtil;
 import com.github.mikephil.charting.charts.BarChart;
@@ -43,20 +32,16 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
-    ImageView mapTabImagemView, toolTabImagemView, bicicletaTabImagemView, configTabImagemView;
     BarChart viagemBarChart;
-    LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout;
+    LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout, linearViagensTab, linearPecaTab, linearBicicletaTab, linearConfiguracaoTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes() {
-        mapTabImagemView = findViewById(R.id.mapTabImagemView);
-        mapTabImagemView.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
-        configTabImagemView = findViewById(R.id.configTabImagemView);
-        configTabImagemView.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
-        toolTabImagemView = findViewById(R.id.toolTabImagemView);
-        toolTabImagemView.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
-        bicicletaTabImagemView = findViewById(R.id.bicicletaTabImagemView);
-        bicicletaTabImagemView.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
+        linearViagensTab = findViewById(R.id.linearViagensTab);
+        linearViagensTab.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
+        linearConfiguracaoTab = findViewById(R.id.linearConfiguracaoTab);
+        linearConfiguracaoTab.setOnClickListener(v -> handleNavigation(ConfiguracoesActivity.class));
+        linearPecaTab = findViewById(R.id.linearPecaTab);
+        linearPecaTab.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
+        linearBicicletaTab = findViewById(R.id.linearBicicletaTab);
+        linearBicicletaTab.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
         getNomeUsuario();
         getTotalQuilometrosRodados();
         getUltimaViagem();
@@ -170,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
             nomeUsarioTextView.setText("DESCONHECIDO!" );
             return;
         }
-        nomeUsarioTextView.setText(user.getNome());
+        String primeiroNome = user.getNome().split(" ")[0];
+        nomeUsarioTextView.setText(primeiroNome);
     }
 
     private void getTotalViagens(){

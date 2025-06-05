@@ -41,10 +41,16 @@ public class CadastroServicoActivity extends AppCompatActivity {
         }
     }
 
+    public boolean temMaisDeUmaBicicleta(){
+        BicicletaRepository repository = new BicicletaRepository(this);
+        return repository.getAll().size() > 1;
+    }
+
     private void iniciarSpinnerBicicleta(){
         bicicletaSpinner = findViewById(R.id.bicicletaIdServicoSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
-        itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
+        if(temMaisDeUmaBicicleta())
+            itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
         for (Bicicleta bicicleta : getAllBicicletas()){
             itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
         }

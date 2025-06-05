@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CadastroViagemActivity extends AppCompatActivity {
-    private EditText dataCadastroViagemEditText, destinoCadastroViagemEditText, quilometrosCadastroViagemEditText, observacao;
+    private EditText dataCadastroViagemEditText, destinoCadastroViagemEditText, quilometrosCadastroViagemEditText, observacao, origemCadastroViagemEditText;
     private Spinner bicicletaCadastroPecaSpinner;
     private Viagem viagemEdit;
     @Override
@@ -78,6 +78,7 @@ public class CadastroViagemActivity extends AppCompatActivity {
         iniciarCalendario();
         iniciarSpinnerBicicleta();
         observacao = findViewById(R.id.editTextObservacaoViagem);
+        origemCadastroViagemEditText = findViewById(R.id.origemCadastroViagemEditText);
         destinoCadastroViagemEditText = findViewById(R.id.destinoCadastroViagemEditText);
         quilometrosCadastroViagemEditText = findViewById(R.id.quilometrosCadastroViagemEditText);
         Button buttonAdicionarPeca = findViewById(R.id.buttonAdicionarViagem);
@@ -107,6 +108,10 @@ public class CadastroViagemActivity extends AppCompatActivity {
             erros.add("Bicicleta");
         }
 
+        if(origemCadastroViagemEditText.getText().toString().trim().isEmpty()){
+            erros.add("Origem");
+        }
+
         if(!erros.isEmpty()){
             Toast.makeText(this, "Preencha os seguintes campos: " + erros, Toast.LENGTH_LONG).show();
             return;
@@ -118,13 +123,13 @@ public class CadastroViagemActivity extends AppCompatActivity {
             Viagem newViagem = new Viagem(viagemEdit.getId(), dataCadastroViagemEditText.getText().toString(),
                     Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),
                     destinoCadastroViagemEditText.getText().toString(),
-                    bicicletaSelecionada.getId(), observacao.getText().toString());
+                    bicicletaSelecionada.getId(), observacao.getText().toString(), origemCadastroViagemEditText.getText().toString());
             atualizarViagem(newViagem);
         }else{
             Viagem newViagem = new Viagem(dataCadastroViagemEditText.getText().toString(),
                     Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),
                     destinoCadastroViagemEditText.getText().toString(),
-                    bicicletaSelecionada.getId(), observacao.getText().toString());
+                    bicicletaSelecionada.getId(), observacao.getText().toString(), origemCadastroViagemEditText.getText().toString());
             saveViagem(newViagem);
             atualizarQuilometrosBicicleta(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
             atualizarQuilometrosPeca(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));

@@ -50,7 +50,6 @@ public class CadastroPecaActivity extends AppCompatActivity {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
             DatePickerDialog datePicker = new DatePickerDialog(
                     this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
@@ -65,7 +64,8 @@ public class CadastroPecaActivity extends AppCompatActivity {
     private void iniciarSpinnerBicicleta(){
         bicicletaSpinner = findViewById(R.id.bicicletaIdPecaSpinner);
         List<ItemSpinner> itemList = new ArrayList<>();
-        itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
+        if(temMaisDeUmaBicicleta())
+            itemList.add(new ItemSpinner(0, "Selecione uma bicicleta"));
         for (Bicicleta bicicleta : getAllBicicletas()){
             itemList.add(new ItemSpinner(bicicleta.getId(), bicicleta.getModelo()));
         }
@@ -88,6 +88,11 @@ public class CadastroPecaActivity extends AppCompatActivity {
     public List<Bicicleta> getAllBicicletas(){
         BicicletaRepository repository = new BicicletaRepository(this);
         return repository.getAll();
+    }
+
+    public boolean temMaisDeUmaBicicleta(){
+        BicicletaRepository repository = new BicicletaRepository(this);
+        return repository.getAll().size() > 1;
     }
 
     private void createPeca(){

@@ -24,18 +24,17 @@ public class BicicletasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bicicletas);
-        getAllBicicletas();
         iniciarComponentes();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        getAllBicicletas();
-        inicializarRecycleView();
+    protected void onResume() {
+        super.onResume();
+        iniciarComponentes();
     }
 
     private void inicializarRecycleView(){
+        getAllBicicletas();
         bicicletasRecycleView = findViewById(R.id.bicicletasRecyclerView);
         bicicletasRecycleView.setLayoutManager(new LinearLayoutManager(this));
         bicicletasRecycleView.setHasFixedSize(true);
