@@ -10,6 +10,7 @@ import com.app.bicicreta.app.model.GraficoViagem;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.utils.DataUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ViagemRepository {
     public List<Viagem> getLastByParam(int quantidade){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Viagem> viagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT id, data_viagem, quilometros_rodados, destino, bicicleta_id, observacao, origem  FROM " + TABLE_VIAGEM + " ORDER BY data_viagem DESC LIMIT ?;", new String[]{ String.valueOf(quantidade) });
+        Cursor cursor = con.rawQuery("SELECT id, data_viagem, quilometros_rodados, destino, bicicleta_id, observacao, origem  FROM " + TABLE_VIAGEM + " WHERE data_viagem <= ? ORDER BY data_viagem DESC LIMIT ?;", new String[]{ String.valueOf(DataUtil.dataAtualString()), String.valueOf(quantidade) });
         while(cursor.moveToNext()){
             Viagem viagem = new Viagem(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),  cursor.getString(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6));
             viagens.add(viagem);
@@ -76,7 +77,7 @@ public class ViagemRepository {
     public int getTotalViagens(){
         SQLiteDatabase con = db.getWritableDatabase();
         int quantidade =0;
-        Cursor cursor = con.rawQuery(" SELECT COUNT(*) FROM " + TABLE_VIAGEM  + ";" , null);
+        Cursor cursor = con.rawQuery(" SELECT COUNT(*) FROM " + TABLE_VIAGEM  + " WHERE data_viagem <= ? ;", new String[]{ String.valueOf(DataUtil.dataAtualString())});
         while(cursor.moveToNext()){
             quantidade = cursor.getInt(0);
         }
@@ -93,7 +94,7 @@ public class ViagemRepository {
     public int totalQuilometrosRodados(){
         SQLiteDatabase con = db.getWritableDatabase();
         int total = 0;
-        Cursor cursor = con.rawQuery("SELECT SUM(quilometros_rodados) FROM " + TABLE_VIAGEM + ";", null);
+        Cursor cursor = con.rawQuery("SELECT SUM(quilometros_rodados) FROM " + TABLE_VIAGEM + " WHERE data_viagem <= ? ;", new String[]{ String.valueOf(DataUtil.dataAtualString())});
         while(cursor.moveToNext()){
             total = cursor.getInt(0);
         }
@@ -103,7 +104,7 @@ public class ViagemRepository {
     public List<GraficoViagem> totalViagemPorMes(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<GraficoViagem> graficoViagens = new ArrayList<>();
-        Cursor cursor = con.rawQuery("SELECT STRFTIME('%m', data_viagem), COUNT(*) FROM " + TABLE_VIAGEM + " GROUP BY 1 LIMIT 5;", null);
+        Cursor cursor = con.rawQuery("SELECT STRFTIME('%m', data_viagem), COUNT(*) FROM " + TABLE_VIAGEM + " WHERE data_viagem <= ? GROUP BY 1 LIMIT 5;", new String[]{ String.valueOf(DataUtil.dataAtualString())});
         while(cursor.moveToNext()){
             if( cursor.getString(0) != null) {
                 graficoViagens.add(new GraficoViagem(cursor.getInt(1), cursor.getString(0)));

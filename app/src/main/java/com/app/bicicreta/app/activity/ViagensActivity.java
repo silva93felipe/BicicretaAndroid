@@ -128,8 +128,17 @@ public class ViagensActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewViagens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        AdapterViagem adapter = new AdapterViagem(viagens, v -> {
-            handleEditarViagem(v);
+        AdapterViagem adapter = new AdapterViagem(viagens, new AdapterViagem.OnItemClickListener() {
+            @Override
+            public void deleteItem(Viagem item) {
+                deleteViagem(item.getId());
+                iniciarComponentes();
+            }
+
+            @Override
+            public void editItem(Viagem item) {
+                handleEditarViagem(item);
+            }
         });
         recyclerView.setAdapter(adapter);
         exibirMessageListaVazia();
@@ -144,5 +153,10 @@ public class ViagensActivity extends AppCompatActivity {
     private void handleCadastroViagem(){
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
         startActivity(cadastroViagemIntent);
+    }
+
+    private void deleteViagem(int id){
+        ViagemRepository repository = new ViagemRepository(this);
+        repository.deleteById(id);
     }
 }

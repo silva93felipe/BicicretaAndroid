@@ -9,7 +9,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/bike"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/bike"
+        android:roundIcon="@drawable/bike_white"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">

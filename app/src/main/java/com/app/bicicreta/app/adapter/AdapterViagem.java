@@ -18,7 +18,8 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
     private List<Viagem> viagens;
     private OnItemClickListener listener;
     public interface OnItemClickListener {
-        void onItemClick(Viagem item);
+        void deleteItem(Viagem item);
+        void editItem(Viagem item);
     }
     public AdapterViagem(List<Viagem> viagens, OnItemClickListener listener) {
         this.viagens = viagens;
@@ -52,7 +53,8 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
         TextView quilometrosRodados;
         TextView destino;
         TextView nomeBicicleta;
-        ImageView icone;
+        ImageView deleteImagemView;
+        ImageView editImagemView;
 
         public ViagemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,9 +62,13 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
             quilometrosRodados = itemView.findViewById(R.id.quilometroServicoViewHolder);
             destino = itemView.findViewById(R.id.descricaoServicoViewHolder);
             nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaServicoViewHolder);
+            deleteImagemView = itemView.findViewById(R.id.deleteViagemImagemView);
+            editImagemView = itemView.findViewById(R.id.editViagemImagemView);
+
         }
         public void bind (final Viagem item, OnItemClickListener listener){
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+            itemView.findViewById(R.id.deleteViagemImagemView).setOnClickListener( v -> listener.deleteItem(item));
+            itemView.findViewById(R.id.editViagemImagemView).setOnClickListener( v -> listener.editItem(item));
         }
     }
 }
