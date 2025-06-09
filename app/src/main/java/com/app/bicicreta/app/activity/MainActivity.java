@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         getTotalQuilometrosRodados();
         getUltimaViagem();
         getUltimaPecaComprada();
-        getDadosGraficoViagens();
         criarGrafico();
         getTotalPecas();
         getTotalServicos();

@@ -10,63 +10,69 @@
     android:background="@drawable/background_card"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/descricaoServicoViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="Freios"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dataServicoViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="20/10/2025"
-        android:textColor="@color/black"
-        android:textSize="14dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/valorServicoViewHolder"
-        app:layout_constraintTop_toBottomOf="@+id/valorServicoViewHolder" />
-
-    <TextView
-        android:id="@+id/quilometroServicoViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="100 km"
-        android:textColor="@color/black"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/dataServicoViewHolder"
-        app:layout_constraintEnd_toEndOf="@+id/nomeBicicletaServicoViewHolder"
-        app:layout_constraintTop_toBottomOf="@+id/nomeBicicletaServicoViewHolder"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/nomeBicicletaServicoViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="South"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/descricaoServicoViewHolder" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/valorServicoViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="R$ 40,00"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/descricaoServicoViewHolder"
-        app:layout_constraintTop_toBottomOf="@+id/descricaoServicoViewHolder" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/descricaoServicoViewHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Freios"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/quilometroServicoViewHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|right|center_horizontal|center_vertical"
+                android:text="100 km"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dataServicoViewHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="20/10/2025"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/valorServicoViewHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="R$ 40,00"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

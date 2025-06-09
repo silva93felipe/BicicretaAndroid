@@ -38,8 +38,8 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
         Viagem viagem = viagens.get(position);
         holder.dataViagem.setText(viagem.getData());
         holder.destino.setText(viagem.getDestino());
-        holder.nomeBicicleta.setText(viagem.getModeloBicicleta());
         holder.quilometrosRodados.setText(viagem.getQuilometros() + " Km");
+        holder.origem.setText(viagem.getOrigem());
         holder.bind(viagem, listener);
     }
 
@@ -49,22 +49,17 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
     }
 
     public class ViagemViewHolder extends RecyclerView.ViewHolder{
-        TextView dataViagem;
-        TextView quilometrosRodados;
-        TextView destino;
-        TextView nomeBicicleta;
-        ImageView deleteImagemView;
-        ImageView editImagemView;
+        TextView dataViagem, quilometrosRodados, destino, origem;
+        ImageView deleteImagemView, editImagemView;
 
         public ViagemViewHolder(@NonNull View itemView) {
             super(itemView);
             dataViagem = itemView.findViewById(R.id.dataServicoViewHolder);
             quilometrosRodados = itemView.findViewById(R.id.quilometroServicoViewHolder);
             destino = itemView.findViewById(R.id.descricaoServicoViewHolder);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaServicoViewHolder);
             deleteImagemView = itemView.findViewById(R.id.deleteViagemImagemView);
             editImagemView = itemView.findViewById(R.id.editViagemImagemView);
-
+            origem = itemView.findViewById(R.id.tv_destino);
         }
         public void bind (final Viagem item, OnItemClickListener listener){
             itemView.findViewById(R.id.deleteViagemImagemView).setOnClickListener( v -> listener.deleteItem(item));

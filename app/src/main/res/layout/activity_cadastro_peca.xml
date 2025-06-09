@@ -67,6 +67,7 @@
                 android:ems="10"
                 android:hint="Descrição"
                 android:inputType="text"
+                android:maxLength="15"
                 android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -28,6 +28,16 @@ public class DataUtil {
         return data;
     }
 
+    public static boolean primeiraDataEhMenorQueASegundaData(String primeira, String segunda){
+        if(primeira.equals("") || segunda.equals("")) return false;
+        LocalDate primeiraData = USStringToDate(primeira);
+        LocalDate segundaData = USStringToDate(segunda);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return primeiraData.isAfter(segundaData);
+        }
+        return false;
+    }
+
     public static String dataAtualString(){
         String data = "0000-00-00 00:00:00";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -35,7 +45,6 @@ public class DataUtil {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             data = dataAtual.format(format);
         }
-
         return data;
     }
 }

@@ -62,6 +62,7 @@
                 android:id="@+id/modeloTextView"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:maxLength="15"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/edittext_background"

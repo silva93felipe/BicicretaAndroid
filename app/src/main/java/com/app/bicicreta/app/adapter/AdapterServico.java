@@ -40,7 +40,6 @@ public class AdapterServico extends RecyclerView.Adapter<AdapterServico.ServicoV
         holder.dataServico.setText(servico.getDataServico());
         holder.nomePeca.setText(servico.getDescricao());
         holder.valorServico.setText(MoedaUtil.convertToBR(servico.getValor()));
-        holder.nomeBicicleta.setText(servico.getModeloBicicleta());
         holder.quilometros.setText(servico.getQuilometros() + " Km");
         holder.bind(servico, listener);
     }
@@ -54,14 +53,12 @@ public class AdapterServico extends RecyclerView.Adapter<AdapterServico.ServicoV
         TextView dataServico;
         TextView valorServico;
         TextView quilometros;
-        TextView nomeBicicleta;
         TextView nomePeca;
         public ServicoViewHolder(@NonNull View itemView) {
             super(itemView);
             dataServico = itemView.findViewById(R.id.dataServicoViewHolder);
             valorServico = itemView.findViewById(R.id.valorServicoViewHolder);
             quilometros = itemView.findViewById(R.id.quilometroServicoViewHolder);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaServicoViewHolder);
             nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
         }
         public void bind (final Servico item, OnItemClickListener listener){

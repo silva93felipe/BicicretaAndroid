@@ -40,7 +40,6 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         holder.dataCompra.setText(peca.getDataCompra());
         holder.nomePeca.setText(peca.getNomePeca());
         holder.valor.setText(MoedaUtil.convertToBR(peca.getValor()));
-        holder.nomeBicicleta.setText(peca.getModeloBicicleta());
         holder.quilometros.setText(peca.getQuilometros() + " Km");
         holder.bind(peca, listener);
     }
@@ -54,14 +53,12 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
         TextView dataCompra;
         TextView valor;
         TextView quilometros;
-        TextView nomeBicicleta;
         TextView nomePeca;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
             dataCompra = itemView.findViewById(R.id.dataServicoViewHolder);
             valor = itemView.findViewById(R.id.valorServicoViewHolder);
             quilometros = itemView.findViewById(R.id.quilometroServicoViewHolder);
-            nomeBicicleta = itemView.findViewById(R.id.nomeBicicletaServicoViewHolder);
             nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
         }
         public void bind (final Peca item, OnItemClickListener listener){

@@ -65,7 +65,7 @@ public class Viagem implements Serializable {
             this.destino = "SEM DESTINO";
             return;
         }
-        this.destino = destino;
+        this.destino = destino.toUpperCase();
     }
     public int getBicicletaId() {
         return bicicletaId;
@@ -101,6 +101,6 @@ public class Viagem implements Serializable {
             this.origem = "SEM ORIGEM";
             return;
         }
-        this.origem = origem;
+        this.origem = origem.toUpperCase();
     }
 }

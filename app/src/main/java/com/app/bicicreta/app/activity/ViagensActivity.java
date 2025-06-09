@@ -1,9 +1,16 @@
 package com.app.bicicreta.app.activity;
 
+import static android.widget.Toast.LENGTH_LONG;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,27 +19,37 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
+import com.app.bicicreta.app.fragment.PecaFragment;
+import com.app.bicicreta.app.fragment.ServicoFragment;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.ItemSpinner;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
+import com.app.bicicreta.app.utils.DataUtil;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViagensActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button novaViagemButton;
     private List<Viagem> viagens = new ArrayList<>();
-    private ImageView nadaExibirViagensImagemView;
+    private ImageView nadaExibirViagensImagemView, pesquisar;
     private Spinner bicicletaSpinner;
+    private EditText datainicialfiltrar, datafinalfiltrar;
+    private TabLayout tabViagem;
+    private boolean somenteViagensPendentes = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +68,11 @@ public class ViagensActivity extends AppCompatActivity {
         viagens = repository.getAllByBicicletaId(id);
     }
 
+    private void getAllPendentesByBicicletaId(int id){
+        ViagemRepository repository = new ViagemRepository(this);
+        viagens = repository.getAllPendentesByBicicletaId(id);
+    }
+
     private List<Bicicleta> getAllBicicletas(){
         BicicletaRepository repository = new BicicletaRepository(this);
         return repository.getAll();
@@ -59,6 +81,56 @@ public class ViagensActivity extends AppCompatActivity {
     private boolean temMaisDeUmaBicicleta(){
         BicicletaRepository repository = new BicicletaRepository(this);
         return repository.getAll().size() > 1;
+    }
+
+    private void filtrarViagem(){
+        List<String> erros = new ArrayList<>();
+        String datainicio = datainicialfiltrar.getText().toString();
+        String datafinal = datafinalfiltrar.getText().toString();
+        if(datainicio.isEmpty() || datafinal.isEmpty()){
+            erros.add("A data inicial e final devem está preenchida.");
+        }
+
+        if(DataUtil.primeiraDataEhMenorQueASegundaData(datainicio, datafinal)){
+            erros.add("A data inicial não pode ser maior do que a data final.");
+        }
+
+        if(!erros.isEmpty()){
+            Toast.makeText(this, erros.toString(), LENGTH_LONG).show();
+            return;
+        }
+        ViagemRepository repository = new ViagemRepository(this);
+        viagens =  repository.getAllByPerido(datainicio, datafinal);
+        inicializarRecycleView(viagens);
+    }
+
+    private void iniciarTab(){
+        tabViagem = findViewById(R.id.tabLayout);
+        tabViagem.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position){
+                    case 0:
+                        somenteViagensPendentes = false;
+                        iniciarSpinnerBicicleta();
+                        break;
+                    case 1:
+                        somenteViagensPendentes = true;
+                        iniciarSpinnerBicicleta();
+                        break;
+                    default:
+                        somenteViagensPendentes = false;
+                        iniciarSpinnerBicicleta();
+                        break;
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
     }
 
     private void iniciarSpinnerBicicleta(){
@@ -97,22 +169,59 @@ public class ViagensActivity extends AppCompatActivity {
                 int bicicletaId = item.getId();
                 if(bicicletaId > 0){
                     getAllByBicicletaId(bicicletaId);
-                    inicializarRecycleView();
+                    if(somenteViagensPendentes)
+                        getAllPendentesByBicicletaId(bicicletaId);
+                    inicializarRecycleView(viagens);
                 }
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
     private void iniciarComponentes(){
-        inicializarRecycleView();
+        inicializarRecycleView(viagens);
         iniciarSpinnerBicicleta();
+        iniciarCalendario();
+        iniciarTab();
+        pesquisar = findViewById(R.id.pesquisar);
+        pesquisar.setOnClickListener(v -> filtrarViagem());
         novaViagemButton = findViewById(R.id.buttonNovaViagem);
         novaViagemButton.setOnClickListener(v -> handleCadastroViagem());
+    }
+
+    private void iniciarCalendario(){
+        datainicialfiltrar = findViewById(R.id.datainicialfiltrar);
+        datainicialfiltrar.setOnClickListener( v ->  {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePicker = new DatePickerDialog(
+                    this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                        datainicialfiltrar.setText(selectedDate);
+                    },year, month, day
+            );
+            datePicker.show();
+        });
+
+        datafinalfiltrar = findViewById(R.id.datafinalfiltrar);
+        datafinalfiltrar.setOnClickListener( v ->  {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePicker = new DatePickerDialog(
+                    this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                        datafinalfiltrar.setText(selectedDate);
+                    },year, month, day
+            );
+            datePicker.show();
+        });
     }
 
     private void exibirMessageListaVazia(){
@@ -124,15 +233,26 @@ public class ViagensActivity extends AppCompatActivity {
         }
     }
 
-    private void inicializarRecycleView(){
+    private void inicializarRecycleView(List<Viagem> viagens){
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewViagens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         AdapterViagem adapter = new AdapterViagem(viagens, new AdapterViagem.OnItemClickListener() {
             @Override
             public void deleteItem(Viagem item) {
-                deleteViagem(item.getId());
-                iniciarComponentes();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViagensActivity.this);
+                builder.setTitle("Atenção").setMessage("Deseja realmente apagar a viagem?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteViagem(item.getId());
+                        iniciarComponentes();
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
 
             @Override
@@ -150,7 +270,7 @@ public class ViagensActivity extends AppCompatActivity {
         startActivity(cadastroViagemIntent);
     }
 
-    private void handleCadastroViagem(){
+    private void handleCadastroViagem(){;
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
         startActivity(cadastroViagemIntent);
     }

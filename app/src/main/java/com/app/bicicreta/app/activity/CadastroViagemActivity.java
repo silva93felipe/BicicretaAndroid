@@ -36,12 +36,9 @@ public class CadastroViagemActivity extends AppCompatActivity {
             destinoCadastroViagemEditText.setText(viagemEdit.getDestino());
             quilometrosCadastroViagemEditText.setText(String.valueOf(viagemEdit.getQuilometros()));
             dataCadastroViagemEditText.setText(viagemEdit.getData());
+            origemCadastroViagemEditText.setText(viagemEdit.getOrigem());
+            observacao.setText(viagemEdit.getObservacao());
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     private void iniciarCalendario(){
@@ -72,7 +69,6 @@ public class CadastroViagemActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bicicletaCadastroPecaSpinner.setAdapter(adapter);
     }
-
 
     private void inicializarComponentes(){
         iniciarCalendario();
