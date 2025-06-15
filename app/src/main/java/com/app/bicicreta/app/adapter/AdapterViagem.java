@@ -56,10 +56,10 @@ public class AdapterViagem extends RecyclerView.Adapter<AdapterViagem.ViagemView
             super(itemView);
             dataViagem = itemView.findViewById(R.id.dataServicoViewHolder);
             quilometrosRodados = itemView.findViewById(R.id.quilometroServicoViewHolder);
-            destino = itemView.findViewById(R.id.descricaoServicoViewHolder);
+            origem = itemView.findViewById(R.id.descricaoServicoViewHolder);
+            destino = itemView.findViewById(R.id.tv_destino);
             deleteImagemView = itemView.findViewById(R.id.deleteViagemImagemView);
             editImagemView = itemView.findViewById(R.id.editViagemImagemView);
-            origem = itemView.findViewById(R.id.tv_destino);
         }
         public void bind (final Viagem item, OnItemClickListener listener){
             itemView.findViewById(R.id.deleteViagemImagemView).setOnClickListener( v -> listener.deleteItem(item));

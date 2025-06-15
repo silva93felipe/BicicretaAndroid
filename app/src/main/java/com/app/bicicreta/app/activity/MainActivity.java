@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
     BarChart viagemBarChart;
     LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout, linearViagensTab, linearPecaTab, linearBicicletaTab, linearConfiguracaoTab;
+    private final int DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL = 5;
+    private final int DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,26 +75,30 @@ public class MainActivity extends AppCompatActivity {
         getTotalPecas();
         getTotalServicos();
         getTotalViagens();
-        getViagemRecente();
+        temViagensAgendadasProxima();
+    }
+
+    private void temViagensAgendadasProxima(){
+        ViagemRepository repository = new ViagemRepository(this);
+        List<Viagem> viagensPendentes = repository.getAllPendentes();
+        if(viagensPendentes != null && !viagensPendentes.isEmpty()){
+            for (Viagem viagem: viagensPendentes) {
+                LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
+                LocalDate dataAtual = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    dataAtual = LocalDate.now();
+                    long dias = dataAtual.until(dataBanco, ChronoUnit.DAYS);
+                    if(dias >= DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA ){
+                        criarNotificacao("", String.format("Você tem uma viagem para %s em %s. É bom se organizar.", viagem.getDestino(), viagem.getData()));
+                    }
+                }
+            }
+        }
     }
 
     private void criarNotificacao(String titulo, String mensagem) {
         NotificationLocalService notificationLocalService = new NotificationLocalService(this, MainActivity.class, this);
         notificationLocalService.createNotification(titulo, mensagem);
-    }
-
-    private void getViagemRecente(){
-        ViagemRepository repository = new ViagemRepository(this);
-        List<Viagem> viagens = repository.getLastByParam(1);
-        if(viagens != null && !viagens.isEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            Viagem viagem = viagens.get(0);
-            LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
-            LocalDate dataAtual = LocalDate.now();
-            long dias = dataBanco.until(dataAtual, ChronoUnit.DAYS);
-            if(dias >= 5 ){
-                criarNotificacao("Saudades", "Faz tempo que você não pedala. Porque não volta a pedalar?");
-            }
-        }
     }
 
     private List<GraficoViagem> getDadosGraficoViagens(){
@@ -190,12 +196,18 @@ public class MainActivity extends AppCompatActivity {
         dataUltimaViagem = findViewById(R.id.dataUltimaViagemtextView);
         quilometroUltimaViagem = findViewById(R.id.quilometroUltimaViagemtextView);
         ultimaViagemLinearLayout.setVisibility(View.GONE);
-        if(viagens != null && !viagens.isEmpty()){
+        if(viagens != null && !viagens.isEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             ultimaViagemLinearLayout.setVisibility(View.VISIBLE);
             Viagem viagem = viagens.get(0);
             destinoUltimaViagem.setText(viagem.getDestino());
             dataUltimaViagem.setText(viagem.getData());
             quilometroUltimaViagem.setText(viagem.getQuilometros() + " Km");
+            LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
+            LocalDate dataAtual = LocalDate.now();
+            long dias = dataBanco.until(dataAtual, ChronoUnit.DAYS);
+            if(dias >= DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL ){
+                criarNotificacao("Saudades", "Faz tempo que você não pedala. Porque não volta a pedalar?");
+            }
         }
     }
 

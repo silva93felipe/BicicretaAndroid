@@ -4,12 +4,10 @@ import static android.widget.Toast.LENGTH_LONG;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,14 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.adapter.AdapterViagem;
-import com.app.bicicreta.app.fragment.PecaFragment;
-import com.app.bicicreta.app.fragment.ServicoFragment;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.ItemSpinner;
 import com.app.bicicreta.app.model.Viagem;
@@ -49,7 +46,9 @@ public class ViagensActivity extends AppCompatActivity {
     private Spinner bicicletaSpinner;
     private EditText datainicialfiltrar, datafinalfiltrar;
     private TabLayout tabViagem;
+    private int bicicletaIdSelecionada;
     private boolean somenteViagensPendentes = false;
+    private LinearLayout layoutFiltrarViagens;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,16 +62,6 @@ public class ViagensActivity extends AppCompatActivity {
         iniciarComponentes();
     }
 
-    private void getAllByBicicletaId(int id){
-        ViagemRepository repository = new ViagemRepository(this);
-        viagens = repository.getAllByBicicletaId(id);
-    }
-
-    private void getAllPendentesByBicicletaId(int id){
-        ViagemRepository repository = new ViagemRepository(this);
-        viagens = repository.getAllPendentesByBicicletaId(id);
-    }
-
     private List<Bicicleta> getAllBicicletas(){
         BicicletaRepository repository = new BicicletaRepository(this);
         return repository.getAll();
@@ -84,6 +73,14 @@ public class ViagensActivity extends AppCompatActivity {
     }
 
     private void filtrarViagem(){
+        if(somenteViagensPendentes){
+            filtrarViagensPendentes();
+            return;
+        }
+        filtraViagensPorPeriodo();
+    }
+
+    private void filtraViagensPorPeriodo(){
         List<String> erros = new ArrayList<>();
         String datainicio = datainicialfiltrar.getText().toString();
         String datafinal = datafinalfiltrar.getText().toString();
@@ -94,15 +91,32 @@ public class ViagensActivity extends AppCompatActivity {
         if(DataUtil.primeiraDataEhMenorQueASegundaData(datainicio, datafinal)){
             erros.add("A data inicial não pode ser maior do que a data final.");
         }
+        if(this.bicicletaIdSelecionada <= 0)
+            erros.add("Selecione uma bicicleta.");
 
         if(!erros.isEmpty()){
             Toast.makeText(this, erros.toString(), LENGTH_LONG).show();
             return;
         }
         ViagemRepository repository = new ViagemRepository(this);
-        viagens =  repository.getAllByPerido(datainicio, datafinal);
+        viagens =  repository.getAllByPeridoAnBicicletaId(datainicio, datafinal, bicicletaIdSelecionada);
         inicializarRecycleView(viagens);
     }
+
+    private void filtrarViagensPendentes(){
+        List<String> erros = new ArrayList<>();
+        if(this.bicicletaIdSelecionada <= 0)
+            erros.add("Selecione uma bicicleta.");
+
+        if(!erros.isEmpty()){
+            Toast.makeText(this, erros.toString(), LENGTH_LONG).show();
+            return;
+        }
+        ViagemRepository repository = new ViagemRepository(this);
+        viagens =  repository.getAllPendentesByBicicletaId(bicicletaIdSelecionada);
+        inicializarRecycleView(viagens);
+    }
+
 
     private void iniciarTab(){
         tabViagem = findViewById(R.id.tabLayout);
@@ -113,10 +127,12 @@ public class ViagensActivity extends AppCompatActivity {
                 switch (position){
                     case 0:
                         somenteViagensPendentes = false;
+                        layoutFiltrarViagens.setVisibility(View.VISIBLE);
                         iniciarSpinnerBicicleta();
                         break;
                     case 1:
                         somenteViagensPendentes = true;
+                        layoutFiltrarViagens.setVisibility(View.GONE);
                         iniciarSpinnerBicicleta();
                         break;
                     default:
@@ -168,9 +184,9 @@ public class ViagensActivity extends AppCompatActivity {
                 ItemSpinner item = (ItemSpinner)parent.getItemAtPosition(position);
                 int bicicletaId = item.getId();
                 if(bicicletaId > 0){
-                    getAllByBicicletaId(bicicletaId);
+                    bicicletaIdSelecionada = bicicletaId;
                     if(somenteViagensPendentes)
-                        getAllPendentesByBicicletaId(bicicletaId);
+                        filtrarViagensPendentes();
                     inicializarRecycleView(viagens);
                 }
             }
@@ -184,6 +200,7 @@ public class ViagensActivity extends AppCompatActivity {
         iniciarSpinnerBicicleta();
         iniciarCalendario();
         iniciarTab();
+        layoutFiltrarViagens = findViewById(R.id.layoutFiltrarViagens);
         pesquisar = findViewById(R.id.pesquisar);
         pesquisar.setOnClickListener(v -> filtrarViagem());
         novaViagemButton = findViewById(R.id.buttonNovaViagem);
