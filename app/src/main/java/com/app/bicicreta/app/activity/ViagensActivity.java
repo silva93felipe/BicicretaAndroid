@@ -128,15 +128,18 @@ public class ViagensActivity extends AppCompatActivity {
                     case 0:
                         somenteViagensPendentes = false;
                         layoutFiltrarViagens.setVisibility(View.VISIBLE);
+                        inicializarRecycleView(new ArrayList<Viagem>());
                         iniciarSpinnerBicicleta();
                         break;
                     case 1:
                         somenteViagensPendentes = true;
                         layoutFiltrarViagens.setVisibility(View.GONE);
                         iniciarSpinnerBicicleta();
+                        inicializarRecycleView(new ArrayList<Viagem>());
                         break;
                     default:
                         somenteViagensPendentes = false;
+                        inicializarRecycleView(new ArrayList<Viagem>());
                         iniciarSpinnerBicicleta();
                         break;
                 }
@@ -187,7 +190,6 @@ public class ViagensActivity extends AppCompatActivity {
                     bicicletaIdSelecionada = bicicletaId;
                     if(somenteViagensPendentes)
                         filtrarViagensPendentes();
-                    inicializarRecycleView(viagens);
                 }
             }
             @Override
@@ -196,7 +198,7 @@ public class ViagensActivity extends AppCompatActivity {
     }
 
     private void iniciarComponentes(){
-        inicializarRecycleView(viagens);
+        inicializarRecycleView(new ArrayList<Viagem>());
         iniciarSpinnerBicicleta();
         iniciarCalendario();
         iniciarTab();

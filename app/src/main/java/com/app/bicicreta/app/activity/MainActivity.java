@@ -227,4 +227,11 @@ public class MainActivity extends AppCompatActivity {
             quilometrosUltimaCompra.setText(MoedaUtil.convertToBR(peca.getValor()));
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        System.exit(0);
+        super.onBackPressed();
+    }
 }

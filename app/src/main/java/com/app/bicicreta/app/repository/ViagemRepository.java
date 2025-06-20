@@ -134,7 +134,7 @@ public class ViagemRepository {
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABLE_VIAGEM + " SET destino = ?, quilometros_rodados = ?, data_viagem = ?, bicicleta_id = ?, observacao = ?, origem = ? WHERE id = ?;",
                 new String[]{ String.valueOf(viagem.getDestino()),  String.valueOf(viagem.getQuilometros()),
-                              String.valueOf(viagem.getData()), String.valueOf(viagem.getBicicletaId()), String.valueOf(viagem.getId()), viagem.getObservacao(), viagem.getOrigem()});
+                              viagem.getData(), String.valueOf(viagem.getBicicletaId()), viagem.getObservacao(), viagem.getOrigem(), String.valueOf(viagem.getId())});
     }
 
     public int totalQuilometrosRodados(){

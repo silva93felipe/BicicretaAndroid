@@ -89,32 +89,35 @@ public class CadastroViagemActivity extends AppCompatActivity {
     private void handleCadastrarViagem(){
         List<String> erros = new ArrayList<>();
         if(destinoCadastroViagemEditText.getText().toString().trim().isEmpty()){
-            erros.add("Destino");
+            erros.add("Preencher Destino");
         }
 
         if(quilometrosCadastroViagemEditText.getText().toString().trim().isEmpty()){
-            erros.add("Quilometros");
+            erros.add("Preencher Quilometros");
         }
 
         if(dataCadastroViagemEditText.getText().toString().trim().isEmpty()){
-            erros.add("Data");
+            erros.add("Preencher Data");
         }
 
         if(bicicletaCadastroPecaSpinner.getSelectedItem().toString().trim().isEmpty()){
-            erros.add("Bicicleta");
+            erros.add("Preencher Bicicleta");
         }
 
         if(origemCadastroViagemEditText.getText().toString().trim().isEmpty()){
-            erros.add("Origem");
+            erros.add("Preencher Origem");
+        }
+
+        if( Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()) <= 0){
+            erros.add("Quilometros devem ser maior do que ZERO.");
         }
 
         if(!erros.isEmpty()){
-            Toast.makeText(this, "Preencha os seguintes campos: " + erros, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Atenção! " + erros, Toast.LENGTH_LONG).show();
             return;
         }
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaCadastroPecaSpinner.getSelectedItem();
-
         if(viagemEdit != null){
             Viagem newViagem = new Viagem(viagemEdit.getId(), dataCadastroViagemEditText.getText().toString(),
                     Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()),

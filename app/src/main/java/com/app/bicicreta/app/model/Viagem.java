@@ -53,7 +53,7 @@ public class Viagem implements Serializable {
 
     public void setQuilometros(int quilometros) {
         this.quilometros = quilometros;
-        if(this.quilometros < 0) this.quilometros = 0;
+        if(this.quilometros <= 0) this.quilometros = 1;
     }
 
     public String getDestino() {

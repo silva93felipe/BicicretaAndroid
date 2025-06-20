@@ -45,6 +45,21 @@
     </LinearLayout>
 
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:lineSpacingExtra="10sp"
+        android:text="O aplicativo Bicicreta tem como objetivo disponibilizar uma forma do amante de ciclismo acompanhar e gerenciar seus equipamentos, viagens e serviços para um melhor aproveitamento."
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRestore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRestore"
         android:layout_width="0dp"
@@ -53,7 +68,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/yellow_bg"
-        android:text="RESTORE"
+        android:text="RECUPERAR DADOS"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonBackup"
@@ -67,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/background_card"
-        android:text="BACKUP"
+        android:text="SALVAR DADOS"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
