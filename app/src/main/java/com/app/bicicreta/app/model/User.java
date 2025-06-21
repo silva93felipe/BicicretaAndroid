@@ -1,6 +1,8 @@
 package com.app.bicicreta.app.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int id;
     private String nome;
     public User(String nome){

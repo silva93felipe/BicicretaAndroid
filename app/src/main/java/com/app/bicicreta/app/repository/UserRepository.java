@@ -21,11 +21,16 @@ public class UserRepository {
         con.insert(TABLE_USER, null, values);
     }
 
+    public void update(User user){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("UPDATE " + TABLE_USER + " SET  nome = ? WHERE id = ? ",  new String[]{user.getNome() ,String.valueOf(user.getId())});
+    }
+
     public User getOne(){
         SQLiteDatabase con = db.getWritableDatabase();
-        Cursor cursor = con.rawQuery("SELECT nome FROM " + TABLE_USER + " LIMIT 1;", null);
+        Cursor cursor = con.rawQuery("SELECT id, nome FROM " + TABLE_USER + " LIMIT 1;", null);
         while(cursor.moveToNext()){
-            User user = new User(cursor.getString(0));
+            User user = new User(cursor.getInt(0), cursor.getString(1));
             return user;
         }
         return null;

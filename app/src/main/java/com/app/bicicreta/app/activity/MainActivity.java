@@ -34,16 +34,20 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
             dataUltimaViagem, quilometroUltimaViagem, descricaoPecaUltimaCompra,
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
     BarChart viagemBarChart;
-    LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout, linearViagensTab, linearPecaTab, linearBicicletaTab, linearConfiguracaoTab;
+    LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout, linearViagensTab, linearPecaTab, linearBicicletaTab, linearConfiguracaoTab, userLinearLayout;
     private final int DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL = 5;
     private final int DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA = 2;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes() {
+
         linearViagensTab = findViewById(R.id.linearViagensTab);
         linearViagensTab.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
         linearConfiguracaoTab = findViewById(R.id.linearConfiguracaoTab);
@@ -67,6 +72,15 @@ public class MainActivity extends AppCompatActivity {
         linearPecaTab.setOnClickListener(v -> handleNavigation(PecasEServicosActivity.class));
         linearBicicletaTab = findViewById(R.id.linearBicicletaTab);
         linearBicicletaTab.setOnClickListener(v -> handleNavigation(BicicletasActivity.class));
+        userLinearLayout = findViewById(R.id.userLinearLayout);
+        userLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ApresentacaoActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
         getNomeUsuario();
         getTotalQuilometrosRodados();
         getUltimaViagem();
@@ -155,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     private void getNomeUsuario(){
         nomeUsarioTextView = findViewById(R.id.nomeUsuarioTextView);
         UserRepository repository = new UserRepository(this);
-        User user = repository.getOne();
+        user = repository.getOne();
         if(user == null){
             nomeUsarioTextView.setText("DESCONHECIDO!" );
             return;
