@@ -43,6 +43,8 @@ public class ServicoFragment extends Fragment {
     private Context _context;
     private View _view;
     private Spinner bicicletaSpinner;
+    public ServicoFragment() {
+    }
     public ServicoFragment(Context context) {
         _context = context;
     }

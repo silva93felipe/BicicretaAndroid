@@ -39,6 +39,8 @@ public class PecaFragment extends Fragment {
     private Context _context;
     private View _view;
     private Spinner bicicletaSpinner;
+    public PecaFragment() {
+    }
     public PecaFragment(Context context) {
         _context = context;
     }
