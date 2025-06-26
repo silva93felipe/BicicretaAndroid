@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bicicreta</string>
-    <string name="message_welcome">Bem vindo ao</string>
+    <string name="label_bem_vindo">Bem vindo ao</string>
     <string-array name="aro_spinner">
         <item>Selecione aro</item>
         <item>20</item>
@@ -15,9 +15,37 @@
         <item>19</item>
         <item>21</item>
     </string-array>
-    <string name="button_save">Salvar</string>
+    <string name="button_save">Salvar</string>message_welcome
     <string name="button_next">Próximo</string>
     <string name="nada_exibir">Nada a exibir no momento</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="saudacao_inicial">Olá, \nPara começar digite seu nome</string>
+    <string name="digite_seu_nome">Digte seu nome aqui</string>
+    <string name="btn_comecar">Começar</string>
+    <string name="titulo_bicicletas">Bicicletas</string>
+    <string name="titulo_bicicleta">Bicicleta</string>
+    <string name="btn_novo">Novo</string>
+    <string name="label_modelo">Modelo</string>
+    <string name="label_quantidade_marchas">Quantidade marchas</string>
+    <string name="label_observacao">Observação</string>
+    <string name="titulo_pecas">Peças</string>
+    <string name="titulo_peca">Peça</string>
+    <string name="label_descricao">Descrição</string>
+    <string name="label_valor">Valor</string>
+    <string name="label_selecionar_data">Selecione uma data</string>
+    <string name="titulo_servicos">Serviços</string>
+    <string name="titulo_servico">Serviço</string>
+    <string name="titulo_viagens">Viagens</string>
+    <string name="titulo_viagem">Viagem</string>
+    <string name="label_origem">Origem</string>
+    <string name="label_destino">Destino</string>
+    <string name="label_distancia">Distância em KM</string>
+    <string name="titulo_configuracao">Configuração</string>
+    <string name="texto_sobre_bicicreta">O aplicativo Bicicreta tem como objetivo disponibilizar uma forma do amante de ciclismo acompanhar e gerenciar seus equipamentos, viagens e serviços para um melhor aproveitamento.</string>
+    <string name="btn_recuperar_dados">Recuperar dados</string>
+    <string name="btn_salvar_dados">Salvar dados</string>
+    <string name="btn_criar_conta">Criar conta</string>
+    <string name="label_finalizadas">Finalizadas</string>
+    <string name="label_pendentes">Pendentes</string>
+    <string name="label_data_inicial">Data Inicial</string>
+    <string name="label_data_final">Data Final</string>
 </resources>

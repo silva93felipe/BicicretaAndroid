@@ -34,13 +34,13 @@
                 android:id="@+id/tabItemPeca"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Peças" />
+                android:text="@string/titulo_pecas" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItemServico"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Serviços" />
+                android:text="@string/titulo_servicos" />
 
         </com.google.android.material.tabs.TabLayout>
 

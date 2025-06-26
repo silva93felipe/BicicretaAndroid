@@ -24,12 +24,12 @@
             android:id="@+id/textView5"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:padding="2dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="VIAGENS" />
+            android:text="@string/titulo_viagens" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -45,13 +45,13 @@
                 android:id="@+id/tabItemFinalizadas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Finalizadas" />
+                android:text="@string/label_finalizadas" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItemPendentes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pendentes" />
+                android:text="@string/label_pendentes" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -74,7 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/edittext_background"
-        android:contentDescription="Bicicleta"
+        android:contentDescription="@string/titulo_bicicleta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +104,7 @@
                 android:background="@drawable/edittext_background"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="Data Inicial"
+                android:hint="@string/label_data_inicial"
                 android:inputType="none"
                 android:paddingStart="5dp" />
 
@@ -116,7 +116,7 @@
                 android:background="@drawable/edittext_background"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="Data Final"
+                android:hint="@string/label_data_final"
                 android:inputType="none"
                 android:paddingStart="5dp" />
 
@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/yellow_bg"
-            android:text="NOVA"
+            android:text="@string/btn_novo"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

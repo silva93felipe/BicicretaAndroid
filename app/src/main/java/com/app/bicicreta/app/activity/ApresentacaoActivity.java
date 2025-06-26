@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.bicicreta.R;
-import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.User;
 import com.app.bicicreta.app.repository.UserRepository;
 

@@ -1,5 +1,8 @@
 package com.app.bicicreta.app.activity;
 
+import static com.app.bicicreta.app.utils.Constantes.DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL;
+import static com.app.bicicreta.app.utils.Constantes.DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +24,7 @@ import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.service.NotificationLocalService;
 import com.app.bicicreta.app.utils.DataUtil;
 import com.app.bicicreta.app.utils.MoedaUtil;
+import com.app.bicicreta.app.utils.StorageLocal;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -34,10 +38,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TextView nomeUsarioTextView, quilomentrosRodadosTextView, destinoUltimaViagem,
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
             dataUltimaCompra, quilometrosUltimaCompra, totalViagensTextView, totalPecastextView, totalServico;
     BarChart viagemBarChart;
     LinearLayout ultimaViagemLinearLayout, ultimaPecaLinearLayout, graficoViagensLinearLayout, linearViagensTab, linearPecaTab, linearBicicletaTab, linearConfiguracaoTab, userLinearLayout;
-    private final int DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL = 5;
-    private final int DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA = 2;
+
     private User user;
 
     @Override
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes() {
-
         linearViagensTab = findViewById(R.id.linearViagensTab);
         linearViagensTab.setOnClickListener(v -> handleNavigation(ViagensActivity.class));
         linearConfiguracaoTab = findViewById(R.id.linearConfiguracaoTab);
@@ -101,8 +100,16 @@ public class MainActivity extends AppCompatActivity {
                 LocalDate dataAtual = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     dataAtual = LocalDate.now();
+                    StorageLocal storageLocal = new StorageLocal(getApplicationContext());
+                    String dataLocalStorage = storageLocal.getDataNotificacaoViagemAgendada();
+                    if(dataLocalStorage != null){
+                        LocalDate dataLocalStorageConvertida = DataUtil.USStringToDate(dataLocalStorage);
+                        long diasPassados = dataAtual.until(dataLocalStorageConvertida, ChronoUnit.DAYS);
+                        if(diasPassados <= 1) return;
+                    }
                     long dias = dataAtual.until(dataBanco, ChronoUnit.DAYS);
                     if(dias >= DIAS_PARA_NOTIFICAR_VIAGEM_AGENDADA ){
+                        storageLocal.setDataNotificacaoViagemAgendada(DataUtil.DateToUSString(dataAtual));
                         criarNotificacao("", String.format("Você tem uma viagem para %s em %s. É bom se organizar.", viagem.getDestino(), viagem.getData()));
                     }
                 }
@@ -218,8 +225,16 @@ public class MainActivity extends AppCompatActivity {
             quilometroUltimaViagem.setText(viagem.getQuilometros() + " Km");
             LocalDate dataBanco = DataUtil.USStringToDate(viagem.getData());
             LocalDate dataAtual = LocalDate.now();
+            StorageLocal storageLocal = new StorageLocal(getApplicationContext());
+            String dataLocalStorage = storageLocal.getDataNotificacaoUltimaViagem();
+            if(dataLocalStorage != null){
+                LocalDate dataLocalStorageConvertida = DataUtil.USStringToDate(dataLocalStorage);
+                long diasPassados = dataAtual.until(dataLocalStorageConvertida, ChronoUnit.DAYS);
+                if(diasPassados <= 1) return;
+            }
             long dias = dataBanco.until(dataAtual, ChronoUnit.DAYS);
             if(dias >= DIAS_PARA_NOTIFICAR_AUSENCIA_NO_PEDAL ){
+                storageLocal.setDataNotificacaoUltimaViagem(DataUtil.DateToUSString(dataAtual));
                 criarNotificacao("Saudades", "Faz tempo que você não pedala. Porque não volta a pedalar?");
             }
         }
