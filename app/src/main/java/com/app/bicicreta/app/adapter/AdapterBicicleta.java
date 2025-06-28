@@ -3,6 +3,7 @@ package com.app.bicicreta.app.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.Peca;
+import com.app.bicicreta.app.model.Viagem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,8 @@ public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.Bici
     private List<Bicicleta> bicicletas;
     private OnItemClickListener listener;
     public interface OnItemClickListener {
-        void onItemClick(Bicicleta item);
+        void deleteItem(Bicicleta item);
+        void editItem(Bicicleta item);
     }
 
     public AdapterBicicleta(List<Bicicleta> bicicletas, OnItemClickListener listener) {
@@ -51,11 +54,8 @@ public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.Bici
     }
 
     public class BicicletaViewHolder extends RecyclerView.ViewHolder {
-        TextView modelo;
-        TextView tamanhoAro;
-        TextView tamanhoQuadro;
-        TextView quantidadeMarchas;
-        TextView quilometrosRodados;
+        TextView modelo, tamanhoAro, tamanhoQuadro, quantidadeMarchas, quilometrosRodados;
+        ImageView deleteImagemView, editImagemView;
 
         public BicicletaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,10 +64,13 @@ public class AdapterBicicleta extends RecyclerView.Adapter<AdapterBicicleta.Bici
             tamanhoQuadro = itemView.findViewById(R.id.tamanhoQuadroTextViewHolder);
             quantidadeMarchas = itemView.findViewById(R.id.marchasTextViewHolder);
             quilometrosRodados = itemView.findViewById(R.id.quilometrosTextViewHolder);
+            deleteImagemView = itemView.findViewById(R.id.deleteBicicletaImagemView);
+            editImagemView = itemView.findViewById(R.id.editBicicletaImagemView);
         }
 
         public void bind (final Bicicleta item, OnItemClickListener listener){
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+            deleteImagemView.setOnClickListener(v -> listener.deleteItem(item));
+            editImagemView.setOnClickListener(v -> listener.editItem(item));
         }
     }
 }

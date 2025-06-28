@@ -30,6 +30,7 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         if(bicicletaEdit != null){
             modeloTextView.setText(bicicletaEdit.getModelo());
             quantidadeMarchaTextView.setText(String.valueOf(bicicletaEdit.getQuantidadeMarchas()));
+            observacaoBicicletaEditText.setText(bicicletaEdit.getObservacao());
         }
     }
 

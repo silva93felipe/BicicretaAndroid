@@ -32,6 +32,12 @@ public class ServicoRepository {
         con.insert(TABELA_SERVICO, null, values);
     }
 
+    public void deleteById(int id){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("DELETE FROM " + TABELA_SERVICO + " WHERE id = ?",
+                new String[]{ String.valueOf(id)});
+    }
+
     public void update(Servico servico){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_SERVICO + " SET descricao = ?, data_servico = ?, valor_servico = ?, quilometros_rodados = ?, " +

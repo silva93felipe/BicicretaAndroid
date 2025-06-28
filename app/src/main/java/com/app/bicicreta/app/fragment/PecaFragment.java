@@ -1,10 +1,14 @@
 package com.app.bicicreta.app.fragment;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +22,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.activity.BicicletasActivity;
 import com.app.bicicreta.app.activity.CadastroPecaActivity;
 import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.model.Bicicleta;
@@ -133,11 +139,36 @@ public class PecaFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewPeca);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        AdapterPeca adapter = new AdapterPeca(pecas, p -> {
-            handleAtualizarPeca(p);
+        AdapterPeca adapter = new AdapterPeca(pecas, new AdapterPeca.OnItemClickListener() {
+            @Override
+            public void deleteItem(Peca item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Atenção").setMessage("Deseja realmente apagar a peça?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteById(item.getId());
+                        iniciarComponentes(_view);
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
+            @Override
+            public void editItem(Peca item) {
+                handleAtualizarPeca(item);
+            }
         });
         recyclerView.setAdapter(adapter);
         exibirMessageListaVazia(view);
+    }
+
+    private void deleteById(int id){
+        PecaRepository repository = new PecaRepository(_context);
+        repository.deleteById(id);
     }
 
     private void iniciarComponentes(View view){

@@ -1,10 +1,12 @@
 package com.app.bicicreta.app.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -144,11 +146,36 @@ public class ServicoFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewServico);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        AdapterServico adapter = new AdapterServico(servicos, p -> {
-            handleAtualizarServico(p);
+        AdapterServico adapter = new AdapterServico(servicos, new AdapterServico.OnItemClickListener() {
+            @Override
+            public void deleteItem(Servico item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Atenção").setMessage("Deseja realmente apagar a serviço?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteById(item.getId());
+                        iniciarComponentes(_view);
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
+            @Override
+            public void editItem(Servico item) {
+                handleAtualizarServico(item);
+            }
         });
         recyclerView.setAdapter(adapter);
         exibirMessageListaVazia(view);
+    }
+
+    private void deleteById(int id){
+        ServicoRepository repository = new ServicoRepository(_context);
+        repository.deleteById(id);;
     }
 
     private void exibirMessageListaVazia(View view){

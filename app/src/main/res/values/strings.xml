@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bicicreta</string>
     <string name="label_bem_vindo">Bem vindo ao</string>
+    <string name="label_versao_app">Versão 1.0.1</string>
     <string-array name="aro_spinner">
         <item>Selecione aro</item>
         <item>20</item>
@@ -48,4 +49,7 @@
     <string name="label_pendentes">Pendentes</string>
     <string name="label_data_inicial">Data Inicial</string>
     <string name="label_data_final">Data Final</string>
+    <string name="tamanho_aro">Aro</string>
+    <string name="tamanho_quadro">Quadro</string>
+    <string name="quantidade_marchas">Qtd. Marchas</string>
 </resources>

@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Quadro"
+                android:text="@string/tamanho_quadro"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Aro"
+                android:text="@string/tamanho_aro"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Qtd. Marchas"
+                android:text="@string/quantidade_marchas"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 

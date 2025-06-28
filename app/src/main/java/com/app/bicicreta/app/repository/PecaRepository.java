@@ -31,6 +31,12 @@ public class PecaRepository {
         con.insert(TABELA_PECA, null, values);
     }
 
+    public void deleteById(int id){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("DELETE FROM " + TABELA_PECA + " WHERE id = ?",
+                new String[]{ String.valueOf(id)});
+    }
+
     public void update(Peca peca){
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_PECA + " SET descricao = ?, data_compra = ?, valor_compra = ?, quilometros_rodados = ?, " +

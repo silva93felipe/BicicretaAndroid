@@ -3,12 +3,14 @@ package com.app.bicicreta.app.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.utils.MoedaUtil;
 
@@ -20,7 +22,8 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
     private List<Peca> pecas;
     private OnItemClickListener listener;
     public interface OnItemClickListener {
-        void onItemClick(Peca item);
+        void deleteItem(Peca item);
+        void editItem(Peca item);
     }
     public AdapterPeca(List<Peca> pecas, OnItemClickListener listener) {
         this.pecas = pecas;
@@ -50,19 +53,20 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
     }
 
     public class PecaViewHolder extends RecyclerView.ViewHolder{
-        TextView dataCompra;
-        TextView valor;
-        TextView quilometros;
-        TextView nomePeca;
+        TextView dataCompra,  valor,  quilometros, nomePeca;
+        ImageView editPecaImagemView, deletePecaImagemView;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
             dataCompra = itemView.findViewById(R.id.dataServicoViewHolder);
             valor = itemView.findViewById(R.id.valorServicoViewHolder);
             quilometros = itemView.findViewById(R.id.quilometroServicoViewHolder);
             nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
+            editPecaImagemView = itemView.findViewById(R.id.editPecaImagemView);
+            deletePecaImagemView = itemView.findViewById(R.id.deletePecaImagemView);
         }
         public void bind (final Peca item, OnItemClickListener listener){
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+            editPecaImagemView.setOnClickListener( v -> listener.editItem(item));
+            deletePecaImagemView.setOnClickListener( v -> listener.deleteItem(item));
         }
     }
 }

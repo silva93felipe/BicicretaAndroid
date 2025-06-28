@@ -51,6 +51,12 @@ public class BicicletaRepository {
                         String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), String.valueOf(bicicleta.getId()), bicicleta.getObservacao()});
     }
 
+    public void deleteById(int id){
+        SQLiteDatabase con = db.getWritableDatabase();
+        con.execSQL("DELETE FROM " + TABEL_BICICLETA + " WHERE id = ?",
+                new String[]{String.valueOf(id) });
+    }
+
     public List<Bicicleta> getAll(){
         SQLiteDatabase con = db.getWritableDatabase();
         List<Bicicleta> bicicletas = new ArrayList<>();

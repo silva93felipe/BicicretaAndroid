@@ -1,14 +1,17 @@
 package com.app.bicicreta.app.adapter;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.bicicreta.R;
+import com.app.bicicreta.app.model.Peca;
 import com.app.bicicreta.app.model.Servico;
 import com.app.bicicreta.app.utils.MoedaUtil;
 
@@ -20,7 +23,8 @@ public class AdapterServico extends RecyclerView.Adapter<AdapterServico.ServicoV
     private List<Servico> servicos;
     private OnItemClickListener listener;
     public interface OnItemClickListener {
-        void onItemClick(Servico item);
+        void deleteItem(Servico item);
+        void editItem(Servico item);
     }
     public AdapterServico(List<Servico> servicos, OnItemClickListener listener) {
         this.servicos = servicos;
@@ -50,19 +54,20 @@ public class AdapterServico extends RecyclerView.Adapter<AdapterServico.ServicoV
     }
 
     public class ServicoViewHolder extends RecyclerView.ViewHolder{
-        TextView dataServico;
-        TextView valorServico;
-        TextView quilometros;
-        TextView nomePeca;
+        TextView dataServico, valorServico, quilometros, nomePeca;
+        ImageView editServicoImagemView, deleteServicoImagemView;
         public ServicoViewHolder(@NonNull View itemView) {
             super(itemView);
             dataServico = itemView.findViewById(R.id.dataServicoViewHolder);
             valorServico = itemView.findViewById(R.id.valorServicoViewHolder);
             quilometros = itemView.findViewById(R.id.quilometroServicoViewHolder);
             nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
+            deleteServicoImagemView = itemView.findViewById(R.id.deleteServicoImagemView);
+            editServicoImagemView = itemView.findViewById(R.id.editServicoImagemView);
         }
         public void bind (final Servico item, OnItemClickListener listener){
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+            deleteServicoImagemView.setOnClickListener(v -> listener.deleteItem(item));
+            editServicoImagemView.setOnClickListener(v -> listener.editItem(item));
         }
     }
 }

@@ -16,7 +16,6 @@ public class BemVindoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bem_vindo);
         inicializarComponentes();
-        jaTemUsuarioCadastrado();
     }
 
     private void inicializarComponentes(){
@@ -25,14 +24,16 @@ public class BemVindoActivity extends AppCompatActivity {
     }
 
     private void handleNext(){
+        if(jaTemUsuarioCadastrado()){
+            startActivity(new Intent(BemVindoActivity.this, MainActivity.class));
+            finish();
+            return;
+        }
         startActivity(new Intent(BemVindoActivity.this, RegisterActivity.class));
     }
 
-    private void jaTemUsuarioCadastrado(){
+    private boolean jaTemUsuarioCadastrado(){
         UserRepository repository = new UserRepository(this);
-        if(repository.getOne() != null){
-            startActivity(new Intent(BemVindoActivity.this, MainActivity.class));
-            finish();
-        }
+        return repository.getOne() != null;
     }
 }
