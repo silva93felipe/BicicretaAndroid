@@ -16,6 +16,7 @@ import com.app.bicicreta.app.model.ItemSpinner;
 import com.app.bicicreta.app.model.Viagem;
 import com.app.bicicreta.app.repository.BicicletaRepository;
 import com.app.bicicreta.app.repository.PecaRepository;
+import com.app.bicicreta.app.repository.ServicoRepository;
 import com.app.bicicreta.app.repository.ViagemRepository;
 
 import java.util.ArrayList;
@@ -132,6 +133,7 @@ public class CadastroViagemActivity extends AppCompatActivity {
             saveViagem(newViagem);
             atualizarQuilometrosBicicleta(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
             atualizarQuilometrosPeca(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
+            atualizarQuilometrosServico(bicicletaSelecionada.getId(), Integer.parseInt(quilometrosCadastroViagemEditText.getText().toString()));
         }
         finish();
     }
@@ -152,6 +154,11 @@ public class CadastroViagemActivity extends AppCompatActivity {
 
     private void atualizarQuilometrosPeca(int bicicletaId, int quilometros){
         PecaRepository repository = new PecaRepository(this);
+        repository.updateQuilometrosRodadosByBicicletaId(bicicletaId, quilometros);
+    }
+
+    private void atualizarQuilometrosServico(int bicicletaId, int quilometros){
+        ServicoRepository repository = new ServicoRepository(this);
         repository.updateQuilometrosRodadosByBicicletaId(bicicletaId, quilometros);
     }
 }

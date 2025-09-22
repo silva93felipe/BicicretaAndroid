@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bicicreta</string>
     <string name="label_bem_vindo">Bem vindo ao</string>
-    <string name="label_versao_app">Versão 1.0.1</string>
+    <string name="label_versao_app">Versão 1.0.2</string>
     <string-array name="aro_spinner">
         <item>Selecione aro</item>
         <item>20</item>

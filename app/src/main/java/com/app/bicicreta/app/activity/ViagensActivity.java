@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,12 @@ import com.app.bicicreta.app.repository.ViagemRepository;
 import com.app.bicicreta.app.utils.DataUtil;
 import com.google.android.material.tabs.TabLayout;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ViagensActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -77,20 +81,17 @@ public class ViagensActivity extends AppCompatActivity {
             filtrarViagensPendentes();
             return;
         }
-        filtraViagensPorPeriodo();
+        filtraViagensPorPeriodo(datainicialfiltrar.getText().toString(), datafinalfiltrar.getText().toString());
     }
 
-    private void filtraViagensPorPeriodo(){
+    private void filtraViagensPorPeriodo(String datainicio, String datafinal){
         List<String> erros = new ArrayList<>();
-        String datainicio = datainicialfiltrar.getText().toString();
-        String datafinal = datafinalfiltrar.getText().toString();
-        if(datainicio.isEmpty() || datafinal.isEmpty()){
+        if(datainicio.isEmpty() || datafinal.isEmpty())
             erros.add("A data inicial e final devem está preenchida.");
-        }
 
-        if(DataUtil.primeiraDataEhMenorQueASegundaData(datainicio, datafinal)){
+        if(DataUtil.primeiraDataEhMenorQueASegundaData(datainicio, datafinal))
             erros.add("A data inicial não pode ser maior do que a data final.");
-        }
+
         if(this.bicicletaIdSelecionada <= 0)
             erros.add("Selecione uma bicicleta.");
 
@@ -128,8 +129,8 @@ public class ViagensActivity extends AppCompatActivity {
                     case 0:
                         somenteViagensPendentes = false;
                         layoutFiltrarViagens.setVisibility(View.VISIBLE);
-                        inicializarRecycleView(new ArrayList<Viagem>());
                         iniciarSpinnerBicicleta();
+                        inicializarRecycleView(new ArrayList<Viagem>());
                         break;
                     case 1:
                         somenteViagensPendentes = true;
@@ -184,12 +185,18 @@ public class ViagensActivity extends AppCompatActivity {
         bicicletaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                datainicialfiltrar.setText("");
+                datafinalfiltrar.setText("");
                 ItemSpinner item = (ItemSpinner)parent.getItemAtPosition(position);
                 int bicicletaId = item.getId();
                 if(bicicletaId > 0){
                     bicicletaIdSelecionada = bicicletaId;
                     if(somenteViagensPendentes)
                         filtrarViagensPendentes();
+                    else{
+                        filtraViagensPorPeriodo(inicioDoMes()[0], inicioDoMes()[1]);
+                        inicializarRecycleView(viagens);
+                    }
                 }
             }
             @Override
@@ -197,8 +204,20 @@ public class ViagensActivity extends AppCompatActivity {
         });
     }
 
+    private String[] inicioDoMes(){
+        String dataInicial = "0000-00-00 00:00:00";
+        String dataFinal = "0000-00-00 00:00:00";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate primeiroDiaDoMes = LocalDate.now().withDayOfMonth(1);
+            LocalDate ultimoDiaDoMes = LocalDate.now().withDayOfMonth(1).plusMonths(1).minusDays(1);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dataInicial = primeiroDiaDoMes.format(format);
+            dataFinal = ultimoDiaDoMes.format(format);
+        }
+        return new String[]{ dataInicial, dataFinal };
+    }
+
     private void iniciarComponentes(){
-        inicializarRecycleView(new ArrayList<Viagem>());
         iniciarSpinnerBicicleta();
         iniciarCalendario();
         iniciarTab();
@@ -283,19 +302,22 @@ public class ViagensActivity extends AppCompatActivity {
         exibirMessageListaVazia();
     }
 
-    private void handleEditarViagem(Viagem v){
+    private void handleEditarViagem(Viagem viagem){
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
-        cadastroViagemIntent.putExtra("viagem", v);
+        cadastroViagemIntent.putExtra("viagem", viagem);
+        inicializarRecycleView(new ArrayList<Viagem>());
         startActivity(cadastroViagemIntent);
     }
 
     private void handleCadastroViagem(){;
         Intent cadastroViagemIntent = new Intent(ViagensActivity.this, CadastroViagemActivity.class);
+        inicializarRecycleView(new ArrayList<Viagem>());
         startActivity(cadastroViagemIntent);
     }
 
     private void deleteViagem(int id){
         ViagemRepository repository = new ViagemRepository(this);
+        inicializarRecycleView(new ArrayList<Viagem>());
         repository.deleteById(id);
     }
 }

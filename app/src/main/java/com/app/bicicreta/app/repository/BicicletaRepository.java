@@ -48,7 +48,7 @@ public class BicicletaRepository {
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABEL_BICICLETA + " SET modelo = ?, tamanho_aro = ?, quantidade_marchas = ?, tamanho_quadro = ?, quilometros_rodados = ?, observacao = ? WHERE id = ?",
                 new String[]{ String.valueOf(bicicleta.getModelo()), String.valueOf(bicicleta.getAro()), String.valueOf(bicicleta.getQuantidadeMarchas()),
-                        String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), String.valueOf(bicicleta.getId()), bicicleta.getObservacao()});
+                        String.valueOf(bicicleta.getTamanhoQuadro()), String.valueOf(bicicleta.getQuilometrosRodados()), bicicleta.getObservacao(), String.valueOf(bicicleta.getId())});
     }
 
     public void deleteById(int id){

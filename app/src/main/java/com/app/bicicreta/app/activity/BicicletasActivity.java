@@ -54,7 +54,7 @@ public class BicicletasActivity extends AppCompatActivity {
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if(temAlgumRegistroParaEssaBicicleta(item.getId())){
-                            Toast.makeText(BicicletasActivity.this, "Existem registros para essa bicicleta e com isso ela não ser apagada.", LENGTH_LONG).show();
+                            Toast.makeText(BicicletasActivity.this, "Bicicleta não ser apagada, pois existem registros associados a ela.", LENGTH_LONG).show();
                             return;
                         }
                         deleteById(item.getId());

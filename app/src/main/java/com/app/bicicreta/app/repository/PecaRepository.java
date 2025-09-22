@@ -41,8 +41,8 @@ public class PecaRepository {
         SQLiteDatabase con = db.getWritableDatabase();
         con.execSQL("UPDATE " + TABELA_PECA + " SET descricao = ?, data_compra = ?, valor_compra = ?, quilometros_rodados = ?, " +
                 " bicicleta_id = ?, observacao = ? WHERE id = ?",
-                new String[]{ String.valueOf(peca.getNomePeca()),  String.valueOf(peca.getDataCompra()), String.valueOf(peca.getValor()),
-                        String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), String.valueOf(peca.getId()), peca.getObservacao()});
+                new String[]{ peca.getNomePeca(),  peca.getDataCompra(), String.valueOf(peca.getValor()),
+                        String.valueOf(peca.getQuilometros()), String.valueOf(peca.getBicicletaId()), peca.getObservacao(), String.valueOf(peca.getId()) });
     }
 
     public int getTotalPecas(){
@@ -57,7 +57,7 @@ public class PecaRepository {
 
     public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
         SQLiteDatabase con = db.getWritableDatabase();
-        con.execSQL("UPDATE " + TABELA_PECA + " SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
+        con.execSQL("UPDATE " + TABELA_PECA + " SET quilometros_rodados = quilometros_rodados + ? WHERE bicicleta_id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
     }
 
     public List<Peca> getLastByParam(int quantidade){

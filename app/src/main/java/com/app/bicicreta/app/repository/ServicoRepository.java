@@ -43,7 +43,7 @@ public class ServicoRepository {
         con.execSQL("UPDATE " + TABELA_SERVICO + " SET descricao = ?, data_servico = ?, valor_servico = ?, quilometros_rodados = ?, " +
                         " bicicleta_id = ?, observacao = ? WHERE id = ?",
                 new String[]{ String.valueOf(servico.getDescricao()),  String.valueOf(servico.getDataServico()), String.valueOf(servico.getValor()),
-                        String.valueOf(servico.getQuilometros()), String.valueOf(servico.getBicicletaId()), String.valueOf(servico.getId()), servico.getObservacao()});
+                        String.valueOf(servico.getQuilometros()), String.valueOf(servico.getBicicletaId()), servico.getObservacao(), String.valueOf(servico.getId())});
     }
 
     public int getTotalServicos(){
@@ -58,7 +58,7 @@ public class ServicoRepository {
 
     public void updateQuilometrosRodadosByBicicletaId(int bicicletaId, int quilometros){
         SQLiteDatabase con = db.getWritableDatabase();
-        con.execSQL("UPDATE " + TABELA_SERVICO + " SET quilometros_rodados = quilometros_rodados + ? WHERE id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
+        con.execSQL("UPDATE " + TABELA_SERVICO + " SET quilometros_rodados = quilometros_rodados + ? WHERE bicicleta_id = ?", new String[]{ String.valueOf(quilometros),  String.valueOf(bicicletaId)});
     }
 
     public List<Servico> getLastByParam(int quantidade){
