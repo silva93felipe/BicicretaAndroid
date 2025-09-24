@@ -27,6 +27,7 @@
     <string name="btn_novo">Novo</string>
     <string name="label_modelo">Modelo</string>
     <string name="label_quantidade_marchas">Quantidade marchas</string>
+    <string name="label_quilometros_rodados">Quilometros Rodados</string>
     <string name="label_observacao">Observação</string>
     <string name="titulo_pecas">Peças</string>
     <string name="titulo_peca">Peça</string>

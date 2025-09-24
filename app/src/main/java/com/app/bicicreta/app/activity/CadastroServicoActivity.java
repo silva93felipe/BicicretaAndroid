@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CadastroServicoActivity extends AppCompatActivity {
-    private EditText dataServico, descricaoServico, valorServico, observacao;
+    private EditText dataServico, descricaoServico, valorServico, observacao, quilometroServicoEditText;
     private Spinner bicicletaSpinner;
     private Button botaoSalvar;
     private Servico servicoEdit;
@@ -38,6 +38,7 @@ public class CadastroServicoActivity extends AppCompatActivity {
             valorServico.setText(MoedaUtil.convertToBR(servicoEdit.getValor()));
             dataServico.setText(servicoEdit.getDataServico());
             observacao.setText(servicoEdit.getObservacao());
+            quilometroServicoEditText.setText(String.valueOf(servicoEdit.getQuilometros()));
         }
     }
 
@@ -82,6 +83,7 @@ public class CadastroServicoActivity extends AppCompatActivity {
         dataServico = findViewById(R.id.dataServicoEditText);
         observacao = findViewById(R.id.editTextObservacaoServico);
         botaoSalvar = findViewById(R.id.buttonAdicionarServico);
+        quilometroServicoEditText = findViewById(R.id.quilometroServicoEditText);
         botaoSalvar.setOnClickListener(v -> createServico());
         iniciarSpinnerBicicleta();
         iniciarCalendario();
@@ -117,12 +119,16 @@ public class CadastroServicoActivity extends AppCompatActivity {
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
         ServicoRepository repository = new ServicoRepository(this);
+        String quilometrosView =  String.valueOf(quilometroServicoEditText.getText());
+        int quilometros = 0;
+        if(quilometrosView != null && !quilometrosView.isEmpty())
+            quilometros = Integer.parseInt(quilometrosView);
         if(servicoEdit != null){
             Servico newServico = new Servico(servicoEdit.getId(), dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()),
-                    servicoEdit.getQuilometros(), bicicletaSelecionada.getId(), descricaoServico.getText().toString(), servicoEdit.getModeloBicicleta(), observacao.getText().toString());
+                    quilometros, bicicletaSelecionada.getId(), descricaoServico.getText().toString(), servicoEdit.getModeloBicicleta(), observacao.getText().toString());
             repository.update(newServico);
         }else{
-            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), bicicletaSelecionada.getId(), descricaoServico.getText().toString(), observacao.getText().toString());
+            Servico newServico = new Servico(dataServico.getText().toString(), Double.parseDouble(valorServico.getText().toString()), quilometros, bicicletaSelecionada.getId(), descricaoServico.getText().toString(), observacao.getText().toString());
             repository.add(newServico);
         }
         finish();

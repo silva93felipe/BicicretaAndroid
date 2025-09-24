@@ -105,7 +105,8 @@ public class PecaRepository {
         Cursor cursor = con.rawQuery("SELECT p.id, p.descricao, p.data_compra, p.valor_compra, p.quilometros_rodados, p.bicicleta_id, b.modelo, p.observacao  FROM "
                 + TABELA_PECA + " p"
                 + " INNER JOIN " + TABELA_BICICLETA + " b ON b.id = p.bicicleta_id "
-                + " WHERE p.bicicleta_id = ? ", new String[]{ String.valueOf(id)});
+                + " WHERE p.bicicleta_id = ? "
+                + " ORDER BY p.data_compra DESC;", new String[]{ String.valueOf(id)});
         while(cursor.moveToNext()){
             Peca peca = new Peca(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7));
             pecas.add(peca);

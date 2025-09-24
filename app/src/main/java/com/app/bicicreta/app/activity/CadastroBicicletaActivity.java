@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class CadastroBicicletaActivity extends AppCompatActivity {
     private Spinner aroSpinner, quadroSpinner;
-    private EditText modeloTextView, quantidadeMarchaTextView, observacaoBicicletaEditText;
+    private EditText modeloTextView, quantidadeMarchaTextView, observacaoBicicletaEditText, quilometrosBikeTextView;
     private Button buttonNext;
     private Bicicleta bicicletaEdit;
     @Override
@@ -31,6 +31,7 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
             modeloTextView.setText(bicicletaEdit.getModelo());
             quantidadeMarchaTextView.setText(String.valueOf(bicicletaEdit.getQuantidadeMarchas()));
             observacaoBicicletaEditText.setText(bicicletaEdit.getObservacao());
+            quilometrosBikeTextView.setText(String.valueOf(bicicletaEdit.getQuilometrosRodados()));
         }
     }
 
@@ -40,6 +41,7 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         modeloTextView = findViewById(R.id.modeloTextView);
         quantidadeMarchaTextView = findViewById(R.id.quantidadeMarchasTextView);
         observacaoBicicletaEditText = findViewById(R.id.editTextObservacaoBicicleta);
+        quilometrosBikeTextView = findViewById(R.id.quilometrosBikeTextView);
         buttonNext = findViewById(R.id.buttonAdicionarViagem);
         buttonNext.setOnClickListener(h -> createBicicleta());
     }
@@ -72,13 +74,18 @@ public class CadastroBicicletaActivity extends AppCompatActivity {
         int aro = Integer.parseInt(aroSpinner.getSelectedItem().toString());
         int quadro = Integer.parseInt(quadroSpinner.getSelectedItem().toString());
         String observacao = String.valueOf(observacaoBicicletaEditText.getText());
+        String quilometrosView =  String.valueOf(quilometrosBikeTextView.getText());
+        int quilometros = 0;
+        if(quilometrosView != null && !quilometrosView.isEmpty())
+            quilometros = Integer.parseInt(quilometrosView);
+
         BicicletaRepository repository = new BicicletaRepository(this);
         if(bicicletaEdit != null){
-            Bicicleta newBicicleta = new Bicicleta(bicicletaEdit.getId(), modelo, aro, marchas, quadro, bicicletaEdit.getQuilometrosRodados(), observacao);
+            Bicicleta newBicicleta = new Bicicleta(bicicletaEdit.getId(), modelo, aro, marchas, quadro, quilometros, observacao);
             repository.update(newBicicleta);
             finish();
         }else{
-            Bicicleta newBicicleta = new Bicicleta(modelo, aro, marchas, quadro, observacao);
+            Bicicleta newBicicleta = new Bicicleta(0, modelo, aro, marchas, quadro, quilometros, observacao);
             repository.add(newBicicleta);
             handleClickNextPage();
         }

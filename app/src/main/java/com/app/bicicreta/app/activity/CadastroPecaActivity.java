@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CadastroPecaActivity extends AppCompatActivity {
-    private EditText dataCompraPeca, descricaoPeca, valorPeca, observacaoPeca;
+    private EditText dataCompraPeca, descricaoPeca, valorPeca, observacaoPeca, quilometroPecaEditText;
     private Spinner bicicletaSpinner;
     private Peca pecaEdit;
     @Override
@@ -37,9 +37,10 @@ public class CadastroPecaActivity extends AppCompatActivity {
         pecaEdit = (Peca) getIntent().getSerializableExtra("peca");
         if(pecaEdit != null){
             descricaoPeca.setText(pecaEdit.getNomePeca());
-            valorPeca.setText(String.valueOf(pecaEdit.getValor()));
+            valorPeca.setText(MoedaUtil.convertToBR(pecaEdit.getValor()));
             dataCompraPeca.setText(pecaEdit.getDataCompra());
             observacaoPeca.setText(pecaEdit.getObservacao());
+            quilometroPecaEditText.setText(String.valueOf(pecaEdit.getQuilometros()));
         }
     }
 
@@ -81,6 +82,7 @@ public class CadastroPecaActivity extends AppCompatActivity {
         descricaoPeca = findViewById(R.id.descricaoPecaEditText);
         observacaoPeca = findViewById(R.id.editTextObservacaoPeca);
         valorPeca = findViewById(R.id.valorPecaEditText);
+        quilometroPecaEditText = findViewById(R.id.quilometroPecaEditText);
         Button botaoSalvarPeca = findViewById(R.id.buttonAdicionarViagem);
         botaoSalvarPeca.setOnClickListener(v -> createPeca());
     }
@@ -119,14 +121,18 @@ public class CadastroPecaActivity extends AppCompatActivity {
         }
 
         ItemSpinner bicicletaSelecionada = (ItemSpinner) bicicletaSpinner.getSelectedItem();
+        String quilometrosView =  String.valueOf(quilometroPecaEditText.getText());
+        int quilometros = 0;
+        if(quilometrosView != null && !quilometrosView.isEmpty())
+            quilometros = Integer.parseInt(quilometrosView);
 
         PecaRepository repository = new PecaRepository(this);
         if(pecaEdit != null){
             Peca newPeca = new Peca(pecaEdit.getId(), descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(),
-                    Double.parseDouble(valorPeca.getText().toString()), pecaEdit.getQuilometros(), bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
+                    Double.parseDouble(valorPeca.getText().toString()), quilometros, bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
             repository.update(newPeca);
         }else{
-            Peca newPeca = new Peca(descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
+            Peca newPeca = new Peca(0, descricaoPeca.getText().toString(), dataCompraPeca.getText().toString(), Double.parseDouble(valorPeca.getText().toString()), quilometros, bicicletaSelecionada.getId(), observacaoPeca.getText().toString());
             repository.add(newPeca);
         }
         finish();
