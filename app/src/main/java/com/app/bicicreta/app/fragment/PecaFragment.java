@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.app.bicicreta.R;
 import com.app.bicicreta.app.activity.BicicletasActivity;
 import com.app.bicicreta.app.activity.CadastroPecaActivity;
+import com.app.bicicreta.app.activity.TrocaPecaActivity;
 import com.app.bicicreta.app.adapter.AdapterPeca;
 import com.app.bicicreta.app.model.Bicicleta;
 import com.app.bicicreta.app.model.ItemSpinner;
@@ -161,6 +162,24 @@ public class PecaFragment extends Fragment {
             public void editItem(Peca item) {
                 handleAtualizarPeca(item);
             }
+
+            @Override
+            public void trocarItem(Peca item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Atenção").setMessage("Deseja realmente trocar essa peça?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        trocarPeca(item);
+                        iniciarComponentes(_view);
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
         });
         recyclerView.setAdapter(adapter);
         exibirMessageListaVazia(view);
@@ -169,6 +188,12 @@ public class PecaFragment extends Fragment {
     private void deleteById(int id){
         PecaRepository repository = new PecaRepository(_context);
         repository.deleteById(id);
+    }
+
+    private void trocarPeca(Peca peca){
+        Intent intent = new Intent(getContext(), TrocaPecaActivity.class);
+        intent.putExtra("peca", peca);
+        startActivity(intent);
     }
 
     private void iniciarComponentes(View view){

@@ -82,7 +82,7 @@
                     android:id="@+id/editPecaImagemView"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
+
                     android:background="@color/green"
                     app:srcCompat="@drawable/edit" />
 
@@ -90,8 +90,16 @@
                     android:id="@+id/deletePecaImagemView"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
                     android:background="@color/red"
                     app:srcCompat="@drawable/trash" />
+
+                <ImageView
+                    android:id="@+id/trocaPecaImagemView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/blue"
+                    app:srcCompat="@drawable/baseline_compare_arrows_24" />
             </LinearLayout>
         </LinearLayout>
 

@@ -41,6 +41,7 @@ dependencies {
     implementation libs.navigation.ui
     implementation libs.coordinatorlayout
     implementation libs.work.runtime
+    implementation libs.recyclerview
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

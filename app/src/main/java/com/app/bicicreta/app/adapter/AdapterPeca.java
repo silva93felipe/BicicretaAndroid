@@ -24,6 +24,7 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
     public interface OnItemClickListener {
         void deleteItem(Peca item);
         void editItem(Peca item);
+        void trocarItem(Peca item);
     }
     public AdapterPeca(List<Peca> pecas, OnItemClickListener listener) {
         this.pecas = pecas;
