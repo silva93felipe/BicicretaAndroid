@@ -37,7 +37,7 @@ public class CadastroPecaActivity extends AppCompatActivity {
         pecaEdit = (Peca) getIntent().getSerializableExtra("peca");
         if(pecaEdit != null){
             descricaoPeca.setText(pecaEdit.getNomePeca());
-            valorPeca.setText(MoedaUtil.convertToBR(pecaEdit.getValor()));
+            valorPeca.setText(String.valueOf(pecaEdit.getValor()));
             dataCompraPeca.setText(pecaEdit.getDataCompra());
             observacaoPeca.setText(pecaEdit.getObservacao());
             quilometroPecaEditText.setText(String.valueOf(pecaEdit.getQuilometros()));

@@ -55,7 +55,7 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
 
     public class PecaViewHolder extends RecyclerView.ViewHolder{
         TextView dataCompra,  valor,  quilometros, nomePeca;
-        ImageView editPecaImagemView, deletePecaImagemView;
+        ImageView editPecaImagemView, deletePecaImagemView, trocaPecaImagemView;
         public PecaViewHolder(@NonNull View itemView) {
             super(itemView);
             dataCompra = itemView.findViewById(R.id.dataServicoViewHolder);
@@ -64,10 +64,12 @@ public class AdapterPeca extends RecyclerView.Adapter<AdapterPeca.PecaViewHolder
             nomePeca = itemView.findViewById(R.id.descricaoServicoViewHolder);
             editPecaImagemView = itemView.findViewById(R.id.editPecaImagemView);
             deletePecaImagemView = itemView.findViewById(R.id.deletePecaImagemView);
+            trocaPecaImagemView = itemView.findViewById(R.id.trocaPecaImagemView);
         }
         public void bind (final Peca item, OnItemClickListener listener){
             editPecaImagemView.setOnClickListener( v -> listener.editItem(item));
             deletePecaImagemView.setOnClickListener( v -> listener.deleteItem(item));
+            trocaPecaImagemView.setOnClickListener( v -> listener.trocarItem(item));
         }
     }
 }

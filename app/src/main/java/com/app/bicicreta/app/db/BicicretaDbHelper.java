@@ -20,6 +20,7 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
         db.execSQL(creteViagemTable());
         db.execSQL(creteUserTable());
         db.execSQL(creteServicoTable());
+        db.execSQL(creteTrocaTable());
     }
 
     @Override
@@ -51,5 +52,9 @@ public class BicicretaDbHelper extends SQLiteOpenHelper {
 
     private String creteUserTable(){
         return "CREATE TABLE user ( id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT ); ";
+    }
+
+    private String creteTrocaTable(){
+        return "CREATE TABLE troca ( id INTEGER PRIMARY KEY AUTOINCREMENT, quilometros_rodados INTEGER DEFAULT 0, data_troca DEFAULT CURRENT_TIMESTAMP, peca_id INTEGER NOT NULL, FOREIGN KEY (peca_id) REFERENCES peca (id)); ";
     }
 }

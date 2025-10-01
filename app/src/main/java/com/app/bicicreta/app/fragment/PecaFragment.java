@@ -1,6 +1,5 @@
 package com.app.bicicreta.app.fragment;
 
-import static android.widget.Toast.LENGTH_LONG;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,10 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.bicicreta.R;
-import com.app.bicicreta.app.activity.BicicletasActivity;
 import com.app.bicicreta.app.activity.CadastroPecaActivity;
 import com.app.bicicreta.app.activity.TrocaPecaActivity;
 import com.app.bicicreta.app.adapter.AdapterPeca;
@@ -165,19 +162,8 @@ public class PecaFragment extends Fragment {
 
             @Override
             public void trocarItem(Peca item) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Atenção").setMessage("Deseja realmente trocar essa peça?");
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        trocarPeca(item);
-                        iniciarComponentes(_view);
-                    }
-                });
-                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) { }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                trocarPeca(item);
+                iniciarComponentes(_view);
             }
 
         });
