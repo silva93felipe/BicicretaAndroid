@@ -34,7 +34,7 @@ public class TrocaPecaActivity extends AppCompatActivity {
         pecaDto = (Peca) getIntent().getSerializableExtra("peca");
         iniciarComponentes();
         if(pecaDto != null){
-            tituloHeader.setText(String.format("%s - %s Km", pecaDto.getNomePeca(), pecaDto.getQuilometros()));
+            tituloHeader.setText(pecaDto.getNomePeca());
         }
     }
 

@@ -206,15 +206,12 @@ public class ViagensActivity extends AppCompatActivity {
 
     private String[] inicioDoMes(){
         String dataInicial = "0000-00-00 00:00:00";
-        String dataFinal = "0000-00-00 00:00:00";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDate primeiroDiaDoMes = LocalDate.now().withDayOfMonth(1);
-            LocalDate ultimoDiaDoMes = LocalDate.now().withDayOfMonth(1).plusMonths(1).minusDays(1);
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             dataInicial = primeiroDiaDoMes.format(format);
-            dataFinal = ultimoDiaDoMes.format(format);
         }
-        return new String[]{ dataInicial, dataFinal };
+        return new String[]{ dataInicial, DataUtil.dataAtualString() };
     }
 
     private void iniciarComponentes(){
