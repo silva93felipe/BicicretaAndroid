@@ -15,9 +15,6 @@
         android:theme="@style/Theme.Bicicreta"
         tools:targetApi="31">
         <activity
-            android:name=".app.adapter.AdapterTroca"
-            android:exported="false" />
-        <activity
             android:name=".app.activity.TrocaPecaActivity"
             android:exported="false" />
         <activity

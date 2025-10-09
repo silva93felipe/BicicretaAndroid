@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrocaPecaActivity extends AppCompatActivity {
-    private TextView  tituloHeader;
+    private TextView  tituloTextView;
     private Button buttonNovaTroca;
     private RecyclerView listaTrocaRecycleView;
     private List<Troca> trocas = new ArrayList<>();
-    private View nadaExibirImagemView, headerTroca;
+    private View nadaExibirImagemView;
     private Peca pecaDto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +34,16 @@ public class TrocaPecaActivity extends AppCompatActivity {
         pecaDto = (Peca) getIntent().getSerializableExtra("peca");
         iniciarComponentes();
         if(pecaDto != null){
-            tituloHeader.setText(pecaDto.getNomePeca());
+            tituloTextView.setText(pecaDto.getNomePeca());
         }
     }
 
     private void iniciarComponentes(){
-        tituloHeader = findViewById(R.id.headertextView);
+        tituloTextView = findViewById(R.id.tituloTextView);
         buttonNovaTroca = findViewById(R.id.buttonNovaTroca);
         buttonNovaTroca.setOnClickListener(v -> handleClick(pecaDto));
         trocas = getAllByPecaId(pecaDto.getId());
         inicializarRecycleView(trocas);
-
     }
 
     private List<Troca> getAllByPecaId(int pecaId){
@@ -106,7 +105,7 @@ public class TrocaPecaActivity extends AppCompatActivity {
     }
 
     private void exibirMessageListaVazia(){
-        nadaExibirImagemView = findViewById(R.id.nadaExibirTroca);
+        nadaExibirImagemView = findViewById(R.id.nadaExibirTrocaImageView);
         if(trocas.isEmpty()){
             nadaExibirImagemView.setVisibility(View.VISIBLE);
         }else{
